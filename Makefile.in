@@ -1,0 +1,25 @@
+spath = src
+csrc = $(wildcard $spath/*.c)
+ccsrc = $(wildcard $spath/*.cc)
+obj = $(csrc:.c=.o) $(ccsrc:.cc=.o)
+
+lib_a = libnmath.a
+lib_so = libnmath.$(so)
+
+CC = gcc
+CXX = g++
+CFLAGS = -std=c89 -pedantic -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
+CXXFLAGS = -ansi -pedantic -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
+LDFLAGS =
+
+.PHONY: all
+all:
+	$(lib_a) $(lib_so)
+
+.PHONY: clean
+clean:
+	rm -f $(obj)
+
+.PHONY: clean-all
+clean-all:
+	rm -f $(obj) Makefile nmath.pc

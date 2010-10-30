@@ -1,0 +1,84 @@
+#!/bin/sh
+
+VERSION=`head -n1 VERSION`
+PREFIX=/usr/local
+DEBUGS=no
+OPTSPD=yes
+
+echo "configuring nmath v$VERSION ..."
+
+for arg; do
+	case "$arg" in
+		--prefix=*)
+			value=`echo $arg | sed 's/--prefix=//'`
+			PREFIX=${value:-$prefix}
+			;;
+
+        --enable-opt)
+			OPTSPD=yes
+			;;
+        --disable-opt)
+			OPTSPD=no
+			;;
+
+		--enable-debug)
+			DEBUGS=yes
+			;;
+		--disable-debug)
+			DEBUGS=no
+			;;
+
+		--help)
+			echo 'usage: ./configure [options]'
+			echo 'options:'
+			echo '  --prefix=<path>: installation path (default: /usr/local)'
+			echo '  --enable-opt: enable speed optimizations (default)'
+			echo '  --disable-opt: disable speed optimizations'
+			echo '  --enable-debug: include debugging symbols'
+			echo '  --disable-debug: do not include debugging symbols (default)'
+			echo 'all invalid options are silently ignored'
+			exit 0
+			;;
+	esac
+done
+
+echo "installation path prefix: $PREFIX"
+echo "optimize for speed: $OPTSPD"
+echo "include debugging symbols: $DEBUGS"
+
+echo 'creating makefile ...'
+echo "PREFIX = $PREFIX" > Makefile
+
+if [ "$DBGSPD" = 'yes' ]; then
+	echo 'dbg = -g' >> Makefile
+fi
+
+if [ "$OPT" = 'yes' ]; then
+	echo 'opt = -O3' >> Makefile
+fi
+
+# ----------------------- Platform flags ----------------------------------------------
+
+if [ "`uname -s`" = Darwin ]; then
+	echo 'shared = -dynamiclib' >> Makefile
+	echo 'so = dylib' >> Makefile
+else
+	echo 'shared = -shared' >> Makefile
+	echo 'so = so' >> Makefile
+fi
+
+if [ "`uname -s`" = SunOS ]; then
+	echo "SunOS not supported yet"
+	echo 'INSTALL = echo' >> Makefile
+else
+	echo 'INSTALL = install' >> Makefile
+fi
+
+cat Makefile.in >> Makefile
+
+echo 'creating pkg-config file ...'
+echo "prefix=$PREFIX" > nmath.pc
+echo "ver=$VERSION" >> nmath.pc
+cat nmath.pc.in >> nmath.pc
+
+echo 'configuration completed, type make (or gmake) to build.'
