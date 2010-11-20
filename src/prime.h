@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the Nemesis3dMath library.
+    This file is part of the nemesis math library.
 
     prime.h
     Prime numbers related functions

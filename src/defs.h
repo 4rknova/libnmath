@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the Nemesis3dMath library.
+    This file is part of the nemesis math library.
 
     defs.h
     Defines math related constants
@@ -34,6 +34,7 @@
     #else
         /* Inline functions not supported. Performance will suffer */
         #define inline
+	#endif
 #endif /* __STDC_VERSION__ */
 
 /*

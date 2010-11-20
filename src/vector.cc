@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the Nemesis3dMath library.
+    This file is part of the nemesis math library.
 
     vector.cc
     Vector
@@ -38,7 +38,7 @@ Vector2::Vector2(const Vector4& v): x(v.x), y(v.y){}
 
 std::ostream& operator <<(std::ostream& out, const Vector2& vec)
 {
-	out << "[" << vec.x << " " << vec.y << "]";
+	out << "[" << vec.x << ", " << vec.y << "]";
 	return out;
 }
 
@@ -52,7 +52,7 @@ Vector3::Vector3(const Vector4& v): x(v.x), y(v.y), z(v.z){}
 
 std::ostream& operator <<(std::ostream& out, const Vector3 &vec)
 {
-	out << "[" << vec.x << " " << vec.y << " " << vec.z << "]";
+	out << "[" << vec.x << ", " << vec.y << ", " << vec.z << "]";
 	return out;
 }
 
@@ -66,7 +66,7 @@ Vector4::Vector4(const Vector3& v): x(v.x), y(v.y), z(v.z), w(0.0f){}
 
 std::ostream& operator <<(std::ostream& out, const Vector4 &vec)
 {
-	out << "[" << vec.x << " " << vec.y << " " << vec.z << " " << vec.w << "]";
+	out << "[" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << "]";
 	return out;
 }
 

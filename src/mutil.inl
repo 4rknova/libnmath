@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the Nemesis3dMath library.
+    This file is part of the nemesis math library.
 
     mutil.inl
     Declares some math utility functions
@@ -87,7 +87,7 @@ static inline real_t power(real_t a, int b)
 {
     if (b<0)
     {
-        return x;
+        return a;
     }
 
     if (b==0)

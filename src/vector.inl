@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the Nemesis3dMath library.
+    This file is part of the nemesis math library.
 
     vector.inl
     Vector inline functions
@@ -32,7 +32,9 @@
     #error "vector.h must be included before vector.inl"
 #endif /* LIBNMATH_VECTOR_H_INCLUDED */
 
+#include "precision.h"
 #include "types.h"
+#include "mutil.h"
 
 #ifdef __cplusplus
     #include <cmath>
@@ -45,7 +47,7 @@ extern "C" {
 #endif	/* __cplusplus */
 
 /* C 2D vector functions */
-inline vec2_t vec2_pack(real_t x, real_t y)
+static inline vec2_t vec2_pack(real_t x, real_t y)
 {
 	vec2_t v;
 	v.x = x;
@@ -53,52 +55,52 @@ inline vec2_t vec2_pack(real_t x, real_t y)
 	return v;
 }
 
-inline vec2_t vec2_add(vec2_t v1, vec2_t v2)
+static inline vec2_t vec2_add(vec2_t v1, vec2_t v2)
 {
 	v1.x += v2.x;
 	v1.y += v2.y;
 	return v1;
 }
 
-inline vec2_t vec2_sub(vec2_t v1, vec2_t v2)
+static inline vec2_t vec2_sub(vec2_t v1, vec2_t v2)
 {
 	v1.x -= v2.x;
 	v1.y -= v2.y;
 	return v1;
 }
 
-inline vec2_t vec2_neg(vec2_t v)
+static inline vec2_t vec2_neg(vec2_t v)
 {
 	v.x = -v.x;
 	v.y = -v.y;
 	return v;
 }
 
-inline vec2_t vec2_mul(vec2_t v1, vec2_t v2)
+static inline vec2_t vec2_mul(vec2_t v1, vec2_t v2)
 {
 	v1.x *= v2.x;
 	v1.y *= v2.y;
 	return v1;
 }
 
-inline vec2_t vec2_scale(vec2_t v, real_t s)
+static inline vec2_t vec2_scale(vec2_t v, real_t s)
 {
 	v.x *= s;
 	v.y *= s;
 	return v;
 }
 
-inline real_t vec2_length(vec2_t v)
+static inline real_t vec2_length(vec2_t v)
 {
 	return (real_t)sqrt(v.x * v.x + v.y * v.y);
 }
 
-inline real_t vec2_length_sq(vec2_t v)
+static inline real_t vec2_length_sq(vec2_t v)
 {
 	return v.x * v.x + v.y * v.y;
 }
 
-inline vec2_t vec2_normalize(vec2_t v)
+static inline vec2_t vec2_normalize(vec2_t v)
 {
 	real_t len = (real_t)sqrt(v.x * v.x + v.y * v.y);
 	v.x /= len;
@@ -106,25 +108,45 @@ inline vec2_t vec2_normalize(vec2_t v)
 	return v;
 }
 
-inline real_t vec2_dot(vec2_t v1, vec2_t v2)
+static inline real_t vec2_dot(vec2_t v1, vec2_t v2)
 {
 	return v1.x * v2.x + v1.y * v2.y;
 }
 
-inline vec2_t vec2_lerp(vec2_t v1, vec2_t v2, real_t t)
+static inline vec2_t vec2_reflect(vec2_t v, vec2_t n)
 {
-	v1.x = v1.x + (v2.x - v1.x) * t;
-	v1.y = v1.y + (v2.y - v1.y) * t;
-	return v1;
+	vec2_t normal = vec2_normalize(n);
+	vec2_t incident = vec2_normalize(v);
+	real_t val = 2 * vec2_dot(incident, normal);
+	return vec2_sub(incident, vec2_scale(normal, val));
 }
 
-inline void vec2_print(FILE *fp, vec2_t v)
+static inline vec2_t vec2_refract(vec2_t v, vec2_t n, real_t ior_src, real_t ior_dst)
 {
-	fprintf(fp, "[ %.4f %.4f ]", v.x, v.y);
+	vec2_t normal = vec2_normalize(n);
+	vec2_t incident = vec2_normalize(v);
+	real_t ior = ior_src / ior_dst;
+	real_t cos_inc = - vec2_dot(normal, incident);
+	real_t radical = 1.f - (squared(ior) * (1.f - squared(cos_inc)));
+
+	if(radical < 0.f)
+	{
+		/* total internal reflection */
+		return vec2_reflect(v, n);
+	}
+
+	real_t beta = ior * cos_inc - sqrt(radical);
+
+	return vec2_add( vec2_scale(incident, ior), vec2_scale(normal, beta));
+}
+
+static inline void vec2_print(FILE *fp, vec2_t v)
+{
+	fprintf(fp, "[ %.4f, %.4f ]", v.x, v.y);
 }
 
 /* C 3D vector functions */
-inline vec3_t vec3_pack(real_t x, real_t y, real_t z)
+static inline vec3_t vec3_pack(real_t x, real_t y, real_t z)
 {
 	vec3_t v;
 	v.x = x;
@@ -133,7 +155,7 @@ inline vec3_t vec3_pack(real_t x, real_t y, real_t z)
 	return v;
 }
 
-inline vec3_t vec3_add(vec3_t v1, vec3_t v2)
+static inline vec3_t vec3_add(vec3_t v1, vec3_t v2)
 {
 	v1.x += v2.x;
 	v1.y += v2.y;
@@ -141,7 +163,7 @@ inline vec3_t vec3_add(vec3_t v1, vec3_t v2)
 	return v1;
 }
 
-inline vec3_t vec3_sub(vec3_t v1, vec3_t v2)
+static inline vec3_t vec3_sub(vec3_t v1, vec3_t v2)
 {
 	v1.x -= v2.x;
 	v1.y -= v2.y;
@@ -149,7 +171,7 @@ inline vec3_t vec3_sub(vec3_t v1, vec3_t v2)
 	return v1;
 }
 
-inline vec3_t vec3_neg(vec3_t v)
+static inline vec3_t vec3_neg(vec3_t v)
 {
 	v.x = -v.x;
 	v.y = -v.y;
@@ -157,7 +179,7 @@ inline vec3_t vec3_neg(vec3_t v)
 	return v;
 }
 
-inline vec3_t vec3_mul(vec3_t v1, vec3_t v2)
+static inline vec3_t vec3_mul(vec3_t v1, vec3_t v2)
 {
 	v1.x *= v2.x;
 	v1.y *= v2.y;
@@ -165,7 +187,7 @@ inline vec3_t vec3_mul(vec3_t v1, vec3_t v2)
 	return v1;
 }
 
-inline vec3_t vec3_scale(vec3_t v1, real_t s)
+static inline vec3_t vec3_scale(vec3_t v1, real_t s)
 {
 	v1.x *= s;
 	v1.y *= s;
@@ -173,17 +195,17 @@ inline vec3_t vec3_scale(vec3_t v1, real_t s)
 	return v1;
 }
 
-inline real_t vec3_length(vec3_t v)
+static inline real_t vec3_length(vec3_t v)
 {
 	return (real_t)sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
-inline real_t vec3_length_sq(vec3_t v)
+static inline real_t vec3_length_sq(vec3_t v)
 {
 	return v.x * v.x + v.y * v.y + v.z * v.z;
 }
 
-inline vec3_t vec3_normalize(vec3_t v)
+static inline vec3_t vec3_normalize(vec3_t v)
 {
 	real_t len = (real_t)sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	v.x /= len;
@@ -192,12 +214,12 @@ inline vec3_t vec3_normalize(vec3_t v)
 	return v;
 }
 
-inline real_t vec3_dot(vec3_t v1, vec3_t v2)
+static inline real_t vec3_dot(vec3_t v1, vec3_t v2)
 {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
-inline vec3_t vec3_cross(vec3_t v1, vec3_t v2)
+static inline vec3_t vec3_cross(vec3_t v1, vec3_t v2)
 {
 	vec3_t v;
 	v.x = v1.y * v2.z - v1.z * v2.y;
@@ -206,21 +228,40 @@ inline vec3_t vec3_cross(vec3_t v1, vec3_t v2)
 	return v;
 }
 
-inline vec3_t vec3_lerp(vec3_t v1, vec3_t v2, real_t t)
+static inline vec3_t vec3_reflect(vec3_t v, vec3_t n)
 {
-	v1.x += (v2.x - v1.x) * t;
-	v1.y += (v2.y - v1.y) * t;
-	v1.z += (v2.z - v1.z) * t;
-	return v1;
+	vec3_t normal = vec3_normalize(n);
+	vec3_t incident = vec3_normalize(v);
+	real_t val = 2 * vec3_dot(incident, normal);
+	return vec3_sub(incident, vec3_scale(normal, val));
 }
 
-inline void vec3_print(FILE *fp, vec3_t v)
+static inline vec3_t vec3_refract(vec3_t v, vec3_t n, real_t ior_src, real_t ior_dst)
 {
-	fprintf(fp, "[ %.4f %.4f %.4f ]", v.x, v.y, v.z);
+	vec3_t normal = vec3_normalize(n);
+	vec3_t incident = vec3_normalize(v);
+	real_t ior = ior_src / ior_dst;
+	real_t cos_inc = - vec3_dot(normal, incident);
+	real_t radical = 1.f - (squared(ior) * (1.f - squared(cos_inc)));
+
+	if(radical < 0.f)
+	{
+		/* total internal reflection */
+		return vec3_reflect(v, n);
+	}
+
+	real_t beta = ior * cos_inc - sqrt(radical);
+
+	return vec3_add( vec3_scale(incident, ior), vec3_scale(normal, beta));
+}
+
+static inline void vec3_print(FILE *fp, vec3_t v)
+{
+	fprintf(fp, "[ %.4f, %.4f, %.4f ]", v.x, v.y, v.z);
 }
 
 /* C 4D vector functions */
-inline vec4_t vec4_pack(real_t x, real_t y, real_t z, real_t w)
+static inline vec4_t vec4_pack(real_t x, real_t y, real_t z, real_t w)
 {
 	vec4_t v;
 	v.x = x;
@@ -230,7 +271,7 @@ inline vec4_t vec4_pack(real_t x, real_t y, real_t z, real_t w)
 	return v;
 }
 
-inline vec4_t vec4_add(vec4_t v1, vec4_t v2)
+static inline vec4_t vec4_add(vec4_t v1, vec4_t v2)
 {
 	v1.x += v2.x;
 	v1.y += v2.y;
@@ -239,7 +280,7 @@ inline vec4_t vec4_add(vec4_t v1, vec4_t v2)
 	return v1;
 }
 
-inline vec4_t vec4_sub(vec4_t v1, vec4_t v2)
+static inline vec4_t vec4_sub(vec4_t v1, vec4_t v2)
 {
 	v1.x -= v2.x;
 	v1.y -= v2.y;
@@ -248,7 +289,7 @@ inline vec4_t vec4_sub(vec4_t v1, vec4_t v2)
 	return v1;
 }
 
-inline vec4_t vec4_neg(vec4_t v)
+static inline vec4_t vec4_neg(vec4_t v)
 {
 	v.x = -v.x;
 	v.y = -v.y;
@@ -257,7 +298,7 @@ inline vec4_t vec4_neg(vec4_t v)
 	return v;
 }
 
-inline vec4_t vec4_mul(vec4_t v1, vec4_t v2)
+static inline vec4_t vec4_mul(vec4_t v1, vec4_t v2)
 {
 	v1.x *= v2.x;
 	v1.y *= v2.y;
@@ -266,7 +307,7 @@ inline vec4_t vec4_mul(vec4_t v1, vec4_t v2)
 	return v1;
 }
 
-inline vec4_t vec4_scale(vec4_t v, real_t s)
+static inline vec4_t vec4_scale(vec4_t v, real_t s)
 {
 	v.x *= s;
 	v.y *= s;
@@ -275,17 +316,17 @@ inline vec4_t vec4_scale(vec4_t v, real_t s)
 	return v;
 }
 
-inline real_t vec4_length(vec4_t v)
+static inline real_t vec4_length(vec4_t v)
 {
 	return (real_t)sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
 }
 
-inline real_t vec4_length_sq(vec4_t v)
+static inline real_t vec4_length_sq(vec4_t v)
 {
 	return v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w;
 }
 
-inline vec4_t vec4_normalize(vec4_t v)
+static inline vec4_t vec4_normalize(vec4_t v)
 {
 	real_t len = (real_t)sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
 	v.x /= len;
@@ -295,18 +336,44 @@ inline vec4_t vec4_normalize(vec4_t v)
 	return v;
 }
 
-inline real_t vec4_dot(vec4_t v1, vec4_t v2)
+static inline real_t vec4_dot(vec4_t v1, vec4_t v2)
 {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 }
 
-inline void vec4_print(FILE *fp, vec4_t v)
+static inline vec4_t vec4_reflect(vec4_t v, vec4_t n)
 {
-	fprintf(fp, "[ %.4f %.4f %.4f %.4f ]", v.x, v.y, v.z, v.w);
+	vec4_t normal = vec4_normalize(n);
+	vec4_t incident = vec4_normalize(v);
+	real_t val = 2 * vec4_dot(incident, normal);
+	return vec4_sub(incident, vec4_scale(normal, val));
+}
+
+static inline vec4_t vec4_refract(vec4_t v, vec4_t n, real_t ior_src, real_t ior_dst)
+{
+	vec4_t normal = vec4_normalize(n);
+	vec4_t incident = vec4_normalize(v);
+	real_t ior = ior_src / ior_dst;
+	real_t cos_inc = - vec4_dot(normal, incident);
+	real_t radical = 1.f - (squared(ior) * (1.f - squared(cos_inc)));
+
+	if(radical < 0.f)
+	{
+		/* total internal reflection */
+		return vec4_reflect(v, n);
+	}
+
+	real_t beta = ior * cos_inc - sqrt(radical);
+
+	return vec4_add( vec4_scale(incident, ior), vec4_scale(normal, beta));
+}
+
+static inline void vec4_print(FILE *fp, vec4_t v)
+{
+	fprintf(fp, "[ %.4f, %.4f, %.4f, %.4f ]", v.x, v.y, v.z, v.w);
 }
 
 #ifdef __cplusplus
-    #include "precision.h"
 }	/* extern "C" */
 
 /* Vector2 functions */
@@ -461,6 +528,10 @@ inline real_t Vector2::length_squared() const
 inline void Vector2::normalize()
 {
 	real_t len = length();
+
+	if(!len)
+		return;
+
 	x /= len;
 	y /= len;
 }
@@ -468,7 +539,44 @@ inline void Vector2::normalize()
 inline Vector2 Vector2::normalized() const
 {
 	real_t len = length();
-	return Vector2(x / len, y / len);
+	return (len != 0) ? Vector2(x / len, y / len) : *this;
+}
+
+inline void Vector2::reflect(const Vector2 &normal)
+{
+	*this = reflected(normal);
+}
+
+inline Vector2 Vector2::reflected(const Vector2 &normal) const
+{
+	Vector2 i = normalized();
+	Vector2 n = normal.normalized();
+	return i - (2 * dot(i, n) * n);
+}
+
+inline void Vector2::refract(const Vector2 &normal, real_t ior_src, real_t ior_dst)
+{
+	*this = refracted(normal, ior_src, ior_dst);
+}
+
+inline Vector2 Vector2::refracted(const Vector2 &normal, real_t ior_src, real_t ior_dst) const
+{
+	Vector2 n = normal.normalized();
+	Vector2 i = normalized();
+	real_t ior = ior_src / ior_dst;
+
+	real_t cos_inc = - dot(n, i);
+	real_t radical = 1.f - (squared(ior) * (1.f - squared(cos_inc)));
+
+	if(radical < 0.f)
+	{
+		/* total internal reflection */
+		return reflected(n);
+	}
+
+	real_t beta = ior * cos_inc - sqrt(radical);
+
+	return (ior * i) + (beta * n);
 }
 
 inline real_t dot(const Vector2& v1, const Vector2& v2)
@@ -637,6 +745,10 @@ inline real_t Vector3::length_squared() const
 inline void Vector3::normalize()
 {
 	real_t len = length();
+
+	if(!len)
+		return;
+
 	x /= len;
 	y /= len;
 	z /= len;
@@ -645,7 +757,44 @@ inline void Vector3::normalize()
 inline Vector3 Vector3::normalized() const
 {
 	real_t len = length();
-	return Vector3(x / len, y / len, z / len);
+	return (len != 0) ? Vector3(x / len, y / len, z / len) : *this;
+}
+
+inline void Vector3::reflect(const Vector3 &normal)
+{
+	*this = reflected(normal);
+}
+
+inline Vector3 Vector3::reflected(const Vector3 &normal) const
+{
+	Vector3 i = normalized();
+	Vector3 n = normal.normalized();
+	return i - (2 * dot(i, n) * n);
+}
+
+inline void Vector3::refract(const Vector3 &normal, real_t ior_src, real_t ior_dst)
+{
+	*this = refracted(normal, ior_src, ior_dst);
+}
+
+inline Vector3 Vector3::refracted(const Vector3 &normal, real_t ior_src, real_t ior_dst) const
+{
+	Vector3 n = normal.normalized();
+	Vector3 i = normalized();
+	real_t ior = ior_src / ior_dst;
+
+	real_t cos_inc = - dot(n, i);
+	real_t radical = 1.f - (squared(ior) * (1.f - squared(cos_inc)));
+
+	if(radical < 0.f)
+	{
+		/* total internal reflection */
+		return reflected(n);
+	}
+
+	real_t beta = ior * cos_inc - sqrt(radical);
+
+	return (ior * i) + (beta * n);
 }
 
 inline real_t dot(const Vector3& v1, const Vector3& v2)
@@ -828,6 +977,10 @@ inline real_t Vector4::length_squared() const
 inline void Vector4::normalize()
 {
 	real_t len = length();
+
+	if(!len)
+		return;
+
 	x /= len;
 	y /= len;
 	z /= len;
@@ -837,7 +990,44 @@ inline void Vector4::normalize()
 inline Vector4 Vector4::normalized() const
 {
 	real_t len = length();
-	return Vector4(x / len, y / len, z / len, w / len);
+	return (len != 0) ? Vector4(x / len, y / len, z / len, w / len) : *this;
+}
+
+inline void Vector4::reflect(const Vector4 &normal)
+{
+	*this = reflected(normal);
+}
+
+inline Vector4 Vector4::reflected(const Vector4 &normal) const
+{
+	Vector4 i = normalized();
+	Vector4 n = normal.normalized();
+	return i - (2 * dot(i, n) * n);
+}
+
+inline void Vector4::refract(const Vector4 &normal, real_t ior_src, real_t ior_dst)
+{
+	*this = refracted(normal, ior_src, ior_dst);
+}
+
+inline Vector4 Vector4::refracted(const Vector4 &normal, real_t ior_src, real_t ior_dst) const
+{
+	Vector4 n = normal.normalized();
+	Vector4 i = normalized();
+	real_t ior = ior_src / ior_dst;
+
+	real_t cos_inc = - dot(n, i);
+	real_t radical = 1.f - (squared(ior) * (1.f - squared(cos_inc)));
+
+	if(radical < 0.f)
+	{
+		/* total internal reflection */
+		return reflected(n);
+	}
+
+	real_t beta = ior * cos_inc - sqrt(radical);
+
+	return (ior * i) + (beta * n);
 }
 
 inline real_t dot(const Vector4& v1, const Vector4& v2)

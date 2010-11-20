@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the Nemesis3dMath library.
+    This file is part of the nemesis math library.
 
     matrix.h
     Matrix
@@ -38,6 +38,7 @@ extern "C" {
 #endif	/* __cplusplus */
 
 /* C matrix 3x3 functions */
+/*
 static inline void mat3x3_identity(mat3x3_t m);
 static inline void mat3x3_pack(mat3x3_t m,
     real_t m11, real_t m12, real_t m13,
@@ -47,15 +48,16 @@ static inline void mat3x3_copy(mat3x3_t dest, mat3x3_t src);
 static inline void mat3x3_to_mat4x4(mat4x4_t dest, mat3x3_t src);
 
 void mat3x3_print(FILE *fp, mat3x3_t m);
-
+*/
 /* C matrix 4x4 functions */
+/*
 static inline void mat4x4_identity(mat4x4_t m);
 static inline void mat4x4_pack(mat4x4_t m,
     real_t m11, real_t m12, real_t m13, real_t m14,
     real_t m21, real_t m22, real_t m23, real_t m24,
     real_t m31, real_t m32, real_t m33, real_t m34,
     real_t m41, real_t m42, real_t m43, real_t m44);
-static inline void m4_copy(mat4_t dest, mat4_t src);
+static inline void m4_copy(mat4x4_t dest, mat4x4_t src);
 static inline void mat4x4_to_mat3x3(mat3x3_t dest, mat4x4_t src);
 
 
@@ -65,23 +67,23 @@ static inline void mat4x4_to_mat3x3(mat3x3_t dest, mat4x4_t src);
 
 
 
-static inline void m4_mult(mat4_t res, mat4_t m1, mat4_t m2);
+static inline void m4_mult(mat4x4_t res, mat4x4_t m1, mat4x4_t m2);
 
-void m4_translate(mat4_t m, real_t x, real_t y, real_t z);
-void m4_rotate(mat4_t m, real_t x, real_t y, real_t z);
-void m4_rotate_x(mat4_t m, real_t angle);
-void m4_rotate_y(mat4_t m, real_t angle);
-void m4_rotate_z(mat4_t m, real_t angle);
-void m4_rotate_axis(mat4_t m, real_t angle, real_t x, real_t y, real_t z);
-void m4_rotate_quat(mat4_t m, quat_t q);
-void m4_scale(mat4_t m, real_t x, real_t y, real_t z);
-static inline void m4_set_column(mat4_t m, vec4_t v, int idx);
-static inline void m4_set_row(mat4_t m, vec4_t v, int idx);
+void m4_translate(mat4x4_t m, real_t x, real_t y, real_t z);
+void m4_rotate(mat4x4_t m, real_t x, real_t y, real_t z);
+void m4_rotate_x(mat4x4_t m, real_t angle);
+void m4_rotate_y(mat4x4_t m, real_t angle);
+void m4_rotate_z(mat4x4_t m, real_t angle);
+void m4_rotate_axis(mat4x4_t m, real_t angle, real_t x, real_t y, real_t z);
+void m4_rotate_quat(mat4x4_t m, quat_t q);
+void m4_scale(mat4x4_t m, real_t x, real_t y, real_t z);
+static inline void m4_set_column(mat4x4_t m, vec4_t v, int idx);
+static inline void m4_set_row(mat4x4_t m, vec4_t v, int idx);
 
-void m4_transpose(mat4_t res, mat4_t m);
-real_t m4_determinant(mat4_t m);
-void m4_adjoint(mat4_t res, mat4_t m);
-void m4_inverse(mat4_t res, mat4_t m);
+void m4_transpose(mat4x4_t res, mat4x4_t m);
+real_t m4_determinant(mat4x4_t m);
+void m4_adjoint(mat4x4_t res, mat4x4_t m);
+void m4_inverse(mat4x4_t res, mat4x4_t m);
 
 
 
@@ -95,15 +97,10 @@ void mat4x4_print(FILE *fp, mat4x4_t m);
 
 
 
-
+*/
 #ifdef __cplusplus
 }   /* extern "C" */
 
-
-
-
-
-
 #endif	/* __cplusplus */
 
-#endif // LIBNMATH_MATRIX_H_INCLUDED
+#endif /* LIBNMATH_MATRIX_H_INCLUDED */
