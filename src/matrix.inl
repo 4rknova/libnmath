@@ -36,66 +36,146 @@
 extern "C" {
 #endif	/* __cplusplus */
 
-/* C matrix 3x3 functions */
-static inline void mat3x3_identity(mat3x3_t m)
-{
-    static const mat3x3_t id = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
-    memcpy(m, id, sizeof id);
-}
+/*
+	3x3 matrices
+*/
 
 static inline void mat3x3_pack(mat3x3_t m,
-    real_t m11, real_t m12, real_t m13,
-    real_t m21, real_t m22, real_t m23,
-    real_t m31, real_t m32, real_t m33)
+	real_t m11, real_t m12, real_t m13,
+	real_t m21, real_t m22, real_t m23,
+	real_t m31, real_t m32, real_t m33)
 {
-    m[0][0] = m11; m[0][1] = m12; m[0][2] = m13;
-    m[1][0] = m21; m[1][1] = m22; m[1][2] = m23;
-    m[2][0] = m31; m[2][1] = m32; m[2][2] = m33;
+	m[0][0] = m11; m[0][1] = m12; m[0][2] = m13;
+	m[1][0] = m21; m[1][1] = m22; m[1][2] = m23;
+	m[2][0] = m31; m[2][1] = m32; m[2][2] = m33;
+}
+
+static inline void mat3x3_identity(mat3x3_t m)
+{
+	static const mat3x3_t id = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+	memcpy(m, id, sizeof id);
 }
 
 static inline void mat3x3_copy(mat3x3_t dest, mat3x3_t src)
 {
-    memcpy(dest, src, sizeof(mat3x3_t));
+	memcpy(dest, src, sizeof(mat3x3_t));
 }
 
-static inline void mat3x3_to_mat4x4(mat4x4_t dest, mat3x3_t src)
+static inline void mat3x3_set_column(mat3x3_t m, vec3_t v, int idx)
 {
-    int i, j;
-
-    memset(dest, 0, sizeof(mat4x4_t));
-    for(i=0; i<3; i++)
-    {
-        for(j=0; j<3; j++)
-        {
-            dest[i][j] = src[i][j];
-        }
-    }
-    dest[3][3] = 1.0;
-
+	m[0][idx] = v.x;
+	m[1][idx] = v.y;
+	m[2][idx] = v.z;
 }
 
-/* C matrix 4x4 functions */
-static inline void mat4x4_identity(mat4x4_t m)
+static inline void mat3x3_set_row(mat3x3_t m, vec3_t v, int idx)
 {
-    static const mat4x4_t id = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
-    memcpy(m, id, sizeof id);
+	m[idx][0] = v.x;
+	m[idx][1] = v.y;
+	m[idx][2] = v.z;
 }
+
+static inline void mat3x3_add(mat3x3_t res, mat3x3_t m1, mat3x3_t m2)
+{
+	int i, j;
+
+	for(i=0; i<3; i++) {
+		for(j=0; j<3; j++) {
+			res[i][j] = m1[i][j] + m2[i][j];
+		}
+	}
+}
+
+static inline void mat3x3_mul(mat3x3_t res, mat3x3_t m1, mat3x3_t m2)
+{
+	res[0][0] = m1[0][0] * m2[0][0] + m1[0][1] * m2[1][0] + m1[0][2] * m2[2][0];
+	res[0][1] = m1[0][0] * m2[0][1] + m1[0][1] * m2[1][1] + m1[0][2] * m2[2][1];
+	res[0][2] = m1[0][0] * m2[0][2] + m1[0][1] * m2[1][2] + m1[0][2] * m2[2][2];
+
+	res[1][0] = m1[1][0] * m2[0][0] + m1[1][1] * m2[1][0] + m1[1][2] * m2[2][0];
+	res[1][1] = m1[1][0] * m2[0][1] + m1[1][1] * m2[1][1] + m1[1][2] * m2[2][1];
+	res[1][2] = m1[1][0] * m2[0][2] + m1[1][1] * m2[1][2] + m1[1][2] * m2[2][2];
+
+	res[2][0] = m1[2][0] * m2[0][0] + m1[2][1] * m2[1][0] + m1[2][2] * m2[2][0];
+	res[2][1] = m1[2][0] * m2[0][1] + m1[2][1] * m2[1][1] + m1[2][2] * m2[2][1];
+	res[2][2] = m1[2][0] * m2[0][2] + m1[2][1] * m2[1][2] + m1[2][2] * m2[2][2];
+}
+
+/*
+	4x4 matrices
+*/
 
 static inline void mat4x4_pack(mat4x4_t m,
-    real_t m11, real_t m12, real_t m13, real_t m14,
-    real_t m21, real_t m22, real_t m23, real_t m24,
-    real_t m31, real_t m32, real_t m33, real_t m34,
-    real_t m41, real_t m42, real_t m43, real_t m44)
+	real_t m11, real_t m12, real_t m13, real_t m14,
+	real_t m21, real_t m22, real_t m23, real_t m24,
+	real_t m31, real_t m32, real_t m33, real_t m34,
+	real_t m41, real_t m42, real_t m43, real_t m44)
 {
-    m[0][0] = m11; m[0][1] = m12; m[0][2] = m13; m[0][3] = m14;
-    m[1][0] = m21; m[1][1] = m22; m[1][2] = m23; m[1][3] = m24;
-    m[2][0] = m31; m[2][1] = m32; m[2][2] = m33; m[2][3] = m34;
-    m[3][0] = m41; m[3][1] = m42; m[3][2] = m43; m[3][3] = m44;
+	m[0][0] = m11; m[0][1] = m12; m[0][2] = m13; m[0][3] = m14;
+	m[1][0] = m21; m[1][1] = m22; m[1][2] = m23; m[1][3] = m24;
+	m[2][0] = m31; m[2][1] = m32; m[2][2] = m33; m[2][3] = m34;
+	m[3][0] = m41; m[3][1] = m42; m[3][2] = m43; m[3][3] = m44;
+}
+
+static inline void mat4x4_identity(mat4x4_t m)
+{
+	static const mat4x4_t id = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
+	memcpy(m, id, sizeof id);
 }
 
 static inline void mat4x4_copy(mat4x4_t dest, mat4x4_t src)
 {
-    memcpy(dest, src, sizeof(mat4x4_t));
+	memcpy(dest, src, sizeof(mat4x4_t));
+}
+
+static inline void mat4x4_set_column(mat4x4_t m, vec4_t v, int idx)
+{
+	m[0][idx] = v.x;
+	m[1][idx] = v.y;
+	m[2][idx] = v.z;
+	m[3][idx] = v.w;
+}
+
+static inline void mat4x4_set_row(mat4x4_t m, vec4_t v, int idx)
+{
+	m[idx][0] = v.x;
+	m[idx][1] = v.y;
+	m[idx][2] = v.z;
+	m[idx][3] = v.w;
+}
+
+static inline void mat4x4_add(mat4x4_t res, mat4x4_t m1, mat4x4_t m2)
+{
+	int i, j;
+
+	for(i=0; i<4; i++) {
+		for(j=0; j<4; j++) {
+			res[i][j] = m1[i][j] + m2[i][j];
+		}
+	}
+}
+
+static inline void mat4x4_mul(mat4x4_t res, mat4x4_t m1, mat4x4_t m2)
+{
+	res[0][0] = m1[0][0] * m2[0][0] + m1[0][1] * m2[1][0] + m1[0][2] * m2[2][0] + m1[0][3] * m2[3][0];
+	res[0][1] = m1[0][0] * m2[0][1] + m1[0][1] * m2[1][1] + m1[0][2] * m2[2][1] + m1[0][3] * m2[3][1];
+	res[0][2] = m1[0][0] * m2[0][2] + m1[0][1] * m2[1][2] + m1[0][2] * m2[2][2] + m1[0][3] * m2[3][2];
+	res[0][3] = m1[0][0] * m2[0][3] + m1[0][1] * m2[1][3] + m1[0][2] * m2[2][3] + m1[0][3] * m2[3][3];
+
+	res[1][0] = m1[1][0] * m2[0][0] + m1[1][1] * m2[1][0] + m1[1][2] * m2[2][0] + m1[1][3] * m2[3][0];
+	res[1][1] = m1[1][0] * m2[0][1] + m1[1][1] * m2[1][1] + m1[1][2] * m2[2][1] + m1[1][3] * m2[3][1];
+	res[1][2] = m1[1][0] * m2[0][2] + m1[1][1] * m2[1][2] + m1[1][2] * m2[2][2] + m1[1][3] * m2[3][2];
+	res[1][3] = m1[1][0] * m2[0][3] + m1[1][1] * m2[1][3] + m1[1][2] * m2[2][3] + m1[1][3] * m2[3][3];
+
+	res[2][0] = m1[2][0] * m2[0][0] + m1[2][1] * m2[1][0] + m1[2][2] * m2[2][0] + m1[2][3] * m2[3][0];
+	res[2][1] = m1[2][0] * m2[0][1] + m1[2][1] * m2[1][1] + m1[2][2] * m2[2][1] + m1[2][3] * m2[3][1];
+	res[2][2] = m1[2][0] * m2[0][2] + m1[2][1] * m2[1][2] + m1[2][2] * m2[2][2] + m1[2][3] * m2[3][2];
+	res[2][3] = m1[2][0] * m2[0][3] + m1[2][1] * m2[1][3] + m1[2][2] * m2[2][3] + m1[2][3] * m2[3][3];
+
+	res[3][0] = m1[3][0] * m2[0][0] + m1[3][1] * m2[1][0] + m1[3][2] * m2[2][0] + m1[3][3] * m2[3][0];
+	res[3][1] = m1[3][0] * m2[0][1] + m1[3][1] * m2[1][1] + m1[3][2] * m2[2][1] + m1[3][3] * m2[3][1];
+	res[3][2] = m1[3][0] * m2[0][2] + m1[3][1] * m2[1][2] + m1[3][2] * m2[2][2] + m1[3][3] * m2[3][2];
+	res[3][3] = m1[3][0] * m2[0][3] + m1[3][1] * m2[1][3] + m1[3][2] * m2[2][3] + m1[3][3] * m2[3][3];
 }
 
 #ifdef __cplusplus
