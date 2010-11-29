@@ -103,7 +103,7 @@ void mat3x3_transpose(mat3x3_t res, mat3x3_t m)
 	}
 }
 
-real_t mat4x4_determinant(mat4x4_t m)
+real_t mat3x3_determinant(mat4x4_t m)
 {
 	real_t det11 = m[1][1] * (m[2][2] - m[1][2] * m[2][1];
 	real_t det12 = m[1][0] * (m[2][2] - m[1][2] * m[2][0];
@@ -114,6 +114,28 @@ real_t mat4x4_determinant(mat4x4_t m)
 
 void mat3x3_adjoint(mat3x3_t res, mat3x3_t m)
 {
+	mat3x3_t coef;
+
+    coef[0][0] =  (m[1][1] * m[2][2] - m[1][2] * m[2][1]);
+    coef[0][1] =  (m[1][0] * m[2][2] - m[1][2] * m[2][0]);
+    coef[0][2] =  (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+    coef[1][0] =  (m[0][1] * m[2][2] - m[0][2] * m[2][1]);
+    coef[1][1] =  (m[0][0] * m[2][2] - m[0][2] * m[2][0]);
+    coef[1][2] =  (m[0][0] * m[2][1] - m[0][1] * m[2][0]);
+    coef[2][0] =  (m[0][1] * m[1][2] - m[0][2] * m[1][1]);
+    coef[2][1] =  (m[0][0] * m[1][2] - m[0][2] * m[1][0]);
+    coef[2][2] =  (m[0][0] * m[1][1] - m[0][1] * m[1][0]);
+
+    mat3x3_transpose(res, coef);
+
+	int i=0, j=0;
+    for(i=0; i<3; i++) {
+        for(j=0; j<3; j++) {
+            res[i][j] = j%2 ? -res[i][j] : res[i][j];
+            if(i%2)
+                res[i][j] = -res[i][j];
+        }
+    }
 }
 
 void mat3x3_inverse(mat3x3_t res, mat3x3_t m)
@@ -699,15 +721,15 @@ Matrix3x3 Matrix3x3::adjoint() const
 {
 	Matrix3x3 coef;
 
-	coef.m[0][0] =  (m_p_data[1][1] * m_p_data[2][2] - m_p_data[1][2] * m_p_data[2][1]);
-	coef.m[0][1] =  (m_p_data[1][0] * m_p_data[2][2] - m_p_data[1][2] * m_p_data[2][0]);
-	coef.m[0][2] =  (m_p_data[1][0] * m_p_data[2][1] - m_p_data[1][1] * m_p_data[2][0]);
-	coef.m[1][0] =  (m_p_data[0][1] * m_p_data[2][2] - m_p_data[0][2] * m_p_data[2][1]);
-	coef.m[1][1] =  (m_p_data[0][0] * m_p_data[2][2] - m_p_data[0][2] * m_p_data[2][0]);
-	coef.m[1][2] =  (m_p_data[0][0] * m_p_data[2][1] - m_p_data[0][1] * m_p_data[2][0]);
-	coef.m[2][0] =  (m_p_data[0][1] * m_p_data[1][2] - m_p_data[0][2] * m_p_data[1][1]);
-	coef.m[2][1] =  (m_p_data[0][0] * m_p_data[1][2] - m_p_data[0][2] * m_p_data[1][0]);
-	coef.m[2][2] =  (m_p_data[0][0] * m_p_data[1][1] - m_p_data[0][1] * m_p_data[1][0]);
+	coef.m_p_data[0][0] =  (m_p_data[1][1] * m_p_data[2][2] - m_p_data[1][2] * m_p_data[2][1]);
+	coef.m_p_data[0][1] =  (m_p_data[1][0] * m_p_data[2][2] - m_p_data[1][2] * m_p_data[2][0]);
+	coef.m_p_data[0][2] =  (m_p_data[1][0] * m_p_data[2][1] - m_p_data[1][1] * m_p_data[2][0]);
+	coef.m_p_data[1][0] =  (m_p_data[0][1] * m_p_data[2][2] - m_p_data[0][2] * m_p_data[2][1]);
+	coef.m_p_data[1][1] =  (m_p_data[0][0] * m_p_data[2][2] - m_p_data[0][2] * m_p_data[2][0]);
+	coef.m_p_data[1][2] =  (m_p_data[0][0] * m_p_data[2][1] - m_p_data[0][1] * m_p_data[2][0]);
+	coef.m_p_data[2][0] =  (m_p_data[0][1] * m_p_data[1][2] - m_p_data[0][2] * m_p_data[1][1]);
+	coef.m_p_data[2][1] =  (m_p_data[0][0] * m_p_data[1][2] - m_p_data[0][2] * m_p_data[1][0]);
+	coef.m_p_data[2][2] =  (m_p_data[0][0] * m_p_data[1][1] - m_p_data[0][1] * m_p_data[1][0]);
 
 	coef.transpose();
 
@@ -1035,69 +1057,69 @@ Matrix4x4 Matrix4x4::adjoint() const
 {
 	Matrix4x4 coef;
 
-	coef.m[0][0] =  (m_p_data[1][1] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-					(m_p_data[1][2] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) +
-					(m_p_data[1][3] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2]));
+	coef.m_p_data[0][0] =	(m_p_data[1][1] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
+							(m_p_data[1][2] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) +
+							(m_p_data[1][3] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2]));
 
-	coef.m[0][1] =  (m_p_data[1][0] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-					(m_p_data[1][2] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-					(m_p_data[1][3] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2]));
+	coef.m_p_data[0][1] =  	(m_p_data[1][0] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
+							(m_p_data[1][2] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
+							(m_p_data[1][3] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2]));
 
-	coef.m[0][2] =  (m_p_data[1][0] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) -
-					(m_p_data[1][1] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-					(m_p_data[1][3] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	coef.m_p_data[0][2] =  	(m_p_data[1][0] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) -
+							(m_p_data[1][1] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
+							(m_p_data[1][3] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
 
-	coef.m[0][3] =  (m_p_data[1][0] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2])) -
-					(m_p_data[1][1] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2])) +
-					(m_p_data[1][2] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	coef.m_p_data[0][3] =  	(m_p_data[1][0] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2])) -
+							(m_p_data[1][1] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2])) +
+							(m_p_data[1][2] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
 
-	coef.m[1][0] =  (m_p_data[0][1] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-					(m_p_data[0][2] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) +
-					(m_p_data[0][3] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2]));
+	coef.m_p_data[1][0] =  	(m_p_data[0][1] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
+							(m_p_data[0][2] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) +
+							(m_p_data[0][3] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2]));
 
-	coef.m[1][1] =  (m_p_data[0][0] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-					(m_p_data[0][2] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-					(m_p_data[0][3] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2]));
+	coef.m_p_data[1][1] =  	(m_p_data[0][0] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
+							(m_p_data[0][2] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
+							(m_p_data[0][3] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2]));
 
-	coef.m[1][2] =  (m_p_data[0][0] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) -
-					(m_p_data[0][1] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-					(m_p_data[0][3] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	coef.m_p_data[1][2] =  	(m_p_data[0][0] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) -
+							(m_p_data[0][1] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
+							(m_p_data[0][3] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
 
-	coef.m[1][3] =  (m_p_data[0][0] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2])) -
-					(m_p_data[0][1] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2])) +
-					(m_p_data[0][2] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	coef.m_p_data[1][3] =  	(m_p_data[0][0] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2])) -
+							(m_p_data[0][1] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2])) +
+							(m_p_data[0][2] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
 
-	coef.m[2][0] =  (m_p_data[0][1] * (m_p_data[1][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[1][3])) -
-					(m_p_data[0][2] * (m_p_data[1][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[1][3])) +
-					(m_p_data[0][3] * (m_p_data[1][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[1][2]));
+	coef.m_p_data[2][0] =  	(m_p_data[0][1] * (m_p_data[1][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[1][3])) -
+							(m_p_data[0][2] * (m_p_data[1][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[1][3])) +
+							(m_p_data[0][3] * (m_p_data[1][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[1][2]));
 
-	coef.m[2][1] =  (m_p_data[0][0] * (m_p_data[1][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[1][3])) -
-					(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[1][3])) +
-					(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[1][2]));
+	coef.m_p_data[2][1] =  	(m_p_data[0][0] * (m_p_data[1][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[1][3])) -
+							(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[1][3])) +
+							(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[1][2]));
 
-	coef.m[2][2] =  (m_p_data[0][0] * (m_p_data[1][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[1][3])) -
-					(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[1][3])) +
-					(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[1][1]));
+	coef.m_p_data[2][2] =  	(m_p_data[0][0] * (m_p_data[1][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[1][3])) -
+							(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[1][3])) +
+							(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[1][1]));
 
-	coef.m[2][3] =  (m_p_data[0][0] * (m_p_data[1][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[1][2])) -
-					(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[1][2])) +
-					(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[1][1]));
+	coef.m_p_data[2][3] =  	(m_p_data[0][0] * (m_p_data[1][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[1][2])) -
+							(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[1][2])) +
+							(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[1][1]));
 
-	coef.m[3][0] =  (m_p_data[0][1] * (m_p_data[1][2] * m_p_data[2][3] - m_p_data[2][2] * m_p_data[1][3])) -
-					(m_p_data[0][2] * (m_p_data[1][1] * m_p_data[2][3] - m_p_data[2][1] * m_p_data[1][3])) +
-					(m_p_data[0][3] * (m_p_data[1][1] * m_p_data[2][2] - m_p_data[2][1] * m_p_data[1][2]));
+	coef.m_p_data[3][0] =  	(m_p_data[0][1] * (m_p_data[1][2] * m_p_data[2][3] - m_p_data[2][2] * m_p_data[1][3])) -
+							(m_p_data[0][2] * (m_p_data[1][1] * m_p_data[2][3] - m_p_data[2][1] * m_p_data[1][3])) +
+							(m_p_data[0][3] * (m_p_data[1][1] * m_p_data[2][2] - m_p_data[2][1] * m_p_data[1][2]));
 
-	coef.m[3][1] =  (m_p_data[0][0] * (m_p_data[1][2] * m_p_data[2][3] - m_p_data[2][2] * m_p_data[1][3])) -
-					(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[2][3] - m_p_data[2][0] * m_p_data[1][3])) +
-					(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[2][2] - m_p_data[2][0] * m_p_data[1][2]));
+	coef.m_p_data[3][1] =  	(m_p_data[0][0] * (m_p_data[1][2] * m_p_data[2][3] - m_p_data[2][2] * m_p_data[1][3])) -
+							(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[2][3] - m_p_data[2][0] * m_p_data[1][3])) +
+							(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[2][2] - m_p_data[2][0] * m_p_data[1][2]));
 
-	coef.m[3][2] =  (m_p_data[0][0] * (m_p_data[1][1] * m_p_data[2][3] - m_p_data[2][1] * m_p_data[1][3])) -
-					(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[2][3] - m_p_data[2][0] * m_p_data[1][3])) +
-					(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[2][1] - m_p_data[2][0] * m_p_data[1][1]));
+	coef.m_p_data[3][2] =  	(m_p_data[0][0] * (m_p_data[1][1] * m_p_data[2][3] - m_p_data[2][1] * m_p_data[1][3])) -
+							(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[2][3] - m_p_data[2][0] * m_p_data[1][3])) +
+							(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[2][1] - m_p_data[2][0] * m_p_data[1][1]));
 
-	coef.m[3][3] =  (m_p_data[0][0] * (m_p_data[1][1] * m_p_data[2][2] - m_p_data[2][1] * m_p_data[1][2])) -
-					(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[2][2] - m_p_data[2][0] * m_p_data[1][2])) +
-					(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[2][1] - m_p_data[2][0] * m_p_data[1][1]));
+	coef.m_p_data[3][3] =  	(m_p_data[0][0] * (m_p_data[1][1] * m_p_data[2][2] - m_p_data[2][1] * m_p_data[1][2])) -
+							(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[2][2] - m_p_data[2][0] * m_p_data[1][2])) +
+							(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[2][1] - m_p_data[2][0] * m_p_data[1][1]));
 
 	coef.transpose();
 
