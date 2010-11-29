@@ -31,11 +31,12 @@
 
 	- Mat3x3:
 		- Adjoint
-		- c++ interface
 
-	- Mat3x3:
+	- Mat4x4:
 		- Arbitrary axis rotation
-		- c++ interface
+
+	-Matrix3x3
+		- Matrix4x4 adjoint() const;
 
 	- Quaternions
 
@@ -44,7 +45,11 @@
 #ifndef LIBNMATH_MATRIX_H_INCLUDED
 #define LIBNMATH_MATRIX_H_INCLUDED
 
-#include <stdio.h>
+#ifdef __cplusplus
+    #include <cstdio>
+#else
+    #include <stdio.h>
+#endif  /* __cplusplus */
 
 #include "precision.h"
 #include "types.h"
@@ -129,6 +134,148 @@ void mat4x4_print(FILE *fp, mat4x4_t m);
 
 #ifdef __cplusplus
 }   /* extern "C" */
+
+class Matrix3x3
+{
+	public:
+		/* Constructors */
+		Matrix3x3();
+		Matrix3x3(	real_t m11, real_t m12, real_t m13,
+					real_t m21, real_t m22, real_t m23,
+					real_t m31, real_t m32, real_t m33);
+		Matrix3x3(const mat3x3_t m);
+		Matrix3x3::Matrix3x3(const Matrix4x4 &mat4)
+
+		/* Binary operators */
+		friend Matrix3x3 operator +(const Matrix3x3 &m1, const Matrix3x3 &m2);
+		friend Matrix3x3 operator -(const Matrix3x3 &m1, const Matrix3x3 &m2);
+		friend Matrix3x3 operator *(const Matrix3x3 &m1, const Matrix3x3 &m2);
+
+		/* Compound binary operators */
+		friend void operator +=(Matrix3x3 &m1, const Matrix3x3 &m2);
+		friend void operator -=(Matrix3x3 &m1, const Matrix3x3 &m2);
+		friend void operator *=(Matrix3x3 &m1, const Matrix3x3 &m2);
+
+		/* Scalar operators */
+		friend Matrix3x3 operator *(const Matrix3x3 &mat, real_t r);
+		friend Matrix3x3 operator *(real_t r, const Matrix3x3 &mat);
+
+		/* Compound scalar operators */
+		friend void operator *=(Matrix3x3 &mat, real_t r);
+
+		/* Index operator */
+		inline real_t *operator [](int index);
+		inline const real_t *operator [](int index) const;
+
+		/* Reset matrix */
+		inline void reset_identity();
+
+		/* Transformations */
+		void translate(const Vector2 &trans);
+		void set_translation(const Vector2 &trans);
+
+		void rotate(real_t angle);						/* 2d rotation */
+    	void rotate(const Vector3 &euler);				/* 3d rotation with euler angles */
+    	void rotate(const Vector3 &axis, real_t angle);	/* 3d axis/angle rotation */
+
+		void set_rotation(real_t angle);
+    	void set_rotation(const Vector3 &euler);
+		void set_rotation(const Vector3 &axis, real_t angle);
+
+		void scale(const Vector3 &vec);
+		void set_scaling(const Vector3 &vec);
+
+		/* Tuple operations */
+		void set_column_vector(const Vector3 &vec, unsigned int index);
+		void set_row_vector(const Vector3 &vec, unsigned int index);
+		Vector3 get_column_vector(unsigned int index) const;
+		Vector3 get_row_vector(unsigned int index) const;
+
+		void transpose();
+		Matrix3x3 transposed() const;
+		real_t determinant() const;
+		Matrix3x3 adjoint() const;
+		Matrix3x3 inverse() const;
+
+
+	    friend std::ostream &operator <<(std::ostream &out, const Matrix3x3 &mat);
+
+		Matrix3x3 identity;
+
+	private:
+		real_t m_p_data[3][3];
+};
+
+class Matrix4x4
+{
+	public:
+		/* Constructors */
+		Matrix4x4();
+		Matrix4x4(  real_t m11, real_t m12, real_t m13, real_t m14,
+					real_t m21, real_t m22, real_t m23, real_t m24,
+					real_t m31, real_t m32, real_t m33, real_t m34,
+					real_t m41, real_t m42, real_t m43, real_t m44);
+		Matrix4x4(const mat4x4_t m);
+		Matrix4x4(const Matrix3x3 &mat3);
+
+		/* Binary operators */
+		friend Matrix4x4 operator +(const Matrix4x4 &m1, const Matrix4x4 &m2);
+		friend Matrix4x4 operator -(const Matrix4x4 &m1, const Matrix4x4 &m2);
+		friend Matrix4x4 operator *(const Matrix4x4 &m1, const Matrix4x4 &m2);
+
+		/* Compound binary operators */
+		friend void operator +=(Matrix4x4 &m1, const Matrix4x4 &m2);
+		friend void operator -=(Matrix4x4 &m1, const Matrix4x4 &m2);
+		friend void operator *=(Matrix4x4 &m1, const Matrix4x4 &m2);
+
+		/* Scalar operators */
+		friend Matrix4x4 operator *(const Matrix4x4 &mat, real_t r);
+		friend Matrix4x4 operator *(real_t r, const Matrix4x4 &mat);
+
+		/* Compound scalar operators */
+		friend void operator *=(Matrix4x4 &mat, real_t r);
+
+		/* Index operator */
+		inline real_t *operator [](int index);
+		inline const real_t *operator [](int index) const;
+
+		/* Reset matrix */
+		inline void reset_identity();
+
+		/* Transformations */
+		void translate(const Vector3 &trans);
+		void set_translation(const Vector3 &trans);
+
+		void rotate(const Vector3 &euler);           	/* 3d rotation with euler angles */
+		void rotate(const Vector3 &axis, real_t angle); /* 3d axis/angle rotation */
+		void set_rotation(const Vector3 &euler);
+		void set_rotation(const Vector3 &axis, real_t angle);
+
+		void scale(const Vector4 &vec);
+		void set_scaling(const Vector4 &vec);
+
+		/* Tuple operations */
+ 		void set_column_vector(const Vector4 &vec, unsigned int index);
+		void set_row_vector(const Vector4 &vec, unsigned int index);
+		Vector4 get_column_vector(unsigned int index) const;
+		Vector4 get_row_vector(unsigned int index) const;
+
+		void transpose();
+		Matrix4x4 transposed() const;
+		real_t determinant() const;
+		Matrix4x4 adjoint() const;
+		Matrix4x4 inverse() const;
+
+		friend std::ostream &operator <<(std::ostream &out, const Matrix4x4 &mat);
+
+		static Matrix4x4 identity;
+
+	private:
+		real_t m_p_data[4][4];
+};
+
 #endif	/* __cplusplus */
+
+#include "matrix.inl"
 
 #endif /* LIBNMATH_MATRIX_H_INCLUDED */

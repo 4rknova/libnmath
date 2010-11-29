@@ -48,7 +48,7 @@ static inline ray_t ray_pack(vec3_t origin, vec3_t direction);
 class Ray
 {
     public:
-        Ray();                                          // This relies on vector class default constructor setting all components to 0
+        Ray();                                          /* This relies on vector class default constructor setting all components to 0 */
         Ray(const Vector3 &org, const Vector3 &dir);
 
         Vector3 origin, direction;
