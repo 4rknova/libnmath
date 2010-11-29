@@ -2,7 +2,7 @@
 
     This file is part of the nemesis math library.
 
-    matrix.c
+    matrix.cc
     Matrix
 
     Copyright (C) 2008, 2010

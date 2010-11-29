@@ -35,11 +35,7 @@
 	- Mat4x4:
 		- Arbitrary axis rotation
 
-	-Matrix3x3
-		- Matrix4x4 adjoint() const;
-
 	- Quaternions
-
 */
 
 #ifndef LIBNMATH_MATRIX_H_INCLUDED
