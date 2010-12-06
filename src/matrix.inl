@@ -33,6 +33,13 @@
 #endif /* LIBNMATH_MATRIX_H_INCLUDED */
 
 #ifdef __cplusplus
+	#include <cstring>
+#else
+	#include <string.h>
+#endif  /* __cplusplus */
+
+
+#ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 

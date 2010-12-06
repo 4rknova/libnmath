@@ -1,11 +1,16 @@
 #!/bin/sh
 
+SWPKG="libnmath"
+
 VERSION=`head -n1 VERSION`
 PREFIX=/usr/local
 DEBUGS=no
 OPTSPD=yes
 
-echo "configuring nmath v$VERSION ..."
+echo 'creating makefile ...'
+echo "#" > Makefile
+echo "# auto generated makefile for $SWPKG v$VERSION" >> Makefile
+echo "#" >> Makefile
 
 for arg; do
 	case "$arg" in
@@ -47,7 +52,7 @@ echo "optimize for speed: $OPTSPD"
 echo "include debugging symbols: $DEBUGS"
 
 echo 'creating makefile ...'
-echo "PREFIX = $PREFIX" > Makefile
+echo "PREFIX = $PREFIX" >> Makefile
 
 if [ "$DBGSPD" = 'yes' ]; then
 	echo 'dbg = -g' >> Makefile
@@ -57,7 +62,7 @@ if [ "$OPT" = 'yes' ]; then
 	echo 'opt = -O3' >> Makefile
 fi
 
-# ----------------------- Platform flags ----------------------------------------------
+echo "pkgname = $SWPKG" >> Makefile
 
 if [ "`uname -s`" = Darwin ]; then
 	echo 'shared = -dynamiclib' >> Makefile

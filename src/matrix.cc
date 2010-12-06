@@ -26,6 +26,7 @@
 */
 
 #include "matrix.h"
+#include "vector.h"
 
 #ifdef __cplusplus
     #include <cmath>
@@ -52,7 +53,7 @@ void mat3x3_translate(mat3x3_t m, real_t x, real_t y, real_t z)
 	mat3x3_mul(m, m, tm);
 }
 
-void mat3x3_rotate(mat3x3_t m, real_t x, real_t y)
+void mat3x3_rotate(mat3x3_t m, real_t angle)
 {
 	mat3x3_t rm;
 	mat3x3_identity(rm);
@@ -80,13 +81,13 @@ void mat3x3_shear(mat3x3_t m, real_t s)
 
 void mat3x3_mirror_x(mat3x3_t m)
 {
-	static const mat3x3_t id = {{-1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+	static mat3x3_t id = {{-1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
 	mat3x3_mul(m, m, id);
 }
 
 void mat3x3_mirror_y(mat3x3_t m)
 {
-	static const mat3x3_t id = {{1, 0, 0}, {0, -1, 0}, {0, 0, 1}};
+	static mat3x3_t id = {{1, 0, 0}, {0, -1, 0}, {0, 0, 1}};
 	mat3x3_mul(m, m, id);
 }
 
@@ -103,11 +104,11 @@ void mat3x3_transpose(mat3x3_t res, mat3x3_t m)
 	}
 }
 
-real_t mat3x3_determinant(mat4x4_t m)
+real_t mat3x3_determinant(mat3x3_t m)
 {
-	real_t det11 = m[1][1] * (m[2][2] - m[1][2] * m[2][1];
-	real_t det12 = m[1][0] * (m[2][2] - m[1][2] * m[2][0];
-	real_t det13 = m[1][0] * (m[2][1] - m[1][1] * m[2][0];
+	real_t det11 = m[1][1] * (m[2][2] - m[1][2] * m[2][1]);
+	real_t det12 = m[1][0] * (m[2][2] - m[1][2] * m[2][0]);
+	real_t det13 = m[1][0] * (m[2][1] - m[1][1] * m[2][0]);
 
 	return m[0][0] * det11 - m[0][1] * det12 + m[0][2] * det13;
 }
@@ -163,7 +164,7 @@ void mat3x3_to_m4x4(mat4x4_t dest, mat3x3_t src)
 {
 	int i, j;
 
-	memset(dest, 0, sizeof(mat4_t));
+	memset(dest, 0, sizeof(mat4x4_t));
 	for(i=0; i<3; i++) {
 		for(j=0; j<3; j++) {
 			dest[i][j] = src[i][j];
@@ -196,9 +197,9 @@ void mat4x4_translate(mat4x4_t m, real_t x, real_t y, real_t z)
 
 void mat4x4_rotate(mat4x4_t m, real_t x, real_t y, real_t z)
 {
-	m4x4_rotate_x(m, x);
-	m4x4_rotate_y(m, y);
-	m4x4_rotate_z(m, z);
+	mat4x4_rotate_x(m, x);
+	mat4x4_rotate_y(m, y);
+	mat4x4_rotate_z(m, z);
 }
 
 void mat4x4_rotate_x(mat4x4_t m, real_t angle)
@@ -238,7 +239,7 @@ void mat4x4_rotate_axis(mat4x4_t m, real_t angle, real_t x, real_t y, real_t z)
 	real_t nysq = y * y;
 	real_t nzsq = z * z;
 
-	m4x4_identity(xform);
+	mat4x4_identity(xform);
 	xform[0][0] = nxsq + (1.0 - nxsq) * cosa;
 	xform[0][1] = x * y * one_minus_cosa - z * sina;
 	xform[0][2] = x * z * one_minus_cosa + y * sina;
@@ -249,7 +250,7 @@ void mat4x4_rotate_axis(mat4x4_t m, real_t angle, real_t x, real_t y, real_t z)
 	xform[2][1] = y * z * one_minus_cosa + x * sina;
 	xform[2][2] = nzsq + (1.0 - nzsq) * cosa;
 
-	m4x4_mul(m, m, xform);
+	mat4x4_mul(m, m, xform);
 }
 
 void mat4x4_scale(mat4x4_t m, real_t x, real_t y, real_t z)
@@ -385,7 +386,7 @@ void mat4x4_adjoint(mat4x4_t res, mat4x4_t m)
 					(m[0][1] * (m[1][0] * m[2][2] - m[2][0] * m[1][2])) +
 					(m[0][2] * (m[1][0] * m[2][1] - m[2][0] * m[1][1]));
 
-	m4x4_transpose(res, coef);
+	mat4x4_transpose(res, coef);
 
 	for(i=0; i<4; i++) {
 		for(j=0; j<4; j++) {
@@ -462,7 +463,7 @@ Matrix3x3::Matrix3x3(const Matrix4x4 &mat4)
 {
     for(int i=0; i<3; i++) {
         for(int j=0; j<3; j++) {
-            m[i][j] = mat4[i][j];
+            m_p_data[i][j] = mat4[i][j];
         }
     }
 }
@@ -470,7 +471,7 @@ Matrix3x3::Matrix3x3(const Matrix4x4 &mat4)
 Matrix3x3 operator +(const Matrix3x3 &m1, const Matrix3x3 &m2)
 {
 	Matrix3x3 res;
-	const real_t *op1 = m1.m[0], *op2 = m2.m[0];
+	const real_t *op1 = m1.m_p_data[0], *op2 = m2.m_p_data[0];
     real_t *dest = res.m_p_data[0];
 
     for(int i=0; i<9; i++) {
@@ -657,7 +658,7 @@ void Matrix3x3::set_rotation(const Vector3 &axis, real_t angle)
 void Matrix3x3::scale(const Vector3 &vec)
 {
     Matrix3x3 mat(vec.x, 0, 0, 0, vec.y, 0, 0, 0, vec.z);
-    *this *= smat;
+    *this *= mat;
 }
 
 void Matrix3x3::set_scaling(const Vector3 &vec)
@@ -676,7 +677,7 @@ void Matrix3x3::set_row_vector(const Vector3 &vec, unsigned int index)
 {
 	m_p_data[index][0] = vec.x;
 	m_p_data[index][1] = vec.y;
-	m_p_data[index][2] = vec.z
+	m_p_data[index][2] = vec.z;
 }
 
 Vector3 Matrix3x3::get_column_vector(unsigned int index) const
@@ -749,8 +750,7 @@ Matrix3x3 Matrix3x3::inverse() const
 	Matrix3x3 adjMat = adjoint();
     return adjMat * (1.0f / determinant());
 }
-
-ostream &operator <<(ostream &out, const Matrix3x3 &mat)
+std::ostream &operator <<(std::ostream &out, const Matrix3x3 &mat)
 {
     for(int i=0; i<3; i++)
 	{
@@ -781,7 +781,7 @@ Matrix4x4::Matrix4x4(   real_t m11, real_t m12, real_t m13, real_t m14,
 
 Matrix4x4::Matrix4x4(const mat4x4_t m)
 {
-    memcpy(m_p_data, cmat, sizeof(mat4x4_t));
+    memcpy(m_p_data, m, sizeof(mat4x4_t));
 }
 
 Matrix4x4::Matrix4x4(const Matrix3x3 &mat3)
@@ -865,7 +865,7 @@ void operator *=(Matrix4x4 &m1, const Matrix4x4 &m2)
 
         }
     }
-    memcpy(m1.m, res.m, 16 * sizeof(real_t));
+    memcpy(m1.m_p_data, res.m_p_data, 16 * sizeof(real_t));
 }
 
 Matrix4x4 operator *(const Matrix4x4 &mat, real_t r)
@@ -1140,7 +1140,7 @@ Matrix4x4 Matrix4x4::inverse() const
     return adjMat * (1.0f / determinant());
 }
 
-ostream &operator <<(ostream &out, const Matrix4x4 &mat)
+std::ostream &operator <<(std::ostream &out, const Matrix4x4 &mat)
 {
     for(int i=0; i<4; i++)
 	{

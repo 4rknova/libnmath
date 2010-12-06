@@ -73,7 +73,7 @@ static inline void mat3x3_add(mat3x3_t res, mat3x3_t m1, mat3x3_t m2);
 static inline void mat3x3_mul(mat3x3_t res, mat3x3_t m1, mat3x3_t m2);
 
 void mat3x3_translate(mat3x3_t m, real_t x, real_t y, real_t z);
-void mat3x3_rotate(mat3x3_t m, real_t x, real_t y);
+void mat3x3_rotate(mat3x3_t m, real_t angle);
 void mat3x3_scale(mat3x3_t m, real_t x, real_t y);
 void mat3x3_shear(mat3x3_t m, real_t s);
 void mat3x3_mirror_x(mat3x3_t m);
@@ -102,8 +102,8 @@ static inline void mat4x4_identity(mat4x4_t m);
 
 static inline void mat4x4_copy(mat4x4_t dest, mat4x4_t src);
 
-static inline void mat4x4_set_column(mat4_t m, vec4_t v, int idx);
-static inline void mat4x4_set_row(mat4_t m, vec4_t v, int idx);
+static inline void mat4x4_set_column(mat4x4_t m, vec4_t v, int idx);
+static inline void mat4x4_set_row(mat4x4_t m, vec4_t v, int idx);
 
 static inline void mat4x4_add(mat4x4_t res, mat4x4_t m1, mat4x4_t m2);
 static inline void mat4x4_mul(mat4x4_t res, mat4x4_t m1, mat4x4_t m2);
@@ -131,8 +131,11 @@ void mat4x4_print(FILE *fp, mat4x4_t m);
 #ifdef __cplusplus
 }   /* extern "C" */
 
+#include <ostream>
+
 class Matrix3x3
 {
+	friend class Matrix4x4;
 	public:
 		/* Constructors */
 		Matrix3x3();
@@ -140,7 +143,7 @@ class Matrix3x3
 					real_t m21, real_t m22, real_t m23,
 					real_t m31, real_t m32, real_t m33);
 		Matrix3x3(const mat3x3_t m);
-		Matrix3x3::Matrix3x3(const Matrix4x4 &mat4)
+		Matrix3x3(const Matrix4x4 &mat4);
 
 		/* Binary operators */
 		friend Matrix3x3 operator +(const Matrix3x3 &m1, const Matrix3x3 &m2);
@@ -196,7 +199,7 @@ class Matrix3x3
 
 	    friend std::ostream &operator <<(std::ostream &out, const Matrix3x3 &mat);
 
-		Matrix3x3 identity;
+		static Matrix3x3 identity;
 
 	private:
 		real_t m_p_data[3][3];
@@ -204,6 +207,7 @@ class Matrix3x3
 
 class Matrix4x4
 {
+	friend class Matrix3x3;
 	public:
 		/* Constructors */
 		Matrix4x4();

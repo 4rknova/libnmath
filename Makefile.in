@@ -1,25 +1,42 @@
+# paths
+# - target
 spath = src
-csrc = $(wildcard $spath/*.c)
-ccsrc = $(wildcard $spath/*.cc)
-obj = $(csrc:.c=.o) $(ccsrc:.cc=.o)
+bpath = bin
+opath = $(bpath)/obj
+# - source
+ccsrc = $(wildcard $(spath)/*.cc)
 
-lib_a = libnmath.a
-lib_so = libnmath.$(so)
+
+# binaries
+obj = $(ccsrc:.cc=.o) 
+bin = $(bpath)/$(pkgname)
+
+lib_a = $(bin).a
+lib_so = $(bin).$(so)
 
 CC = gcc
 CXX = g++
-CFLAGS = -std=c89 -pedantic -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
+CCFLAGS = -std=c89 -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
 CXXFLAGS = -ansi -pedantic -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
 LDFLAGS =
 
 .PHONY: all
-all:
-	$(lib_a) $(lib_so)
+all: $(lib_a) $(lib_so)
+
+$(lib_a): $(obj)
+	$(AR) rcs $@ $^
+
+$(lib_so): $(obj)
+	$(CC) $(CFLAGS) $(shared) -o $@ $(obj) $(LDFLAGS)
+
+%.o: %.cc
+	$(CXX) -c $(CXXFLAGS) -o $@  $<
 
 .PHONY: clean
 clean:
-	rm -f $(obj)
+	rm -rf $(obj)
 
 .PHONY: clean-all
-clean-all:
-	rm -f $(obj) Makefile nmath.pc
+clean-all: clean
+	rm -f Makefile vmpath.pc $(dep) $(lib_so) $(lib_a)
+	

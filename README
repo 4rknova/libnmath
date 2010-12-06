@@ -1,6 +1,6 @@
 libnmath
 --------
 
-The nemesis math library is a library with a double interface in c and c++,
-that implements various maths utils and datatypes useful amongst others
-in computer graphics applications.
+The nemesis math library implements a variety of datatypes and utilities
+that are useful in graphics related applications. The library provides a 
+double interface in c and c++.
