@@ -1,11 +1,9 @@
 # paths
 # - target
 spath = src
-bpath = bin
 opath = $(bpath)/obj
 # - source
 ccsrc = $(wildcard $(spath)/*.cc)
-
 
 # binaries
 obj = $(ccsrc:.cc=.o) 
@@ -39,4 +37,4 @@ clean:
 .PHONY: clean-all
 clean-all: clean
 	rm -f Makefile vmpath.pc $(dep) $(lib_so) $(lib_a)
-	
+
