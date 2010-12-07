@@ -18,6 +18,23 @@ CCFLAGS = -std=c89 -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
 CXXFLAGS = -ansi -pedantic -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
 LDFLAGS =
 
+.PHONY: install
+install: $(lib_a) $(lib_so)
+	$(INSTALL) -d $(PREFIX)/lib
+	$(INSTALL) -m 644 $(lib_a) $(lib_so) $(PREFIX)/lib
+	$(INSTALL) -d $(PREFIX)/include/nmath
+	cd src; $(INSTALL) -m 644 *.h *.inl $(PREFIX)/include/nmath
+	$(INSTALL) -d $(PREFIX)/lib/pkgconfig
+	$(INSTALL) -m 644 nmath.pc $(PREFIX)/lib/pkgconfig
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(PREFIX)/lib/$(lib_a)
+	rm -f $(PREFIX)/lib/$(lib_so)
+	rm -f $(PREFIX)/include/nmath/*
+	rmdir $(PREFIX)/include/nmath
+	rm -f $(PREFIX)/lib/pkgconfig/nmath.pc
+
 .PHONY: all
 all: $(lib_a) $(lib_so)
 
@@ -36,5 +53,5 @@ clean:
 
 .PHONY: clean-all
 clean-all: clean
-	rm -f Makefile vmpath.pc $(dep) $(lib_so) $(lib_a)
+	rm -f Makefile nmath.pc $(dep) $(lib_so) $(lib_a)
 

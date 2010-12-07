@@ -7,7 +7,7 @@ PREFIX=/usr/local
 DEBUGS=no
 OPTSPD=yes
 
-echo "creating makefile for $SWPKG v$VERSION..."
+echo "configuring $SWPKG v$VERSION..."
 echo "#" > Makefile
 echo "# auto generated makefile for $SWPKG v$VERSION" >> Makefile
 echo "#" >> Makefile
