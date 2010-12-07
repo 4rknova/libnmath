@@ -18,8 +18,11 @@ CCFLAGS = -std=c89 -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
 CXXFLAGS = -ansi -pedantic -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
 LDFLAGS =
 
+.PHONY: all
+all: $(lib_a) $(lib_so)
+
 .PHONY: install
-install: $(lib_a) $(lib_so)
+install: all
 	$(INSTALL) -d $(PREFIX)/lib
 	$(INSTALL) -m 644 $(lib_a) $(lib_so) $(PREFIX)/lib
 	$(INSTALL) -d $(PREFIX)/include/nmath
@@ -35,14 +38,11 @@ uninstall:
 	rmdir $(PREFIX)/include/nmath
 	rm -f $(PREFIX)/lib/pkgconfig/nmath.pc
 
-.PHONY: all
-all: $(lib_a) $(lib_so)
-
 $(lib_a): $(obj)
 	$(AR) rcs $@ $^
 
 $(lib_so): $(obj)
-	$(CC) $(CFLAGS) $(shared) -o $@ $(obj) $(LDFLAGS)
+	$(CC) $(CCFLAGS) $(shared) -o $@ $(obj) $(LDFLAGS)
 
 %.o: %.cc
 	$(CXX) -c $(CXXFLAGS) -o $@  $<

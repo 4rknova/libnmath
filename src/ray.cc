@@ -39,4 +39,8 @@ Ray::Ray(const Vector3 &org, const Vector3 &dir)
     : origin(org), direction(dir.normalized())
 {}
 
+Ray::Ray()
+	: origin(Vector3(0,0,0)), direction(Vector3(0,0,1))
+{}
+
 #endif	/* __cplusplus */
