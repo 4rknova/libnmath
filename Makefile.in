@@ -29,6 +29,7 @@ install: all
 	cd src; $(INSTALL) -m 644 *.h *.inl $(PREFIX)/include/nmath
 	$(INSTALL) -d $(PREFIX)/lib/pkgconfig
 	$(INSTALL) -m 644 nmath.pc $(PREFIX)/lib/pkgconfig
+	ldconfig
 
 .PHONY: uninstall
 uninstall:
