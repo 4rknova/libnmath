@@ -159,6 +159,9 @@ class Matrix3x3
 		friend Matrix3x3 operator *(const Matrix3x3 &mat, real_t r);
 		friend Matrix3x3 operator *(real_t r, const Matrix3x3 &mat);
 
+		/* Vector operators */
+		friend Vector3 operator *(const Matrix3x3 &mat, const Vector3 &vec);
+
 		/* Compound scalar operators */
 		friend void operator *=(Matrix3x3 &mat, real_t r);
 
@@ -231,6 +234,9 @@ class Matrix4x4
 		/* Scalar operators */
 		friend Matrix4x4 operator *(const Matrix4x4 &mat, real_t r);
 		friend Matrix4x4 operator *(real_t r, const Matrix4x4 &mat);
+
+		/* Vector operators */
+		friend Vector4 operator *(const Matrix4x4 &mat, const Vector4 &vec);
 
 		/* Compound scalar operators */
 		friend void operator *=(Matrix4x4 &mat, real_t r);
