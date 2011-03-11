@@ -43,7 +43,7 @@ $(lib_a): $(obj)
 	$(AR) rcs $@ $^
 
 $(lib_so): $(obj)
-	$(CC) $(CCFLAGS) $(shared) -o $@ $(obj) $(LDFLAGS)
+	$(CXX) $(CCFLAGS) $(shared) -o $@ $(obj) $(LDFLAGS)
 
 %.o: %.cc
 	$(CXX) -c $(CXXFLAGS) -o $@  $<
