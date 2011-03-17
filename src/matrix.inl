@@ -190,32 +190,32 @@ static inline void mat4x4_mul(mat4x4_t res, mat4x4_t m1, mat4x4_t m2)
 
 inline real_t *Matrix3x3::operator [](int index)
 {
-    return m_p_data[index < 9 ? index : 8];
+    return data[index < 9 ? index : 8];
 }
 
 inline const real_t *Matrix3x3::operator [](int index) const
 {
-    return m_p_data[index < 9 ? index : 8];
+    return data[index < 9 ? index : 8];
 }
 
 inline void Matrix3x3::reset_identity()
 {
-    memcpy(m_p_data, identity.m_p_data, 9 * sizeof(real_t));
+    memcpy(data, identity.data, 9 * sizeof(real_t));
 }
 
 inline real_t *Matrix4x4::operator [](int index) 
 {
-    return m_p_data[index < 16 ? index : 15];
+    return data[index < 16 ? index : 15];
 }
 
 inline const real_t *Matrix4x4::operator [](int index) const
 {
-    return m_p_data[index < 16 ? index : 15];
+    return data[index < 16 ? index : 15];
 }
 
 inline void Matrix4x4::reset_identity()
 {
-    memcpy(m_p_data, identity.m_p_data, 16 * sizeof(real_t));
+    memcpy(data, identity.data, 16 * sizeof(real_t));
 }
 
 #endif

@@ -31,7 +31,12 @@
 /*
     Define MATH_SINGLE_PRECISION to use single precision math
 */
+
 #include "float.h"
+
+#ifdef __cplusplus
+	extern "C" {
+#endif  /* __cplusplus */
 
 #ifdef MATH_SINGLE_PRECISION
 	#define REAL_T_MAX FLT_MAX
@@ -50,5 +55,9 @@
 #define REAL_T_SMALL    1.e-4   /* 0.0001 */
 #define REAL_T_XSMALL   1.e-6   /* 0.000001 */
 #define REAL_T_XXSMALL  1.e-8   /* 0.00000001 */
+
+#ifdef __cplusplus
+	}   /* extern "C" */
+#endif /* __cplusplus */
 
 #endif /* LIBNMATH_PRECISION_H_INCLUDED */

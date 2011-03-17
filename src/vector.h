@@ -178,6 +178,10 @@ class Vector2
         inline void refract(const Vector2 &normal, real_t ior_src, real_t ior_dst);
         inline Vector2 refracted(const Vector2 &normal, real_t ior_src, real_t ior_dst) const;
 
+		/* Transformation */
+		inline Vector2 transform(Matrix3x3 &m);
+		inline Vector2 transformed(Matrix3x3 &m);
+
         real_t x, y;
 };
 
@@ -250,6 +254,10 @@ class Vector3
         inline Vector3 reflected(const Vector3 &normal) const;
         inline void refract(const Vector3 &normal, real_t ior_src, real_t ior_dst);
         inline Vector3 refracted(const Vector3 &normal, real_t ior_src, real_t ior_dst) const;
+
+		/* Transformation */
+		inline Vector3 transform(Matrix4x4 &m);
+		inline Vector3 transformed(Matrix4x4 &m);
 
         real_t x, y, z;
 };

@@ -199,13 +199,11 @@ class Matrix3x3
 		Matrix3x3 adjoint() const;
 		Matrix3x3 inverse() const;
 
-
 	    friend std::ostream &operator <<(std::ostream &out, const Matrix3x3 &mat);
 
-		static Matrix3x3 identity;
+		static const Matrix3x3 identity;
 
-	private:
-		real_t m_p_data[3][3];
+		real_t data[3][3];
 };
 
 class Matrix4x4
@@ -259,7 +257,7 @@ class Matrix4x4
 
 		void scale(const Vector4 &vec);
 		void set_scaling(const Vector4 &vec);
-
+		
 		/* Tuple operations */
  		void set_column_vector(const Vector4 &vec, unsigned int index);
 		void set_row_vector(const Vector4 &vec, unsigned int index);
@@ -274,10 +272,9 @@ class Matrix4x4
 
 		friend std::ostream &operator <<(std::ostream &out, const Matrix4x4 &mat);
 
-		static Matrix4x4 identity;
+		static const Matrix4x4 identity;
 
-	private:
-		real_t m_p_data[4][4];
+		real_t data[4][4];
 };
 
 #endif	/* __cplusplus */

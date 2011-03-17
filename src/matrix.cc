@@ -438,7 +438,7 @@ void mat4x4_print(FILE *fp, mat4x4_t m)
 #ifdef __cplusplus
 }   /* extern "C" */
 
-Matrix3x3 Matrix3x3::identity = Matrix3x3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+const Matrix3x3 Matrix3x3::identity = Matrix3x3(1, 0, 0, 0, 1, 0, 0, 0, 1);
 
 Matrix3x3::Matrix3x3()
 {
@@ -449,21 +449,21 @@ Matrix3x3::Matrix3x3(	real_t m11, real_t m12, real_t m13,
 						real_t m21, real_t m22, real_t m23,
 						real_t m31, real_t m32, real_t m33)
 {
-	m_p_data[0][0] = m11; m_p_data[0][1] = m12; m_p_data[0][2] = m13;
-	m_p_data[1][0] = m21; m_p_data[1][1] = m22; m_p_data[1][2] = m23;
-	m_p_data[2][0] = m31; m_p_data[2][1] = m32; m_p_data[2][2] = m33;
+	data[0][0] = m11; data[0][1] = m12; data[0][2] = m13;
+	data[1][0] = m21; data[1][1] = m22; data[1][2] = m23;
+	data[2][0] = m31; data[2][1] = m32; data[2][2] = m33;
 }
 
 Matrix3x3::Matrix3x3(const mat3x3_t m)
 {
-	memcpy(m_p_data, m, sizeof(mat3x3_t));
+	memcpy(data, m, sizeof(mat3x3_t));
 }
 
 Matrix3x3::Matrix3x3(const Matrix4x4 &mat4)
 {
     for(int i=0; i<3; i++) {
         for(int j=0; j<3; j++) {
-            m_p_data[i][j] = mat4[i][j];
+            data[i][j] = mat4[i][j];
         }
     }
 }
@@ -471,8 +471,8 @@ Matrix3x3::Matrix3x3(const Matrix4x4 &mat4)
 Matrix3x3 operator +(const Matrix3x3 &m1, const Matrix3x3 &m2)
 {
 	Matrix3x3 res;
-	const real_t *op1 = m1.m_p_data[0], *op2 = m2.m_p_data[0];
-    real_t *dest = res.m_p_data[0];
+	const real_t *op1 = m1.data[0], *op2 = m2.data[0];
+    real_t *dest = res.data[0];
 
     for(int i=0; i<9; i++) {
         *dest++ = *op1++ + *op2++;
@@ -483,8 +483,8 @@ Matrix3x3 operator +(const Matrix3x3 &m1, const Matrix3x3 &m2)
 Matrix3x3 operator -(const Matrix3x3 &m1, const Matrix3x3 &m2)
 {
     Matrix3x3 res;
-    const real_t *op1 = m1.m_p_data[0], *op2 = m2.m_p_data[0];
-    real_t *dest = res.m_p_data[0];
+    const real_t *op1 = m1.data[0], *op2 = m2.data[0];
+    real_t *dest = res.data[0];
 
     for(int i=0; i<9; i++) {
         *dest++ = *op1++ - *op2++;
@@ -497,7 +497,7 @@ Matrix3x3 operator *(const Matrix3x3 &m1, const Matrix3x3 &m2)
 	Matrix3x3 res;
     for(int i=0; i<3; i++) {
         for(int j=0; j<3; j++) {
-            res.m_p_data[i][j] = m1.m_p_data[i][0] * m2.m_p_data[0][j] + m1.m_p_data[i][1] * m2.m_p_data[1][j] + m1.m_p_data[i][2] * m2.m_p_data[2][j];
+            res.data[i][j] = m1.data[i][0] * m2.data[0][j] + m1.data[i][1] * m2.data[1][j] + m1.data[i][2] * m2.data[2][j];
         }
     }
     return res;
@@ -505,8 +505,8 @@ Matrix3x3 operator *(const Matrix3x3 &m1, const Matrix3x3 &m2)
 
 void operator +=(Matrix3x3 &m1, const Matrix3x3 &m2)
 {
-    real_t *op1 = m1.m_p_data[0];
-    const real_t *op2 = m2.m_p_data[0];
+    real_t *op1 = m1.data[0];
+    const real_t *op2 = m2.data[0];
 
     for(int i=0; i<9; i++) {
         *op1++ += *op2++;
@@ -515,8 +515,8 @@ void operator +=(Matrix3x3 &m1, const Matrix3x3 &m2)
 
 void operator -=(Matrix3x3 &m1, const Matrix3x3 &m2)
 {
-    real_t *op1 = m1.m_p_data[0];
-    const real_t *op2 = m2.m_p_data[0];
+    real_t *op1 = m1.data[0];
+    const real_t *op2 = m2.data[0];
 
     for(int i=0; i<9; i++) {
         *op1++ -= *op2++;
@@ -528,17 +528,17 @@ void operator *=(Matrix3x3 &m1, const Matrix3x3 &m2)
     Matrix3x3 res;
     for(int i=0; i<3; i++) {
         for(int j=0; j<3; j++) {
-            res.m_p_data[i][j] = m1.m_p_data[i][0] * m2.m_p_data[0][j] + m1.m_p_data[i][1] * m2.m_p_data[1][j] + m1.m_p_data[i][2] * m2.m_p_data[2][j];
+            res.data[i][j] = m1.data[i][0] * m2.data[0][j] + m1.data[i][1] * m2.data[1][j] + m1.data[i][2] * m2.data[2][j];
         }
     }
-    memcpy(m1.m_p_data, res.m_p_data, 9 * sizeof(real_t));
+    memcpy(m1.data, res.data, 9 * sizeof(real_t));
 }
 
 Matrix3x3 operator *(const Matrix3x3 &mat, real_t r)
 {
 	Matrix3x3 res;
-    const real_t *mptr = mat.m_p_data[0];
-    real_t *dptr = res.m_p_data[0];
+    const real_t *mptr = mat.data[0];
+    real_t *dptr = res.data[0];
 
     for(int i=0; i<9; i++) {
         *dptr++ = *mptr++ * r;
@@ -549,8 +549,8 @@ Matrix3x3 operator *(const Matrix3x3 &mat, real_t r)
 Matrix3x3 operator *(real_t r, const Matrix3x3 &mat)
 {
 	Matrix3x3 res;
-    const real_t *mptr = mat.m_p_data[0];
-    real_t *dptr = res.m_p_data[0];
+    const real_t *mptr = mat.data[0];
+    real_t *dptr = res.data[0];
 
     for(int i=0; i<9; i++) {
         *dptr++ = *mptr++ * r;
@@ -571,7 +571,7 @@ Vector3 operator *(const Matrix3x3 &mat, const Vector3 &vec)
 
 void operator *=(Matrix3x3 &mat, real_t r)
 {
-	real_t *mptr = mat.m_p_data[0];
+	real_t *mptr = mat.data[0];
 
     for(int i=0; i<9; i++) {
         *mptr++ *= r;
@@ -616,15 +616,15 @@ void Matrix3x3::rotate(const Vector3 &axis, real_t angle)
 	real_t nzsq = axis.z * axis.z;
 
 	Matrix3x3 xform;
-	xform.m_p_data[0][0] = nxsq + (1-nxsq) * cosa;
-	xform.m_p_data[0][1] = axis.x * axis.y * invcosa - axis.z * sina;
-	xform.m_p_data[0][2] = axis.x * axis.z * invcosa + axis.y * sina;
-	xform.m_p_data[1][0] = axis.x * axis.y * invcosa + axis.z * sina;
-	xform.m_p_data[1][1] = nysq + (1-nysq) * cosa;
-	xform.m_p_data[1][2] = axis.y * axis.z * invcosa - axis.x * sina;
-	xform.m_p_data[2][0] = axis.x * axis.z * invcosa - axis.y * sina;
-	xform.m_p_data[2][1] = axis.y * axis.z * invcosa + axis.x * sina;
-	xform.m_p_data[2][2] = nzsq + (1-nzsq) * cosa;
+	xform.data[0][0] = nxsq + (1-nxsq) * cosa;
+	xform.data[0][1] = axis.x * axis.y * invcosa - axis.z * sina;
+	xform.data[0][2] = axis.x * axis.z * invcosa + axis.y * sina;
+	xform.data[1][0] = axis.x * axis.y * invcosa + axis.z * sina;
+	xform.data[1][1] = nysq + (1-nysq) * cosa;
+	xform.data[1][2] = axis.y * axis.z * invcosa - axis.x * sina;
+	xform.data[2][0] = axis.x * axis.z * invcosa - axis.y * sina;
+	xform.data[2][1] = axis.y * axis.z * invcosa + axis.x * sina;
+	xform.data[2][2] = nzsq + (1-nzsq) * cosa;
 
 	*this *= xform;
 }
@@ -655,15 +655,15 @@ void Matrix3x3::set_rotation(const Vector3 &axis, real_t angle)
 	real_t nzsq = axis.z * axis.z;
 
     reset_identity();
-    m_p_data[0][0] = nxsq + (1-nxsq) * cosa;
-    m_p_data[0][1] = axis.x * axis.y * invcosa - axis.z * sina;
-    m_p_data[0][2] = axis.x * axis.z * invcosa + axis.y * sina;
-    m_p_data[1][0] = axis.x * axis.y * invcosa + axis.z * sina;
-    m_p_data[1][1] = nysq + (1-nysq) * cosa;
-    m_p_data[1][2] = axis.y * axis.z * invcosa - axis.x * sina;
-    m_p_data[2][0] = axis.x * axis.z * invcosa - axis.y * sina;
-    m_p_data[2][1] = axis.y * axis.z * invcosa + axis.x * sina;
-    m_p_data[2][2] = nzsq + (1-nzsq) * cosa;
+    data[0][0] = nxsq + (1-nxsq) * cosa;
+    data[0][1] = axis.x * axis.y * invcosa - axis.z * sina;
+    data[0][2] = axis.x * axis.z * invcosa + axis.y * sina;
+    data[1][0] = axis.x * axis.y * invcosa + axis.z * sina;
+    data[1][1] = nysq + (1-nysq) * cosa;
+    data[1][2] = axis.y * axis.z * invcosa - axis.x * sina;
+    data[2][0] = axis.x * axis.z * invcosa - axis.y * sina;
+    data[2][1] = axis.y * axis.z * invcosa + axis.x * sina;
+    data[2][2] = nzsq + (1-nzsq) * cosa;
 }
 
 void Matrix3x3::scale(const Vector3 &vec)
@@ -679,26 +679,26 @@ void Matrix3x3::set_scaling(const Vector3 &vec)
 
 void Matrix3x3::set_column_vector(const Vector3 &vec, unsigned int index)
 {
-	m_p_data[0][index] = vec.x;
-	m_p_data[1][index] = vec.y;
-	m_p_data[2][index] = vec.z;
+	data[0][index] = vec.x;
+	data[1][index] = vec.y;
+	data[2][index] = vec.z;
 }
 
 void Matrix3x3::set_row_vector(const Vector3 &vec, unsigned int index)
 {
-	m_p_data[index][0] = vec.x;
-	m_p_data[index][1] = vec.y;
-	m_p_data[index][2] = vec.z;
+	data[index][0] = vec.x;
+	data[index][1] = vec.y;
+	data[index][2] = vec.z;
 }
 
 Vector3 Matrix3x3::get_column_vector(unsigned int index) const
 {
-	return Vector3(m_p_data[0][index], m_p_data[1][index], m_p_data[2][index]);
+	return Vector3(data[0][index], data[1][index], data[2][index]);
 }
 
 Vector3 Matrix3x3::get_row_vector(unsigned int index) const
 {
-	return Vector3(m_p_data[index][0], m_p_data[index][1], m_p_data[index][2]);
+	return Vector3(data[index][0], data[index][1], data[index][2]);
 }
 
 void Matrix3x3::transpose()
@@ -706,7 +706,7 @@ void Matrix3x3::transpose()
     Matrix3x3 tmp = *this;
     for(int i=0; i<3; i++) {
         for(int j=0; j<3; j++) {
-            m_p_data[i][j] = tmp[j][i];
+            data[i][j] = tmp[j][i];
         }
     }
 }
@@ -716,7 +716,7 @@ Matrix3x3 Matrix3x3::transposed() const
     Matrix3x3 res;
     for(int i=0; i<3; i++) {
         for(int j=0; j<3; j++) {
-            res[i][j] = m_p_data[j][i];
+            res[i][j] = data[j][i];
         }
     }
     return res;
@@ -724,32 +724,32 @@ Matrix3x3 Matrix3x3::transposed() const
 
 real_t Matrix3x3::determinant() const
 {
-	return	m_p_data[0][0] * (m_p_data[1][1] * m_p_data[2][2] - m_p_data[1][2] * m_p_data[2][1]) -
-			m_p_data[0][1] * (m_p_data[1][0] * m_p_data[2][2] - m_p_data[1][2] * m_p_data[2][0]) +
-			m_p_data[0][2] * (m_p_data[1][0] * m_p_data[2][1] - m_p_data[1][1] * m_p_data[2][0]);
+	return	data[0][0] * (data[1][1] * data[2][2] - data[1][2] * data[2][1]) -
+			data[0][1] * (data[1][0] * data[2][2] - data[1][2] * data[2][0]) +
+			data[0][2] * (data[1][0] * data[2][1] - data[1][1] * data[2][0]);
 }
 
 Matrix3x3 Matrix3x3::adjoint() const
 {
 	Matrix3x3 coef;
 
-	coef.m_p_data[0][0] =  (m_p_data[1][1] * m_p_data[2][2] - m_p_data[1][2] * m_p_data[2][1]);
-	coef.m_p_data[0][1] =  (m_p_data[1][0] * m_p_data[2][2] - m_p_data[1][2] * m_p_data[2][0]);
-	coef.m_p_data[0][2] =  (m_p_data[1][0] * m_p_data[2][1] - m_p_data[1][1] * m_p_data[2][0]);
-	coef.m_p_data[1][0] =  (m_p_data[0][1] * m_p_data[2][2] - m_p_data[0][2] * m_p_data[2][1]);
-	coef.m_p_data[1][1] =  (m_p_data[0][0] * m_p_data[2][2] - m_p_data[0][2] * m_p_data[2][0]);
-	coef.m_p_data[1][2] =  (m_p_data[0][0] * m_p_data[2][1] - m_p_data[0][1] * m_p_data[2][0]);
-	coef.m_p_data[2][0] =  (m_p_data[0][1] * m_p_data[1][2] - m_p_data[0][2] * m_p_data[1][1]);
-	coef.m_p_data[2][1] =  (m_p_data[0][0] * m_p_data[1][2] - m_p_data[0][2] * m_p_data[1][0]);
-	coef.m_p_data[2][2] =  (m_p_data[0][0] * m_p_data[1][1] - m_p_data[0][1] * m_p_data[1][0]);
+	coef.data[0][0] =  (data[1][1] * data[2][2] - data[1][2] * data[2][1]);
+	coef.data[0][1] =  (data[1][0] * data[2][2] - data[1][2] * data[2][0]);
+	coef.data[0][2] =  (data[1][0] * data[2][1] - data[1][1] * data[2][0]);
+	coef.data[1][0] =  (data[0][1] * data[2][2] - data[0][2] * data[2][1]);
+	coef.data[1][1] =  (data[0][0] * data[2][2] - data[0][2] * data[2][0]);
+	coef.data[1][2] =  (data[0][0] * data[2][1] - data[0][1] * data[2][0]);
+	coef.data[2][0] =  (data[0][1] * data[1][2] - data[0][2] * data[1][1]);
+	coef.data[2][1] =  (data[0][0] * data[1][2] - data[0][2] * data[1][0]);
+	coef.data[2][2] =  (data[0][0] * data[1][1] - data[0][1] * data[1][0]);
 
 	coef.transpose();
 
 	for(int i=0; i<3; i++) {
 		for(int j=0; j<3; j++) {
-			coef.m_p_data[i][j] = j%2 ? -coef.m_p_data[i][j] : coef.m_p_data[i][j];
+			coef.data[i][j] = j%2 ? -coef.data[i][j] : coef.data[i][j];
 			if(i%2)
-				coef.m_p_data[i][j] = -coef.m_p_data[i][j];
+				coef.data[i][j] = -coef.data[i][j];
 		}
 	}
 
@@ -766,13 +766,13 @@ std::ostream &operator <<(std::ostream &out, const Matrix3x3 &mat)
     for(int i=0; i<3; i++)
 	{
         char str[100];
-        sprintf(str, "[ %12.5f, %12.5f, %12.5f ]\n", (float)mat.m_p_data[i][0], (float)mat.m_p_data[i][1], (float)mat.m_p_data[i][2]);
+        sprintf(str, "[ %12.5f, %12.5f, %12.5f ]\n", (float)mat.data[i][0], (float)mat.data[i][1], (float)mat.data[i][2]);
         out << str;
     }
     return out;
 }
 
-Matrix4x4 Matrix4x4::identity = Matrix4x4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+const Matrix4x4 Matrix4x4::identity = Matrix4x4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
 Matrix4x4::Matrix4x4()
 {
@@ -784,15 +784,15 @@ Matrix4x4::Matrix4x4(   real_t m11, real_t m12, real_t m13, real_t m14,
                         real_t m31, real_t m32, real_t m33, real_t m34,
                         real_t m41, real_t m42, real_t m43, real_t m44)
 {
-    m_p_data[0][0] = m11; m_p_data[0][1] = m12; m_p_data[0][2] = m13; m_p_data[0][3] = m14;
-    m_p_data[1][0] = m21; m_p_data[1][1] = m22; m_p_data[1][2] = m23; m_p_data[1][3] = m24;
-    m_p_data[2][0] = m31; m_p_data[2][1] = m32; m_p_data[2][2] = m33; m_p_data[2][3] = m34;
-    m_p_data[3][0] = m41; m_p_data[3][1] = m42; m_p_data[3][2] = m43; m_p_data[3][3] = m44;
+    data[0][0] = m11; data[0][1] = m12; data[0][2] = m13; data[0][3] = m14;
+    data[1][0] = m21; data[1][1] = m22; data[1][2] = m23; data[1][3] = m24;
+    data[2][0] = m31; data[2][1] = m32; data[2][2] = m33; data[2][3] = m34;
+    data[3][0] = m41; data[3][1] = m42; data[3][2] = m43; data[3][3] = m44;
 }
 
 Matrix4x4::Matrix4x4(const mat4x4_t m)
 {
-    memcpy(m_p_data, m, sizeof(mat4x4_t));
+    memcpy(data, m, sizeof(mat4x4_t));
 }
 
 Matrix4x4::Matrix4x4(const Matrix3x3 &mat3)
@@ -800,7 +800,7 @@ Matrix4x4::Matrix4x4(const Matrix3x3 &mat3)
     reset_identity();
     for(int i=0; i<3; i++) {
         for(int j=0; j<3; j++) {
-            m_p_data[i][j] = mat3[i][j];
+            data[i][j] = mat3[i][j];
         }
     }
 }
@@ -808,8 +808,8 @@ Matrix4x4::Matrix4x4(const Matrix3x3 &mat3)
 Matrix4x4 operator +(const Matrix4x4 &m1, const Matrix4x4 &m2)
 {
 	Matrix4x4 res;
-	const real_t *op1 = m1.m_p_data[0], *op2 = m2.m_p_data[0];
-	real_t *dest = res.m_p_data[0];
+	const real_t *op1 = m1.data[0], *op2 = m2.data[0];
+	real_t *dest = res.data[0];
 
     for(int i=0; i<16; i++) {
         *dest++ = *op1++ + *op2++;
@@ -820,8 +820,8 @@ Matrix4x4 operator +(const Matrix4x4 &m1, const Matrix4x4 &m2)
 Matrix4x4 operator -(const Matrix4x4 &m1, const Matrix4x4 &m2)
 {
     Matrix4x4 res;
-    const real_t *op1 = m1.m_p_data[0], *op2 = m2.m_p_data[0];
-    real_t *dest = res.m_p_data[0];
+    const real_t *op1 = m1.data[0], *op2 = m2.data[0];
+    real_t *dest = res.data[0];
 
     for(int i=0; i<16; i++) {
         *dest++ = *op1++ - *op2++;
@@ -835,10 +835,10 @@ Matrix4x4 operator *(const Matrix4x4 &m1, const Matrix4x4 &m2)
 
 	for(int i=0; i<4; i++) {
 		for(int j=0; j<4; j++) {
-			res.m_p_data[i][j] =	m1.m_p_data[i][0] * m2.m_p_data[0][j] + 
-									m1.m_p_data[i][1] * m2.m_p_data[1][j] + 
-									m1.m_p_data[i][2] * m1.m_p_data[i][2] +
-									m1.m_p_data[i][3] * m2.m_p_data[3][j];
+			res.data[i][j] =	m1.data[i][0] * m2.data[0][j] + 
+									m1.data[i][1] * m2.data[1][j] + 
+									m1.data[i][2] * m1.data[i][2] +
+									m1.data[i][3] * m2.data[3][j];
         }
     }
     return res;
@@ -846,8 +846,8 @@ Matrix4x4 operator *(const Matrix4x4 &m1, const Matrix4x4 &m2)
 
 void operator +=(Matrix4x4 &m1, const Matrix4x4 &m2)
 {
-	real_t *op1 = m1.m_p_data[0];
-	const real_t *op2 = m2.m_p_data[0];
+	real_t *op1 = m1.data[0];
+	const real_t *op2 = m2.data[0];
 
 	for(int i=0; i<16; i++) {
 		*op1++ += *op2++;
@@ -856,8 +856,8 @@ void operator +=(Matrix4x4 &m1, const Matrix4x4 &m2)
 
 void operator -=(Matrix4x4 &m1, const Matrix4x4 &m2)
 {
-	real_t *op1 = m1.m_p_data[0];
-	const real_t *op2 = m2.m_p_data[0];
+	real_t *op1 = m1.data[0];
+	const real_t *op2 = m2.data[0];
 
 	for(int i=0; i<16; i++) {
 		*op1++ -= *op2++;
@@ -869,21 +869,21 @@ void operator *=(Matrix4x4 &m1, const Matrix4x4 &m2)
     Matrix4x4 res;
     for(int i=0; i<4; i++) {
         for(int j=0; j<4; j++) {
-			res.m_p_data[i][j] =	m1.m_p_data[i][0] * m2.m_p_data[0][j] + 
-									m1.m_p_data[i][1] * m2.m_p_data[1][j] + 
-									m1.m_p_data[i][2] * m1.m_p_data[i][2] +
-									m1.m_p_data[i][3] * m2.m_p_data[3][j];
+			res.data[i][j] =	m1.data[i][0] * m2.data[0][j] + 
+									m1.data[i][1] * m2.data[1][j] + 
+									m1.data[i][2] * m1.data[i][2] +
+									m1.data[i][3] * m2.data[3][j];
 
         }
     }
-    memcpy(m1.m_p_data, res.m_p_data, 16 * sizeof(real_t));
+    memcpy(m1.data, res.data, 16 * sizeof(real_t));
 }
 
 Matrix4x4 operator *(const Matrix4x4 &mat, real_t r)
 {
 	Matrix4x4 res;
-	const real_t *mptr = mat.m_p_data[0];
-	real_t *dptr = res.m_p_data[0];
+	const real_t *mptr = mat.data[0];
+	real_t *dptr = res.data[0];
 
 	for(int i=0; i<16; i++) {
 		*dptr++ = *mptr++ * r;
@@ -894,8 +894,8 @@ Matrix4x4 operator *(const Matrix4x4 &mat, real_t r)
 Matrix4x4 operator *(real_t r, const Matrix4x4 &mat)
 {
 	Matrix4x4 res;
-	const real_t *mptr = mat.m_p_data[0];
-	real_t *dptr = res.m_p_data[0];
+	const real_t *mptr = mat.data[0];
+	real_t *dptr = res.data[0];
 
 	for(int i=0; i<16; i++) {
 		*dptr++ = *mptr++ * r;
@@ -917,7 +917,7 @@ Vector4 operator *(const Matrix4x4 &mat, const Vector4 &vec)
 
 void operator *=(Matrix4x4 &mat, real_t r)
 {
-	real_t *mptr = mat.m_p_data[0];
+	real_t *mptr = mat.data[0];
 
 	for(int i=0; i<16; i++) {
 		*mptr++ *= r;
@@ -954,15 +954,15 @@ void Matrix4x4::rotate(const Vector3 &axis, real_t angle)
 	real_t nzsq = axis.z * axis.z;
 
 	Matrix3x3 xform;
-	xform.m_p_data[0][0] = nxsq + (1-nxsq) * cosa;
-	xform.m_p_data[0][1] = axis.x * axis.y * invcosa - axis.z * sina;
-	xform.m_p_data[0][2] = axis.x * axis.z * invcosa + axis.y * sina;
-	xform.m_p_data[1][0] = axis.x * axis.y * invcosa + axis.z * sina;
-	xform.m_p_data[1][1] = nysq + (1-nysq) * cosa;
-	xform.m_p_data[1][2] = axis.y * axis.z * invcosa - axis.x * sina;
-	xform.m_p_data[2][0] = axis.x * axis.z * invcosa - axis.y * sina;
-	xform.m_p_data[2][1] = axis.y * axis.z * invcosa + axis.x * sina;
-	xform.m_p_data[2][2] = nzsq + (1-nzsq) * cosa;
+	xform.data[0][0] = nxsq + (1-nxsq) * cosa;
+	xform.data[0][1] = axis.x * axis.y * invcosa - axis.z * sina;
+	xform.data[0][2] = axis.x * axis.z * invcosa + axis.y * sina;
+	xform.data[1][0] = axis.x * axis.y * invcosa + axis.z * sina;
+	xform.data[1][1] = nysq + (1-nysq) * cosa;
+	xform.data[1][2] = axis.y * axis.z * invcosa - axis.x * sina;
+	xform.data[2][0] = axis.x * axis.z * invcosa - axis.y * sina;
+	xform.data[2][1] = axis.y * axis.z * invcosa + axis.x * sina;
+	xform.data[2][2] = nzsq + (1-nzsq) * cosa;
 
 	*this *= Matrix4x4(xform);
 }
@@ -986,15 +986,15 @@ void Matrix4x4::set_rotation(const Vector3 &axis, real_t angle)
 	real_t nzsq = axis.z * axis.z;
 
 	reset_identity();
-	m_p_data[0][0] = nxsq + (1-nxsq) * cosa;
-	m_p_data[0][1] = axis.x * axis.y * invcosa - axis.z * sina;
-	m_p_data[0][2] = axis.x * axis.z * invcosa + axis.y * sina;
-	m_p_data[1][0] = axis.x * axis.y * invcosa + axis.z * sina;
-	m_p_data[1][1] = nysq + (1-nysq) * cosa;
-	m_p_data[1][2] = axis.y * axis.z * invcosa - axis.x * sina;
-	m_p_data[2][0] = axis.x * axis.z * invcosa - axis.y * sina;
-	m_p_data[2][1] = axis.y * axis.z * invcosa + axis.x * sina;
-	m_p_data[2][2] = nzsq + (1-nzsq) * cosa;
+	data[0][0] = nxsq + (1-nxsq) * cosa;
+	data[0][1] = axis.x * axis.y * invcosa - axis.z * sina;
+	data[0][2] = axis.x * axis.z * invcosa + axis.y * sina;
+	data[1][0] = axis.x * axis.y * invcosa + axis.z * sina;
+	data[1][1] = nysq + (1-nysq) * cosa;
+	data[1][2] = axis.y * axis.z * invcosa - axis.x * sina;
+	data[2][0] = axis.x * axis.z * invcosa - axis.y * sina;
+	data[2][1] = axis.y * axis.z * invcosa + axis.x * sina;
+	data[2][2] = nzsq + (1-nzsq) * cosa;
 }
 
 void Matrix4x4::scale(const Vector4 &vec)
@@ -1010,28 +1010,28 @@ void Matrix4x4::set_scaling(const Vector4 &vec)
 
 void Matrix4x4::set_column_vector(const Vector4 &vec, unsigned int index)
 {
-	m_p_data[0][index] = vec.x;
-	m_p_data[1][index] = vec.y;
-	m_p_data[2][index] = vec.z;
-	m_p_data[3][index] = vec.w;
+	data[0][index] = vec.x;
+	data[1][index] = vec.y;
+	data[2][index] = vec.z;
+	data[3][index] = vec.w;
 }
 
 void Matrix4x4::set_row_vector(const Vector4 &vec, unsigned int index)
 {
-	m_p_data[index][0] = vec.x;
-	m_p_data[index][1] = vec.y;
-	m_p_data[index][2] = vec.z;
-	m_p_data[index][3] = vec.w;
+	data[index][0] = vec.x;
+	data[index][1] = vec.y;
+	data[index][2] = vec.z;
+	data[index][3] = vec.w;
 }
 
 Vector4 Matrix4x4::get_column_vector(unsigned int index) const
 {
-	return Vector4(m_p_data[0][index], m_p_data[1][index], m_p_data[2][index], m_p_data[3][index]);
+	return Vector4(data[0][index], data[1][index], data[2][index], data[3][index]);
 }
 
 Vector4 Matrix4x4::get_row_vector(unsigned int index) const
 {
-	return Vector4(m_p_data[index][0], m_p_data[index][1], m_p_data[index][2], m_p_data[index][3]);
+	return Vector4(data[index][0], data[index][1], data[index][2], data[index][3]);
 }
 
 void Matrix4x4::transpose()
@@ -1039,7 +1039,7 @@ void Matrix4x4::transpose()
 	Matrix4x4 tmp = *this;
 	for(int i=0; i<4; i++) {
 		for(int j=0; j<4; j++) {
-			m_p_data[i][j] = tmp[j][i];
+			data[i][j] = tmp[j][i];
 		}
 	}
 }
@@ -1049,7 +1049,7 @@ Matrix4x4 Matrix4x4::transposed() const
     Matrix4x4 res;
     for(int i=0; i<4; i++) {
         for(int j=0; j<4; j++) {
-            res[i][j] = m_p_data[j][i];
+            res[i][j] = data[j][i];
         }
     }
     return res;
@@ -1057,100 +1057,100 @@ Matrix4x4 Matrix4x4::transposed() const
 
 real_t Matrix4x4::determinant() const
 {
-	real_t det11 =	(m_p_data[1][1] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-					(m_p_data[1][2] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) +
-					(m_p_data[1][3] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2]));
+	real_t det11 =	(data[1][1] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
+					(data[1][2] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) +
+					(data[1][3] * (data[2][1] * data[3][2] - data[3][1] * data[2][2]));
 
-	real_t det12 =	(m_p_data[1][0] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-					(m_p_data[1][2] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-					(m_p_data[1][3] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2]));
+	real_t det12 =	(data[1][0] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
+					(data[1][2] * (data[2][0] * data[3][3] - data[3][0] * data[2][3])) +
+					(data[1][3] * (data[2][0] * data[3][2] - data[3][0] * data[2][2]));
 
-	real_t det13 =	(m_p_data[1][0] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) -
-					(m_p_data[1][1] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-					(m_p_data[1][3] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	real_t det13 =	(data[1][0] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) -
+					(data[1][1] * (data[2][0] * data[3][3] - data[3][0] * data[2][3])) +
+					(data[1][3] * (data[2][0] * data[3][1] - data[3][0] * data[2][1]));
 
-	real_t det14 =	(m_p_data[1][0] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2])) -
-					(m_p_data[1][1] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2])) +
-					(m_p_data[1][2] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	real_t det14 =	(data[1][0] * (data[2][1] * data[3][2] - data[3][1] * data[2][2])) -
+					(data[1][1] * (data[2][0] * data[3][2] - data[3][0] * data[2][2])) +
+					(data[1][2] * (data[2][0] * data[3][1] - data[3][0] * data[2][1]));
 
-	return m_p_data[0][0] * det11 - m_p_data[0][1] * det12 + m_p_data[0][2] * det13 - m_p_data[0][3] * det14;
+	return data[0][0] * det11 - data[0][1] * det12 + data[0][2] * det13 - data[0][3] * det14;
 }
 
 Matrix4x4 Matrix4x4::adjoint() const
 {
 	Matrix4x4 coef;
 
-	coef.m_p_data[0][0] =	(m_p_data[1][1] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-							(m_p_data[1][2] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) +
-							(m_p_data[1][3] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2]));
+	coef.data[0][0] =	(data[1][1] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
+							(data[1][2] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) +
+							(data[1][3] * (data[2][1] * data[3][2] - data[3][1] * data[2][2]));
 
-	coef.m_p_data[0][1] =  	(m_p_data[1][0] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-							(m_p_data[1][2] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-							(m_p_data[1][3] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2]));
+	coef.data[0][1] =  	(data[1][0] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
+							(data[1][2] * (data[2][0] * data[3][3] - data[3][0] * data[2][3])) +
+							(data[1][3] * (data[2][0] * data[3][2] - data[3][0] * data[2][2]));
 
-	coef.m_p_data[0][2] =  	(m_p_data[1][0] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) -
-							(m_p_data[1][1] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-							(m_p_data[1][3] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	coef.data[0][2] =  	(data[1][0] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) -
+							(data[1][1] * (data[2][0] * data[3][3] - data[3][0] * data[2][3])) +
+							(data[1][3] * (data[2][0] * data[3][1] - data[3][0] * data[2][1]));
 
-	coef.m_p_data[0][3] =  	(m_p_data[1][0] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2])) -
-							(m_p_data[1][1] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2])) +
-							(m_p_data[1][2] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	coef.data[0][3] =  	(data[1][0] * (data[2][1] * data[3][2] - data[3][1] * data[2][2])) -
+							(data[1][1] * (data[2][0] * data[3][2] - data[3][0] * data[2][2])) +
+							(data[1][2] * (data[2][0] * data[3][1] - data[3][0] * data[2][1]));
 
-	coef.m_p_data[1][0] =  	(m_p_data[0][1] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-							(m_p_data[0][2] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) +
-							(m_p_data[0][3] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2]));
+	coef.data[1][0] =  	(data[0][1] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
+							(data[0][2] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) +
+							(data[0][3] * (data[2][1] * data[3][2] - data[3][1] * data[2][2]));
 
-	coef.m_p_data[1][1] =  	(m_p_data[0][0] * (m_p_data[2][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[2][3])) -
-							(m_p_data[0][2] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-							(m_p_data[0][3] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2]));
+	coef.data[1][1] =  	(data[0][0] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
+							(data[0][2] * (data[2][0] * data[3][3] - data[3][0] * data[2][3])) +
+							(data[0][3] * (data[2][0] * data[3][2] - data[3][0] * data[2][2]));
 
-	coef.m_p_data[1][2] =  	(m_p_data[0][0] * (m_p_data[2][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[2][3])) -
-							(m_p_data[0][1] * (m_p_data[2][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[2][3])) +
-							(m_p_data[0][3] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	coef.data[1][2] =  	(data[0][0] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) -
+							(data[0][1] * (data[2][0] * data[3][3] - data[3][0] * data[2][3])) +
+							(data[0][3] * (data[2][0] * data[3][1] - data[3][0] * data[2][1]));
 
-	coef.m_p_data[1][3] =  	(m_p_data[0][0] * (m_p_data[2][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[2][2])) -
-							(m_p_data[0][1] * (m_p_data[2][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[2][2])) +
-							(m_p_data[0][2] * (m_p_data[2][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[2][1]));
+	coef.data[1][3] =  	(data[0][0] * (data[2][1] * data[3][2] - data[3][1] * data[2][2])) -
+							(data[0][1] * (data[2][0] * data[3][2] - data[3][0] * data[2][2])) +
+							(data[0][2] * (data[2][0] * data[3][1] - data[3][0] * data[2][1]));
 
-	coef.m_p_data[2][0] =  	(m_p_data[0][1] * (m_p_data[1][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[1][3])) -
-							(m_p_data[0][2] * (m_p_data[1][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[1][3])) +
-							(m_p_data[0][3] * (m_p_data[1][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[1][2]));
+	coef.data[2][0] =  	(data[0][1] * (data[1][2] * data[3][3] - data[3][2] * data[1][3])) -
+							(data[0][2] * (data[1][1] * data[3][3] - data[3][1] * data[1][3])) +
+							(data[0][3] * (data[1][1] * data[3][2] - data[3][1] * data[1][2]));
 
-	coef.m_p_data[2][1] =  	(m_p_data[0][0] * (m_p_data[1][2] * m_p_data[3][3] - m_p_data[3][2] * m_p_data[1][3])) -
-							(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[1][3])) +
-							(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[1][2]));
+	coef.data[2][1] =  	(data[0][0] * (data[1][2] * data[3][3] - data[3][2] * data[1][3])) -
+							(data[0][2] * (data[1][0] * data[3][3] - data[3][0] * data[1][3])) +
+							(data[0][3] * (data[1][0] * data[3][2] - data[3][0] * data[1][2]));
 
-	coef.m_p_data[2][2] =  	(m_p_data[0][0] * (m_p_data[1][1] * m_p_data[3][3] - m_p_data[3][1] * m_p_data[1][3])) -
-							(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[3][3] - m_p_data[3][0] * m_p_data[1][3])) +
-							(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[1][1]));
+	coef.data[2][2] =  	(data[0][0] * (data[1][1] * data[3][3] - data[3][1] * data[1][3])) -
+							(data[0][1] * (data[1][0] * data[3][3] - data[3][0] * data[1][3])) +
+							(data[0][3] * (data[1][0] * data[3][1] - data[3][0] * data[1][1]));
 
-	coef.m_p_data[2][3] =  	(m_p_data[0][0] * (m_p_data[1][1] * m_p_data[3][2] - m_p_data[3][1] * m_p_data[1][2])) -
-							(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[3][2] - m_p_data[3][0] * m_p_data[1][2])) +
-							(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[3][1] - m_p_data[3][0] * m_p_data[1][1]));
+	coef.data[2][3] =  	(data[0][0] * (data[1][1] * data[3][2] - data[3][1] * data[1][2])) -
+							(data[0][1] * (data[1][0] * data[3][2] - data[3][0] * data[1][2])) +
+							(data[0][2] * (data[1][0] * data[3][1] - data[3][0] * data[1][1]));
 
-	coef.m_p_data[3][0] =  	(m_p_data[0][1] * (m_p_data[1][2] * m_p_data[2][3] - m_p_data[2][2] * m_p_data[1][3])) -
-							(m_p_data[0][2] * (m_p_data[1][1] * m_p_data[2][3] - m_p_data[2][1] * m_p_data[1][3])) +
-							(m_p_data[0][3] * (m_p_data[1][1] * m_p_data[2][2] - m_p_data[2][1] * m_p_data[1][2]));
+	coef.data[3][0] =  	(data[0][1] * (data[1][2] * data[2][3] - data[2][2] * data[1][3])) -
+							(data[0][2] * (data[1][1] * data[2][3] - data[2][1] * data[1][3])) +
+							(data[0][3] * (data[1][1] * data[2][2] - data[2][1] * data[1][2]));
 
-	coef.m_p_data[3][1] =  	(m_p_data[0][0] * (m_p_data[1][2] * m_p_data[2][3] - m_p_data[2][2] * m_p_data[1][3])) -
-							(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[2][3] - m_p_data[2][0] * m_p_data[1][3])) +
-							(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[2][2] - m_p_data[2][0] * m_p_data[1][2]));
+	coef.data[3][1] =  	(data[0][0] * (data[1][2] * data[2][3] - data[2][2] * data[1][3])) -
+							(data[0][2] * (data[1][0] * data[2][3] - data[2][0] * data[1][3])) +
+							(data[0][3] * (data[1][0] * data[2][2] - data[2][0] * data[1][2]));
 
-	coef.m_p_data[3][2] =  	(m_p_data[0][0] * (m_p_data[1][1] * m_p_data[2][3] - m_p_data[2][1] * m_p_data[1][3])) -
-							(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[2][3] - m_p_data[2][0] * m_p_data[1][3])) +
-							(m_p_data[0][3] * (m_p_data[1][0] * m_p_data[2][1] - m_p_data[2][0] * m_p_data[1][1]));
+	coef.data[3][2] =  	(data[0][0] * (data[1][1] * data[2][3] - data[2][1] * data[1][3])) -
+							(data[0][1] * (data[1][0] * data[2][3] - data[2][0] * data[1][3])) +
+							(data[0][3] * (data[1][0] * data[2][1] - data[2][0] * data[1][1]));
 
-	coef.m_p_data[3][3] =  	(m_p_data[0][0] * (m_p_data[1][1] * m_p_data[2][2] - m_p_data[2][1] * m_p_data[1][2])) -
-							(m_p_data[0][1] * (m_p_data[1][0] * m_p_data[2][2] - m_p_data[2][0] * m_p_data[1][2])) +
-							(m_p_data[0][2] * (m_p_data[1][0] * m_p_data[2][1] - m_p_data[2][0] * m_p_data[1][1]));
+	coef.data[3][3] =  	(data[0][0] * (data[1][1] * data[2][2] - data[2][1] * data[1][2])) -
+							(data[0][1] * (data[1][0] * data[2][2] - data[2][0] * data[1][2])) +
+							(data[0][2] * (data[1][0] * data[2][1] - data[2][0] * data[1][1]));
 
 	coef.transpose();
 
 	for(int i=0; i<4; i++) {
 		for(int j=0; j<4; j++) {
-			coef.m_p_data[i][j] = j%2 ? -coef.m_p_data[i][j] : coef.m_p_data[i][j];
+			coef.data[i][j] = j%2 ? -coef.data[i][j] : coef.data[i][j];
 			if(i%2)
-				coef.m_p_data[i][j] = -coef.m_p_data[i][j];
+				coef.data[i][j] = -coef.data[i][j];
 		}
 	}
 
@@ -1168,7 +1168,7 @@ std::ostream &operator <<(std::ostream &out, const Matrix4x4 &mat)
     for(int i=0; i<4; i++)
 	{
         char str[100];
-        sprintf(str, "[ %12.5f, %12.5f, %12.5f, %12.5f ]\n", (float)mat.m_p_data[i][0], (float)mat.m_p_data[i][1], (float)mat.m_p_data[i][2], (float)mat.m_p_data[i][3]);
+        sprintf(str, "[ %12.5f, %12.5f, %12.5f, %12.5f ]\n", (float)mat.data[i][0], (float)mat.data[i][1], (float)mat.data[i][2], (float)mat.data[i][3]);
         out << str;
     }
     return out;
