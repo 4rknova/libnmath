@@ -51,7 +51,7 @@ static inline sphere_t sphere_pack(vec3_t origin, real_t radius);
 class Sphere
 {
     public:
-        Sphere();                               // This relies on vector class default constructor setting all components to 0
+        Sphere();
         Sphere(const Vector3 &org, real_t rad);
 
         Vector3 origin;
