@@ -2,8 +2,8 @@
 
     This file is part of the nemesis math library.
 
-    precision.h
-    Configures precision at compile time
+    plane.h
+    Plane inline functions
 
     Copyright (C) 2008, 2010
     Papadopoulos Nikolaos
@@ -25,40 +25,27 @@
 
 */
 
-#ifndef LIBNMATH_PRECISION_H_INCLUDED
-#define LIBNMATH_PRECISION_H_INCLUDED
+#ifndef LIBNMATH_PLANE_INL_INCLUDED
+#define LIBNMATH_PLANE_INL_INCLUDED
 
-/*
-    Define MATH_SINGLE_PRECISION to use single precision math
-*/
-
-#include "float.h"
+#ifndef LIBNMATH_PLANE_H_INCLUDED
+    #error "plane.h must be included before plane.inl"
+#endif /* LIBNMATH_PLANE_H_INCLUDED */
 
 #ifdef __cplusplus
-	extern "C" {
-#endif  /* __cplusplus */
+extern "C" {
+#endif	/* __cplusplus */
 
-#ifdef MATH_SINGLE_PRECISION
-	#define REAL_T_MAX FLT_MAX
-	typedef float real_t;
-
-#else
-    #define REAL_T_MAX DBL_MAX
-    typedef double real_t;
-
-#endif /* MATH_SINGLE_PRECISION */
-
-/* Infinity */
-#define NM_INFINITY REAL_T_MAX
-
-/* Useful float values used in comparisons */
-#define REAL_T_MEDIUM	1.e-2	/* 0.01 */
-#define REAL_T_SMALL    1.e-4   /* 0.0001 */
-#define REAL_T_XSMALL   1.e-6   /* 0.000001 */
-#define REAL_T_XXSMALL  1.e-8   /* 0.00000001 */
+static inline plane_t plane_pack(vec3_t normal, real_t distance)
+{
+	plane_t s;
+	s.normal = normal;
+	s.distance = distance;
+	return s;
+}
 
 #ifdef __cplusplus
-	}   /* extern "C" */
-#endif /* __cplusplus */
+}
+#endif	/* __cplusplus */
 
-#endif /* LIBNMATH_PRECISION_H_INCLUDED */
+#endif /* LIBNMATH_PLANE_INL_INCLUDED */

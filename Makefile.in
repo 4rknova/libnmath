@@ -46,7 +46,7 @@ $(lib_so): $(obj)
 	$(CXX) $(CCFLAGS) $(shared) -o $@ $(obj) $(LDFLAGS)
 
 %.o: %.cc
-	$(CXX) -c $(CXXFLAGS) -o $@  $<
+	$(CXX) -D'NMATH_SPHERE_USE_BBOX_INTERSECTION' -c $(CXXFLAGS) -o $@  $<
 
 .PHONY: clean
 clean:

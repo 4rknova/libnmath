@@ -2,10 +2,10 @@
 
     This file is part of the nemesis math library.
 
-    intersection.h
-    Intersection testing
+    intinfo.h
+    Intinfo structure 
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -25,31 +25,28 @@
 
 */
 
-/*
-    NOTES
-    -----
+#ifndef LIBNMATH_INTINFO_H_INCLUDED
+#define LIBNMATH_INTINFO_H_INCLUDED
 
-    - For ray-object intersection tests, the result is expressed as a scalar t.
-      To calculate the corresponding vertex, multiply the ray's direction vector by t.
-*/
-
-#ifndef LIBNMATH_INTERSECTION_H_INCLUDED
-#define LIBNMATH_INTERSECTION_H_INCLUDED
-
-#include "sphere.h"
-#include "ray.h"
+#include "vector.h"
+#include "precision.h"
+#include "geometry.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-real_t intersect_ray_sphere(ray_t r, sphere_t s);
-
 #ifdef __cplusplus
 }   /* extern "C" */
 
-real_t intersect_ray_sphere(const Ray &r, const Sphere &s);
+struct IntInfo
+{
+	Vector3 normal;
+	Vector3 point;
+	real_t t;
+	const Geometry* geometry;
+};
 
-#endif
+#endif /* __cplusplus */
 
-#endif /* LIBNMATH_INTERSECTION_H_INCLUDED */
+#endif /* LIBNMATH_INTINFO_H_INCLUDED */

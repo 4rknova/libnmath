@@ -746,6 +746,16 @@ inline bool operator !=(const Vector3& v1, const Vector3& v2)
 	return (fabs(v1.x - v2.x) >= REAL_T_XXSMALL) && (fabs(v1.y - v2.y) >= REAL_T_XXSMALL) && (fabs(v1.z - v2.z) >= REAL_T_XXSMALL);
 }
 
+inline bool operator < (const Vector3 &v1, const Vector3 &v2)
+{
+	return v1.x < v2.x && v1.y < v2.y && v1.z < v2.z;
+}
+
+inline bool operator > (const Vector3 &v1, const Vector3 &v2)
+{
+	return v1.x > v2.x && v1.y > v2.y && v1.z > v2.z;
+}
+
 inline real_t Vector3::length() const
 {
 	return sqrt(x*x + y*y + z*z);

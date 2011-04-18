@@ -68,6 +68,8 @@ class BoundingBox2
         Vector2 min, max;
 };
 
+#include "ray.h"
+
 /* BoundingBox3 class */
 class BoundingBox3
 {
@@ -80,6 +82,8 @@ class BoundingBox3
 
         inline void augment(const Vector3& v);                  // augments the bounding box to include the given vector
         inline void augment(const BoundingBox3& b);             // augments the bounding box to include the given bounding box
+
+		bool intersection(const Ray &ray) const;
 
         Vector3 min, max;
 };

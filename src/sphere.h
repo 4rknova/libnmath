@@ -28,8 +28,10 @@
 #ifndef LIBNMATH_SPHERE_H_INCLUDED
 #define LIBNMATH_SPHERE_H_INCLUDED
 
-#include "types.h"
+#include "precision.h"
 #include "vector.h"
+#include "geometry.h"
+#include "ray.h"
 
 typedef struct
 {
@@ -46,13 +48,16 @@ static inline sphere_t sphere_pack(vec3_t origin, real_t radius);
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-#define SPHERE_DEFAULT_RADIUS 1.0
+#define NMATH_SPHERE_DEFAULT_RADIUS 1.0
 
-class Sphere
+class Sphere: public Geometry
 {
     public:
         Sphere();
         Sphere(const Vector3 &org, real_t rad);
+
+		bool intersection(const Ray &ray, IntInfo* i_info) const;
+		void calc_bbox();
 
         Vector3 origin;
         real_t radius;

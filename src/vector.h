@@ -317,6 +317,9 @@ class Vector4
         friend inline bool operator ==(const Vector4 &v1, const Vector4 &v2);
         friend inline bool operator !=(const Vector4 &v1, const Vector4 &v2);
 
+		friend inline bool operator < (const Vector3 &v1, const Vector3 &v2);
+		friend inline bool operator > (const Vector3 &v1, const Vector3 &v2);
+
         /* Stream operations */
         friend std::ostream& operator <<(std::ostream& out, const Vector4 &vec);
 

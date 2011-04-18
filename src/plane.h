@@ -2,8 +2,8 @@
 
     This file is part of the nemesis math library.
 
-    intersection.cc
-    Intersection testing
+    plane.h
+    Plane
 
     Copyright (C) 2008, 2010
     Papadopoulos Nikolaos
@@ -25,38 +25,46 @@
 
 */
 
-#include "intersection.h"
-#include "precision.h"
+#ifndef LIBNMATH_PLANE_H_INCLUDED
+#define LIBNMATH_PLANE_H_INCLUDED
 
-#ifdef __cplusplus
-    #include <cmath>
-#else
-    #include <math.h>
-#endif  /* __cplusplus */
+#include "precision.h"
+#include "vector.h"
+#include "geometry.h"
+#include "ray.h"
+
+typedef struct
+{
+    vec3_t normal;
+    real_t distance;
+} plane_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-real_t intersect_ray_sphere(ray_t r, sphere_t s)
-{
-    vec3_t dst = vec3_sub(r.origin, s.origin);
-	float B = vec3_dot(dst, r.direction);
-	float C = vec3_dot(dst, dst) - (s.radius * s.radius);
-	float D = B*B - C;
-	return ( D > 0 ) ? -B - sqrt(D) : NM_INFINITY;
-}
+static inline plane_t plane_pack(vec3_t normal, real_t distance);
 
 #ifdef __cplusplus
-}   /* extern "C" */
+}	/* __cplusplus */
 
-real_t intersect_ray_sphere(const Ray &r, const Sphere &s)
+#define NMATH_PLANE_DEFAULT_DISTANCE 1.0
+
+class Plane: public Geometry
 {
-    Vector3 dst = r.origin - s.origin;
-	float B = dot(dst, r.direction);
-	float C = dot(dst, dst) - (s.radius * s.radius);
-	float D = B*B - C;
-	return ( D > 0 ) ? -B - sqrt(D) : NM_INFINITY;
-}
+	public:
+		Plane();
+		Plane(const Vector3 &norm, double distance);
+		
+		bool intersection(const Ray &ray, IntInfo* i_info) const;   
+		void calc_bbox();
 
-#endif
+		Vector3 normal;
+		real_t distance; 
+};
+
+#endif	/* __cplusplus */
+
+#include "plane.inl"
+
+#endif /* LIBNMATH_PLANE_H_INCLUDED */

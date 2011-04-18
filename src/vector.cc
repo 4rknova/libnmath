@@ -27,10 +27,25 @@
 
 #include "vector.h"
 
+#define NMATH_VERTEX_FORMAT_PRECISION	3
+#define NMATH_VERTEX_LENGTH_PRECISION	7
+
 #ifdef __cplusplus
 
 #include <iostream>
 #include <iomanip>
+
+/*
+	Formatting utility
+*/
+
+void vector_format(std::ostream& out)
+{
+	out.setf(std::ios::fixed, std::ios::floatfield);
+    out.setf(std::ios::showpoint);
+
+	out << std::setprecision(NMATH_VERTEX_FORMAT_PRECISION);
+}
 
 /*
     Vector2
@@ -42,11 +57,9 @@ Vector2::Vector2(const Vector4& v): x(v.x), y(v.y){}
 
 std::ostream& operator <<(std::ostream& out, const Vector2& vec)
 {
-	out.setf(std::ios::fixed, std::ios::floatfield);
-    out.setf(std::ios::showpoint);
+	vector_format(out);
 
-	out << std::setprecision(3) ;
-	out << "[ " << vec.x << ", " << vec.y << " ]";
+	out << "[ " <<  vec.x << ", " << vec.y << " ]";
 	return out;
 }
 
@@ -60,10 +73,8 @@ Vector3::Vector3(const Vector4& v): x(v.x), y(v.y), z(v.z){}
 
 std::ostream& operator <<(std::ostream& out, const Vector3 &vec)
 {
-	out.setf(std::ios::fixed, std::ios::floatfield);
-    out.setf(std::ios::showpoint);
+	vector_format(out);
 
-	out << std::setprecision(3) ;
 	out << "[ " << vec.x << ", " << vec.y << ", " << vec.z << " ]";
 	return out;
 }
@@ -78,10 +89,8 @@ Vector4::Vector4(const Vector3& v): x(v.x), y(v.y), z(v.z), w(0.0f){}
 
 std::ostream& operator <<(std::ostream& out, const Vector4 &vec)
 {
-	out.setf(std::ios::fixed, std::ios::floatfield);
-    out.setf(std::ios::showpoint);
+	vector_format(out);
 
-	out << std::setprecision(3) ;
 	out << "[ " << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << " ]";
 	return out;
 }

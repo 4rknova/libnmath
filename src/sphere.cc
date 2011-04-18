@@ -25,8 +25,13 @@
 
 */
 
+#include <math.h>
+
 #include "sphere.h"
+
+#include "defs.h"
 #include "vector.h"
+#include "intinfo.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -36,11 +41,70 @@ extern "C" {
 }
 
 Sphere::Sphere()
-    : radius(SPHERE_DEFAULT_RADIUS)
+    : radius(NMATH_SPHERE_DEFAULT_RADIUS)
 {}
 
 Sphere::Sphere(const Vector3 &org, real_t rad)
-    : origin(org), radius(rad > 0 ? rad : SPHERE_DEFAULT_RADIUS)
+    : origin(org), radius(rad > 0 ? rad : NMATH_SPHERE_DEFAULT_RADIUS)
 {}
+
+bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
+{
+
+#ifdef NMATH_SPHERE_USE_BBOX_INTERSECTION
+	// check if the ray intersects with the bounding box
+	if(!bbox.intersection(ray))
+	{
+		return false;
+	}
+#endif
+
+	// We use the algebraic solution
+	real_t a = dot(ray.direction, ray.direction);
+
+	real_t b = 2 * ray.direction.x * (ray.origin.x - origin.x) +
+		2 * ray.direction.y * (ray.origin.y - origin.y) +
+		2 * ray.direction.z * (ray.origin.z - origin.z);
+
+	real_t c = dot(origin, origin) + dot(ray.origin, ray.origin) + 
+		2 * dot(-origin, ray.origin) - radius * radius;
+	
+	real_t discr = (b * b - 4 * a * c);
+
+	if (discr < 0.0) 
+	{
+		return false;
+	}
+
+	real_t sqrt_discr = sqrt(discr);
+	real_t t1 = (-b + sqrt_discr) / (2.0 * a);
+	real_t t2 = (-b - sqrt_discr) / (2.0 * a);
+	
+	if (t1 < EPSILON) t1 = t2;
+	if (t2 < EPSILON) t2 = t1;
+	
+	real_t t = t1 < t2 ? t1 : t2;
+
+	if (t < EPSILON || t > 1.0)
+	{
+		return false;
+	}
+
+	if (i_info)
+	{
+		i_info->t = t;
+		i_info->point = ray.origin + ray.direction * t;
+		// We don't need to call length here
+		i_info->normal = (i_info->point - origin) / radius;
+		i_info->geometry = this;
+	}
+	return true;
+}
+
+void Sphere::calc_bbox()
+{
+	bbox.max = origin + Vector3(radius, radius, radius);
+	bbox.min = origin - Vector3(radius, radius, radius);
+}
 
 #endif	/* __cplusplus */
