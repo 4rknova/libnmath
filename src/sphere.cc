@@ -41,11 +41,11 @@ extern "C" {
 }
 
 Sphere::Sphere()
-    : radius(NMATH_SPHERE_DEFAULT_RADIUS)
+    : Geometry(GEOMETRY_SPHERE), radius(NMATH_SPHERE_DEFAULT_RADIUS)
 {}
 
 Sphere::Sphere(const Vector3 &org, real_t rad)
-    : origin(org), radius(rad > 0 ? rad : NMATH_SPHERE_DEFAULT_RADIUS)
+    : Geometry(GEOMETRY_SPHERE), origin(org), radius(rad > 0 ? rad : NMATH_SPHERE_DEFAULT_RADIUS)
 {}
 
 bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const

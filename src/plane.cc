@@ -40,11 +40,11 @@ extern "C" {
 }
 
 Plane::Plane()
-	: distance(NMATH_PLANE_DEFAULT_DISTANCE)
+	: Geometry(GEOMETRY_PLANE), distance(NMATH_PLANE_DEFAULT_DISTANCE)
 {}
 
 Plane::Plane(const Vector3 &norm, double distance)
-	: normal(norm), distance(distance > 0 ? distance : NMATH_PLANE_DEFAULT_DISTANCE)
+	: Geometry(GEOMETRY_PLANE), normal(norm), distance(distance > 0 ? distance : NMATH_PLANE_DEFAULT_DISTANCE)
 {}
 
 bool Plane::intersection(const Ray &ray, IntInfo* inf) const

@@ -41,10 +41,11 @@
 
 void vector_format(std::ostream& out)
 {
-	out.setf(std::ios::fixed, std::ios::floatfield);
-    out.setf(std::ios::showpoint);
-
-	out << std::setprecision(NMATH_VERTEX_FORMAT_PRECISION);
+	#ifdef NMATH_VECTOR_OUT_FORMAT
+		out.setf(std::ios::fixed, std::ios::floatfield);
+	    out.setf(std::ios::showpoint);
+		out << std::setprecision(NMATH_VERTEX_FORMAT_PRECISION);
+	#endif /* NMATH_VECTOR_OUT_FORMAT */
 }
 
 /*

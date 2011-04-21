@@ -2,7 +2,7 @@
 
     This file is part of the nemesis math library.
 
-    geometry.h
+    geometry.cc
     Geometry
 
     Copyright (C) 2008, 2010
@@ -25,11 +25,7 @@
 
 */
 
-#ifndef LIBNMATH_GEOMETRY_H_INCLUDED
-#define LIBNMATH_GEOMETRY_H_INCLUDED
-
-#include "bbox.h"
-#include "ray.h"
+#include "geometry.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,30 +34,11 @@ extern "C" {
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-// forward declaration
-struct IntInfo;
+Geometry::Geometry(NMATH_GEOMETRY_TYPE t)
+	: type(t)
+{}
 
-enum NMATH_GEOMETRY_TYPE
-{
-	GEOMETRY_SPHERE,
-	GEOMETRY_PLANE
-};
-
-class Geometry
-{
-    public:
-		Geometry(NMATH_GEOMETRY_TYPE t);
-		virtual ~Geometry(); 
-		virtual bool intersection(const Ray &ray, IntInfo* i_info) const = 0;
-		virtual void calc_bbox() = 0;
-
-		const NMATH_GEOMETRY_TYPE type;
-
-	protected:
-		BoundingBox3 bbox;
-
-};
+Geometry::~Geometry()
+{}
 
 #endif	/* __cplusplus */
-
-#endif /* LIBNMATH_GEOMETRY_H_INCLUDED */
