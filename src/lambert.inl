@@ -2,10 +2,10 @@
 
     This file is part of the nemesis math library.
 
-    intinfo.h
-    Intinfo structure 
+    lambert.h
+    Lambert
 
-    Copyright (C) 2011
+    Copyright (C) 2008, 2010
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -25,31 +25,32 @@
 
 */
 
-#ifndef LIBNMATH_INTINFO_H_INCLUDED
-#define LIBNMATH_INTINFO_H_INCLUDED
+#ifndef LIBNMATH_LAMBERT_INL_INCLUDED
+#define LIBNMATH_LAMBERT_INL_INCLUDED
 
-#include "vector.h"
-#include "precision.h"
-#include "geometry.h"
+#ifndef LIBNMATH_LAMBERT_H_INCLUDED
+    #error "lambert.h must be included before lambert.inl"
+#endif /* LIBNMATH_LAMBERT_H_INCLUDED */
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
 #ifdef __cplusplus
-}   /* extern "C" */
+}
 
-class IntInfo
+inline Vector3 lambert(const Vector3 lightpos, const IntInfo *info, const Vector3 light, const Vector3 diffuse)
 {
-	public:
-		IntInfo();
+	// calculate the light vector
+	Vector3 lightdir = lightpos - info->point;
+	lightdir.normalize();
 
-		Vector3 normal;
-		Vector3 point;
-		real_t t;
-		const Geometry* geometry;
-};
+	// calculate the normal - light dot product
+	real_t d = dot(lightdir, info->normal);
+
+	return d > 0 ? d * diffuse * light : Vector3(0, 0 ,0);
+}
 
 #endif /* __cplusplus */
 
-#endif /* LIBNMATH_INTINFO_H_INCLUDED */
+#endif /* LIBNMATH_LAMBERT_INL_INCLUDED */

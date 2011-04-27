@@ -2,10 +2,10 @@
 
     This file is part of the nemesis math library.
 
-    intinfo.h
-    Intinfo structure 
+    phong.h
+    Phong
 
-    Copyright (C) 2011
+    Copyright (C) 2008, 2010
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -25,31 +25,24 @@
 
 */
 
-#ifndef LIBNMATH_INTINFO_H_INCLUDED
-#define LIBNMATH_INTINFO_H_INCLUDED
+#ifndef LIBNMATH_PHONG_H_INCLUDED
+#define LIBNMATH_PHONG_H_INCLUDED
+
 
 #include "vector.h"
-#include "precision.h"
-#include "geometry.h"
+#include "intinfo.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
 #ifdef __cplusplus
-}   /* extern "C" */
+}
 
-class IntInfo
-{
-	public:
-		IntInfo();
-
-		Vector3 normal;
-		Vector3 point;
-		real_t t;
-		const Geometry* geometry;
-};
+inline Vector3 phong(const Vector3 lightpos, const IntInfo *info, const Vector3 light, real_t ks, real_t kd, real_t specexp, Vector3 diffuse, Vector3 specular);
 
 #endif /* __cplusplus */
 
-#endif /* LIBNMATH_INTINFO_H_INCLUDED */
+#include "phong.inl"
+
+#endif /* LIBNMATH_PHONG_H_INCLUDED */

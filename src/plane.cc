@@ -67,7 +67,7 @@ bool Plane::intersection(const Ray &ray, IntInfo* inf) const
 	double n_dot_vo = dot(vorigin, normal);
 	double t = n_dot_vo / n_dot_dir; 
 
-	if (t < EPSILON || t > 1.0) 
+	if (t < EPSILON) 
 	{
 		return false;
 	}
@@ -76,7 +76,7 @@ bool Plane::intersection(const Ray &ray, IntInfo* inf) const
 	{
 		inf->t = t;
 		inf->point = ray.origin + ray.direction * t;
-		inf->normal = normal;
+		inf->normal = dot(normal, ray.direction) < 0 ? normal : -normal;
 		inf->geometry = this;
 	}
 

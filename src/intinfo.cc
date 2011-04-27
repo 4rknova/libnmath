@@ -2,7 +2,7 @@
 
     This file is part of the nemesis math library.
 
-    intinfo.h
+    intinfo.cc
     Intinfo structure 
 
     Copyright (C) 2011
@@ -25,12 +25,7 @@
 
 */
 
-#ifndef LIBNMATH_INTINFO_H_INCLUDED
-#define LIBNMATH_INTINFO_H_INCLUDED
-
-#include "vector.h"
-#include "precision.h"
-#include "geometry.h"
+#include "intinfo.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,17 +34,8 @@ extern "C" {
 #ifdef __cplusplus
 }   /* extern "C" */
 
-class IntInfo
-{
-	public:
-		IntInfo();
-
-		Vector3 normal;
-		Vector3 point;
-		real_t t;
-		const Geometry* geometry;
-};
+IntInfo::IntInfo()
+	: t(NM_INFINITY), geometry(NULL)
+{}
 
 #endif /* __cplusplus */
-
-#endif /* LIBNMATH_INTINFO_H_INCLUDED */

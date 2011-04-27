@@ -52,7 +52,6 @@ bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 {
 
 #ifdef NMATH_SPHERE_USE_BBOX_INTERSECTION
-	// check if the ray intersects with the bounding box
 	if(!bbox.intersection(ray))
 	{
 		return false;
@@ -85,7 +84,7 @@ bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 	
 	real_t t = t1 < t2 ? t1 : t2;
 
-	if (t < EPSILON || t > 1.0)
+	if (t < EPSILON )
 	{
 		return false;
 	}

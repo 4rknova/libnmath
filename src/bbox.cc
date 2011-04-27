@@ -59,6 +59,7 @@ BoundingBox3::BoundingBox3(const Vector3& a, const Vector3& b)
 	Journal of graphics tools, 10(1):49-54, 2005
 */
 
+#include <iostream>
 bool BoundingBox3::intersection(const Ray &ray) const
 {
 	if (ray.origin > min && ray.origin < max)
@@ -68,7 +69,6 @@ bool BoundingBox3::intersection(const Ray &ray) const
 
 	Vector3 bbox[2] = {min, max};
 	static const double t0 = 0.0;
-	static const double t1 = 1.0;
 
 	int xsign = (int)(ray.direction.x < 0.0);
 	double invdirx = 1.0 / ray.direction.x;
@@ -80,7 +80,7 @@ bool BoundingBox3::intersection(const Ray &ray) const
 	double invdiry = 1.0 / ray.direction.y;
 	double tymin = (bbox[ysign].y - ray.origin.y) * invdiry;
 	double tymax = (bbox[1 - ysign].y - ray.origin.y) * invdiry;
-
+	
 	if ((tmin > tymax) || (tymin > tmax))
 	{
 		return false;
@@ -102,7 +102,7 @@ bool BoundingBox3::intersection(const Ray &ray) const
 	if (tzmin > tmin) tmin = tzmin;
 	if (tzmax < tmax) tmax = tzmax;
 
-	return (tmin < t1) && (tmax > t0);
+	return (tmax > t0);
 }
 
 #endif	/* __cplusplus */
