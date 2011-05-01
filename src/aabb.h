@@ -2,7 +2,7 @@
 
     This file is part of the nemesis math library.
 
-    bbox.h
+    aabb.h
     Bounding box
 
     Copyright (C) 2008, 2010
@@ -36,18 +36,18 @@ extern "C" {
 #endif	/* __cplusplus */
 
 /* C 2D bounding box functions */
-static inline bbox2_t bbox2_pack(vec2_t a, vec2_t b);
-static inline short bbox2_contains(bbox2_t b, vec2_t v);            // returns 0 if the given point is within the bounds of the box, else 1
-static inline vec2_t bbox2_center(bbox2_t b);                       // returns the center coordinates of the box
-static inline bbox2_t bbox2_augment_by_vec(bbox2_t s, vec2_t v);    // augments the bounding box to include the given vector
-static inline bbox2_t bbox2_augment_by_bbox(bbox2_t s, bbox2_t b);  // augments the bounding box to include the given bounding box
+static inline aabb2_t aabb2_pack(vec2_t a, vec2_t b);
+static inline short aabb2_contains(aabb2_t b, vec2_t v);            // returns 0 if the given point is within the bounds of the box, else 1
+static inline vec2_t aabb2_center(aabb2_t b);                       // returns the center coordinates of the box
+static inline aabb2_t aabb2_augment_by_vec(aabb2_t s, vec2_t v);    // augments the bounding box to include the given vector
+static inline aabb2_t aabb2_augment_by_aabb(aabb2_t s, aabb2_t b);  // augments the bounding box to include the given bounding box
 
 /* C 3D bounding box functions */
-static inline bbox3_t bbox3_pack(vec3_t a, vec3_t b);
-static inline short bbox3_contains(bbox3_t b, vec3_t v);            // returns 0 if the given point is within the bounds of the box, else 1
-static inline vec3_t bbox3_center(bbox3_t b);                       // returns the center coordinates of the box
-static inline bbox3_t bbox3_augment_by_vec(bbox3_t s, vec3_t v);    // augments the bounding box to include the given vector
-static inline bbox3_t bbox3_augment_by_bbox(bbox3_t s, bbox3_t b);  // augments the bounding box to include the given bounding box
+static inline aabb3_t aabb3_pack(vec3_t a, vec3_t b);
+static inline short aabb3_contains(aabb3_t b, vec3_t v);            // returns 0 if the given point is within the bounds of the box, else 1
+static inline vec3_t aabb3_center(aabb3_t b);                       // returns the center coordinates of the box
+static inline aabb3_t aabb3_augment_by_vec(aabb3_t s, vec3_t v);    // augments the bounding box to include the given vector
+static inline aabb3_t aabb3_augment_by_aabb(aabb3_t s, aabb3_t b);  // augments the bounding box to include the given bounding box
 
 #ifdef __cplusplus
 }
@@ -90,6 +90,6 @@ class BoundingBox3
 
 #endif /* __cplusplus */
 
-#include "bbox.inl"
+#include "aabb.inl"
 
 #endif /* LIBNMATH_BBOX_H_INCLUDED */

@@ -2,7 +2,7 @@
 
     This file is part of the nemesis math library.
 
-    bbox.cc
+    aabb.cc
     Bounding box functions
 
     Copyright (C) 2008, 2010
@@ -25,7 +25,7 @@
 
 */
 
-#include "bbox.h"
+#include "aabb.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -67,19 +67,19 @@ bool BoundingBox3::intersection(const Ray &ray) const
 		return true;
 	}
 
-	Vector3 bbox[2] = {min, max};
+	Vector3 aabb[2] = {min, max};
 	static const double t0 = 0.0;
 
 	int xsign = (int)(ray.direction.x < 0.0);
 	double invdirx = 1.0 / ray.direction.x;
 
-	double tmin = (bbox[xsign].x - ray.origin.x) * invdirx;
-	double tmax = (bbox[1 - xsign].x - ray.origin.x) * invdirx;
+	double tmin = (aabb[xsign].x - ray.origin.x) * invdirx;
+	double tmax = (aabb[1 - xsign].x - ray.origin.x) * invdirx;
 
 	int ysign = (int)(ray.direction.y < 0.0);
 	double invdiry = 1.0 / ray.direction.y;
-	double tymin = (bbox[ysign].y - ray.origin.y) * invdiry;
-	double tymax = (bbox[1 - ysign].y - ray.origin.y) * invdiry;
+	double tymin = (aabb[ysign].y - ray.origin.y) * invdiry;
+	double tymax = (aabb[1 - ysign].y - ray.origin.y) * invdiry;
 	
 	if ((tmin > tymax) || (tymin > tmax))
 	{
@@ -91,8 +91,8 @@ bool BoundingBox3::intersection(const Ray &ray) const
 
 	int zsign = (int)(ray.direction.z < 0.0);
 	double invdirz = 1.0 / ray.direction.z;
-	double tzmin = (bbox[zsign].z - ray.origin.z) * invdirz;
-	double tzmax = (bbox[1 - zsign].z - ray.origin.z) * invdirz;
+	double tzmin = (aabb[zsign].z - ray.origin.z) * invdirz;
+	double tzmax = (aabb[1 - zsign].z - ray.origin.z) * invdirz;
 
 	if ((tmin > tzmax) || (tzmin > tmax))
 	{

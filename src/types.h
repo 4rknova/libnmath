@@ -47,8 +47,8 @@ typedef real_t mat3x3_t[3][3];
 typedef real_t mat4x4_t[4][4];
 
 /* Bounding boxes */
-typedef struct { vec2_t min, max; } bbox2_t;
-typedef struct { vec3_t min, max; } bbox3_t;
+typedef struct { vec2_t min, max; } aabb2_t;
+typedef struct { vec3_t min, max; } aabb3_t;
 
 #ifdef __cplusplus
 /* C++ equivalents - Forward declarations */

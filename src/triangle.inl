@@ -2,8 +2,8 @@
 
     This file is part of the nemesis math library.
 
-    geometry.h
-    Geometry
+    triangle.h
+    Triangle inline functions
 
     Copyright (C) 2008, 2010
     Papadopoulos Nikolaos
@@ -25,48 +25,28 @@
 
 */
 
-#ifndef LIBNMATH_GEOMETRY_H_INCLUDED
-#define LIBNMATH_GEOMETRY_H_INCLUDED
+#ifndef LIBNMATH_TRIANGLE_INL_INCLUDED
+#define LIBNMATH_TRIANGLE_INL_INCLUDED
 
-#include "aabb.h"
-#include "ray.h"
+#ifndef LIBNMATH_TRIANGLE_H_INCLUDED
+    #error "triangle.h must be included before triangle.inl"
+#endif /* LIBNMATH_TRIANGLE_H_INCLUDED */
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-enum NMATH_GEOMETRY_TYPE
+static inline triangle_t triangle_pack(vec3_t v0, vec3_t v1, vec3_t v2)
 {
-	GEOMETRY_PLANE,
-	GEOMETRY_TRIANGLE,
-	GEOMETRY_QUAD,			/* Not yet implemented */
-	GEOMETRY_POLYGON,		/* Not yet implemented */
-	GEOMETRY_SPHERE,
-	GEOMETRY_CYLINDER,		/* Not yet implemented */
-	GEOMETRY_CONE			/* Not yet implemented */
-};
+	triangle_t t;
+	t.v[0] = v0;
+	t.v[1] = v1;
+	t.v[2] = v2;
+	return t;
+}
 
 #ifdef __cplusplus
-}	/* __cplusplus */
-
-// forward declaration
-struct IntInfo;
-
-class Geometry
-{
-    public:
-		Geometry(NMATH_GEOMETRY_TYPE t);
-		virtual ~Geometry(); 
-		virtual bool intersection(const Ray &ray, IntInfo* i_info) const = 0;
-		virtual void calc_aabb() = 0;
-
-		const NMATH_GEOMETRY_TYPE type;
-
-	protected:
-		BoundingBox3 aabb;
-
-};
-
+}
 #endif	/* __cplusplus */
 
-#endif /* LIBNMATH_GEOMETRY_H_INCLUDED */
+#endif /* LIBNMATH_TRIANGLE_INL_INCLUDED */

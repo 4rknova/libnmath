@@ -2,8 +2,8 @@
 
     This file is part of the nemesis math library.
 
-    geometry.h
-    Geometry
+    triangle.h
+    Triangle
 
     Copyright (C) 2008, 2010
     Papadopoulos Nikolaos
@@ -25,48 +25,43 @@
 
 */
 
-#ifndef LIBNMATH_GEOMETRY_H_INCLUDED
-#define LIBNMATH_GEOMETRY_H_INCLUDED
+#ifndef LIBNMATH_TRIANGLE_H_INCLUDED
+#define LIBNMATH_TRIANGLE_H_INCLUDED
 
-#include "aabb.h"
+#include "precision.h"
+#include "vector.h"
+#include "vertex.h"
+#include "geometry.h"
 #include "ray.h"
+
+typedef struct
+{
+    vec3_t v[3];
+} triangle_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-enum NMATH_GEOMETRY_TYPE
-{
-	GEOMETRY_PLANE,
-	GEOMETRY_TRIANGLE,
-	GEOMETRY_QUAD,			/* Not yet implemented */
-	GEOMETRY_POLYGON,		/* Not yet implemented */
-	GEOMETRY_SPHERE,
-	GEOMETRY_CYLINDER,		/* Not yet implemented */
-	GEOMETRY_CONE			/* Not yet implemented */
-};
+static inline triangle_t triangle_pack(vec3_t v0, vec3_t v1, vec3_t v2);
 
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-// forward declaration
-struct IntInfo;
-
-class Geometry
+class Triangle: public Geometry
 {
     public:
-		Geometry(NMATH_GEOMETRY_TYPE t);
-		virtual ~Geometry(); 
-		virtual bool intersection(const Ray &ray, IntInfo* i_info) const = 0;
-		virtual void calc_aabb() = 0;
+        Triangle();
 
-		const NMATH_GEOMETRY_TYPE type;
+		bool intersection(const Ray &ray, IntInfo* i_info) const;
+		void calc_aabb();
+		Vector3 calc_normal();
 
-	protected:
-		BoundingBox3 aabb;
-
+        Vertex v[3];
 };
 
 #endif	/* __cplusplus */
 
-#endif /* LIBNMATH_GEOMETRY_H_INCLUDED */
+#include "triangle.inl"
+
+#endif /* LIBNMATH_TRIANGLE_H_INCLUDED */

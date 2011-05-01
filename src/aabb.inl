@@ -2,7 +2,7 @@
 
     This file is part of the nemesis math library.
 
-    bbox.h
+    aabb.h
     Bounding box
 
     Copyright (C) 2008, 2010
@@ -29,7 +29,7 @@
 #define LIBNMATH_BBOX_INL_INCLUDED
 
 #ifndef LIBNMATH_BBOX_H_INCLUDED
-    #error "bbox.h must be included before bbox.inl"
+    #error "aabb.h must be included before aabb.inl"
 #endif /* LIBNMATH_BBOX_H_INCLUDED */
 
 #include "types.h"
@@ -40,9 +40,9 @@ extern "C" {
 #endif	/* __cplusplus */
 
 /* C 2D bounding box functions */
-static inline bbox2_t bbox2_pack(vec2_t a, vec2_t b)
+static inline aabb2_t aabb2_pack(vec2_t a, vec2_t b)
 {
-    bbox2_t box;
+    aabb2_t box;
 	box.min.x = (a.x<=b.x)? a.x : b.x;
 	box.min.y = (a.y<=b.y)? a.y : b.y;
 
@@ -52,17 +52,17 @@ static inline bbox2_t bbox2_pack(vec2_t a, vec2_t b)
 	return box;
 }
 
-static inline short bbox2_contains(bbox2_t b, vec2_t v)
+static inline short aabb2_contains(aabb2_t b, vec2_t v)
 {
     return ( (v.x>=b.min.x) && (v.y>=b.min.y) && (v.x<=b.max.x) && (v.y<=b.max.y) )? 0 : 1;
 }
 
-static inline vec2_t bbox2_center(bbox2_t b)
+static inline vec2_t aabb2_center(aabb2_t b)
 {
     return vec2_pack( (b.min.x + b.max.x) / 2, (b.min.y + b.max.y) / 2 );
 }
 
-static inline bbox2_t bbox2_augment_by_vec(bbox2_t s, vec2_t v)
+static inline aabb2_t aabb2_augment_by_vec(aabb2_t s, vec2_t v)
 {
     if(v.x > s.max.x) s.max.x = v.x;
     if(v.x < s.min.x) s.min.x = v.x;
@@ -72,7 +72,7 @@ static inline bbox2_t bbox2_augment_by_vec(bbox2_t s, vec2_t v)
     return s;
 }
 
-static inline bbox2_t bbox2_augment_by_bbox(bbox2_t s, bbox2_t b)
+static inline aabb2_t aabb2_augment_by_aabb(aabb2_t s, aabb2_t b)
 {
     if(b.max.x > s.max.x) s.max.x = b.max.x;
     if(b.min.x < s.min.x) s.min.x = b.min.x;
@@ -83,9 +83,9 @@ static inline bbox2_t bbox2_augment_by_bbox(bbox2_t s, bbox2_t b)
 }
 
 /* C 3D bounding box functions */
-static inline bbox3_t bbox3_pack(vec3_t a, vec3_t b)
+static inline aabb3_t aabb3_pack(vec3_t a, vec3_t b)
 {
-    bbox3_t box;
+    aabb3_t box;
 	box.min.x = (a.x<=b.x)? a.x : b.x;
 	box.min.y = (a.y<=b.y)? a.y : b.y;
 	box.min.z = (a.z<=b.z)? a.z : b.z;
@@ -97,17 +97,17 @@ static inline bbox3_t bbox3_pack(vec3_t a, vec3_t b)
 	return box;
 }
 
-static inline short bbox3_contains(bbox3_t b, vec3_t v)
+static inline short aabb3_contains(aabb3_t b, vec3_t v)
 {
     return ( (v.x>=b.min.x) && (v.y>=b.min.y) && (v.z>=b.min.z) && (v.x<=b.max.x) && (v.y<=b.max.y) && (v.z<=b.min.z) )? 0 : 1;
 }
 
-static inline vec3_t bbox3_center(bbox3_t b)
+static inline vec3_t aabb3_center(aabb3_t b)
 {
     return vec3_pack( (b.min.x + b.max.x) / 2, (b.min.y + b.max.y) / 2, (b.min.z + b.max.z) / 2 );
 }
 
-static inline bbox3_t bbox3_augment_by_vec(bbox3_t s, vec3_t v)
+static inline aabb3_t aabb3_augment_by_vec(aabb3_t s, vec3_t v)
 {
     if(v.x > s.max.x) s.max.x = v.x;
     if(v.x < s.min.x) s.min.x = v.x;
@@ -120,7 +120,7 @@ static inline bbox3_t bbox3_augment_by_vec(bbox3_t s, vec3_t v)
     return s;
 }
 
-static inline bbox3_t bbox3_augment_by_bbox(bbox3_t s, bbox3_t b)
+static inline aabb3_t aabb3_augment_by_aabb(aabb3_t s, aabb3_t b)
 {
     if(b.max.x > s.max.x) s.max.x = b.max.x;
     if(b.min.x < s.min.x) s.min.x = b.min.x;

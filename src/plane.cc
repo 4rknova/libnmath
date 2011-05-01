@@ -47,7 +47,7 @@ Plane::Plane(const Vector3 &norm, double distance)
 	: Geometry(GEOMETRY_PLANE), normal(norm), distance(distance > 0 ? distance : NMATH_PLANE_DEFAULT_DISTANCE)
 {}
 
-bool Plane::intersection(const Ray &ray, IntInfo* inf) const
+bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
 {
 	// algebraic solution
 
@@ -72,22 +72,22 @@ bool Plane::intersection(const Ray &ray, IntInfo* inf) const
 		return false;
 	}
 
-	if (inf) 
+	if (i_info) 
 	{
-		inf->t = t;
-		inf->point = ray.origin + ray.direction * t;
-		inf->normal = dot(normal, ray.direction) < 0 ? normal : -normal;
-		inf->geometry = this;
+		i_info->t = t;
+		i_info->point = ray.origin + ray.direction * t;
+		i_info->normal = dot(normal, ray.direction) < 0 ? normal : -normal;
+		i_info->geometry = this;
 	}
 
 	return true;
 }
 
-void Plane::calc_bbox()
+void Plane::calc_aabb()
 {
-	// The plane is infinite so the bounding box is infinity as well
-	bbox.max = Vector3(NM_INFINITY, NM_INFINITY, NM_INFINITY);
-	bbox.min = -bbox.max;
+	// The plane is infoinite so the bounding box is infinity as well
+	aabb.max = Vector3(NM_INFINITY, NM_INFINITY, NM_INFINITY);
+	aabb.min = -aabb.max;
 }
 
 #endif	/* __cplusplus */

@@ -57,7 +57,7 @@ class Sphere: public Geometry
         Sphere(const Vector3 &org, real_t rad);
 
 		bool intersection(const Ray &ray, IntInfo* i_info) const;
-		void calc_bbox();
+		void calc_aabb();
 
         Vector3 origin;
         real_t radius;

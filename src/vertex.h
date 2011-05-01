@@ -2,8 +2,8 @@
 
     This file is part of the nemesis math library.
 
-    geometry.h
-    Geometry
+    vertex.h
+    Vertex
 
     Copyright (C) 2008, 2010
     Papadopoulos Nikolaos
@@ -25,48 +25,29 @@
 
 */
 
-#ifndef LIBNMATH_GEOMETRY_H_INCLUDED
-#define LIBNMATH_GEOMETRY_H_INCLUDED
+#ifndef LIBNMATH_VERTEX_H_INCLUDED
+#define LIBNMATH_VERTEX_H_INCLUDED
 
-#include "aabb.h"
-#include "ray.h"
+#include "precision.h"
+#include "vector.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-enum NMATH_GEOMETRY_TYPE
-{
-	GEOMETRY_PLANE,
-	GEOMETRY_TRIANGLE,
-	GEOMETRY_QUAD,			/* Not yet implemented */
-	GEOMETRY_POLYGON,		/* Not yet implemented */
-	GEOMETRY_SPHERE,
-	GEOMETRY_CYLINDER,		/* Not yet implemented */
-	GEOMETRY_CONE			/* Not yet implemented */
+struct vertex_t {
+	vec3_t pos, norm, tang;
+	vec2_t tex;
 };
 
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-// forward declaration
-struct IntInfo;
-
-class Geometry
-{
-    public:
-		Geometry(NMATH_GEOMETRY_TYPE t);
-		virtual ~Geometry(); 
-		virtual bool intersection(const Ray &ray, IntInfo* i_info) const = 0;
-		virtual void calc_aabb() = 0;
-
-		const NMATH_GEOMETRY_TYPE type;
-
-	protected:
-		BoundingBox3 aabb;
-
+struct Vertex {
+	Vector3 position, normal, tangent;
+	Vector2 texture_uv;
 };
 
 #endif	/* __cplusplus */
 
-#endif /* LIBNMATH_GEOMETRY_H_INCLUDED */
+#endif /* LIBNMATH_VERTEX_H_INCLUDED */

@@ -51,8 +51,8 @@ Sphere::Sphere(const Vector3 &org, real_t rad)
 bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 {
 
-#ifdef NMATH_SPHERE_USE_BBOX_INTERSECTION
-	if(!bbox.intersection(ray))
+#ifdef NMATH_USE_BBOX_INTERSECTION
+	if(!aabb.intersection(ray))
 	{
 		return false;
 	}
@@ -93,17 +93,16 @@ bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 	{
 		i_info->t = t;
 		i_info->point = ray.origin + ray.direction * t;
-		// We don't need to call length here
 		i_info->normal = (i_info->point - origin) / radius;
 		i_info->geometry = this;
 	}
 	return true;
 }
 
-void Sphere::calc_bbox()
+void Sphere::calc_aabb()
 {
-	bbox.max = origin + Vector3(radius, radius, radius);
-	bbox.min = origin - Vector3(radius, radius, radius);
+	aabb.max = origin + Vector3(radius, radius, radius);
+	aabb.min = origin - Vector3(radius, radius, radius);
 }
 
 #endif	/* __cplusplus */

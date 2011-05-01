@@ -57,7 +57,7 @@ class Plane: public Geometry
 		Plane(const Vector3 &norm, double distance);
 		
 		bool intersection(const Ray &ray, IntInfo* i_info) const;   
-		void calc_bbox();
+		void calc_aabb();
 
 		Vector3 normal;
 		real_t distance; 
