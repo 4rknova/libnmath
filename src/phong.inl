@@ -28,6 +28,8 @@
 #ifndef LIBNMATH_PHONG_INL_INCLUDED
 #define LIBNMATH_PHONG_INL_INCLUDED
 
+#include <math.h>
+
 #ifndef LIBNMATH_PHONG_H_INCLUDED
     #error "phong.h must be included before phong.inl"
 #endif /* LIBNMATH_PHONG_H_INCLUDED */
@@ -39,16 +41,33 @@ extern "C" {
 #ifdef __cplusplus
 }
 
-inline Vector3 phong(const Vector3 lightpos, const IntInfo *info, const Vector3 light, real_t ks, real_t kd, real_t specexp, Vector3 diffuse, Vector3 specular)
+inline Vector3 phong(const Vector3 &campos, const Vector3 &lightpos, const IntInfo *info, const Vector3 &light, real_t ks, real_t kd, real_t specexp, Vector3 &diffuse, Vector3 &specular)
 {
-	// calculate the light vector
+
+	// calculate the light direction vector
 	Vector3 lightdir = lightpos - info->point;
 	lightdir.normalize();
 
 	// calculate the normal - light dot product
 	real_t d = dot(lightdir, info->normal);
 
-	return d > 0 ? d * diffuse * light : Vector3(0, 0 ,0);
+	if (d < 0.0)
+		d = 0;
+
+	Vector3 ray = info->point - campos;
+	Vector3 r = ray.reflected(info->normal); // direction of a perfectly reflected ray
+	r.normalize();
+
+	Vector3 c = -ray; // vector pointing to the camera
+	c.normalize();
+
+	real_t rmv = dot(r, c);
+
+	if (rmv < 0.0)
+		rmv = 0;
+
+	return (kd * d * diffuse) + (ks * pow(rmv, specexp) * specular);
+	
 }
 
 #endif /* __cplusplus */
