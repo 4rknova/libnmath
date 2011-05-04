@@ -120,7 +120,7 @@ static inline vec2_t vec2_reflect(vec2_t v, vec2_t n)
 	vec2_t normal = vec2_normalize(n);
 	vec2_t incident = vec2_normalize(v);
 	real_t val = 2 * vec2_dot(incident, normal);
-	return vec2_sub(incident, vec2_scale(normal, val));
+	return vec2_sub(vec2_scale(normal, val), incident);
 }
 
 static inline vec2_t vec2_refract(vec2_t v, vec2_t n, real_t ior_src, real_t ior_dst)
@@ -235,7 +235,7 @@ static inline vec3_t vec3_reflect(vec3_t v, vec3_t n)
 	vec3_t normal = vec3_normalize(n);
 	vec3_t incident = vec3_normalize(v);
 	real_t val = 2 * vec3_dot(incident, normal);
-	return vec3_sub(incident, vec3_scale(normal, val));
+	return vec3_sub(vec3_scale(normal, val), incident);
 }
 
 static inline vec3_t vec3_refract(vec3_t v, vec3_t n, real_t ior_src, real_t ior_dst)
@@ -348,7 +348,7 @@ static inline vec4_t vec4_reflect(vec4_t v, vec4_t n)
 	vec4_t normal = vec4_normalize(n);
 	vec4_t incident = vec4_normalize(v);
 	real_t val = 2 * vec4_dot(incident, normal);
-	return vec4_sub(incident, vec4_scale(normal, val));
+	return vec4_sub(vec4_scale(normal, val), incident);
 }
 
 static inline vec4_t vec4_refract(vec4_t v, vec4_t n, real_t ior_src, real_t ior_dst)
@@ -553,7 +553,7 @@ inline Vector2 Vector2::reflected(const Vector2 &normal) const
 {
 	Vector2 i = normalized();
 	Vector2 n = normal.normalized();
-	return i - (2 * dot(i, n) * n);
+	return (2 * dot(i, n) * n) - i;
 }
 
 inline void Vector2::refract(const Vector2 &normal, real_t ior_src, real_t ior_dst)
@@ -793,7 +793,7 @@ inline Vector3 Vector3::reflected(const Vector3 &normal) const
 {
 	Vector3 i = normalized();
 	Vector3 n = normal.normalized();
-	return i - (2 * dot(i, n) * n);
+	return (2 * dot(i, n) * n) - i;
 }
 
 inline void Vector3::refract(const Vector3 &normal, real_t ior_src, real_t ior_dst)
@@ -1039,7 +1039,7 @@ inline Vector4 Vector4::reflected(const Vector4 &normal) const
 {
 	Vector4 i = normalized();
 	Vector4 n = normal.normalized();
-	return i - (2 * dot(i, n) * n);
+	return (2 * dot(i, n) * n) - i;
 }
 
 inline void Vector4::refract(const Vector4 &normal, real_t ior_src, real_t ior_dst)

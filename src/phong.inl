@@ -43,7 +43,6 @@ extern "C" {
 
 inline Vector3 phong(const Vector3 &campos, const Vector3 &lightpos, const IntInfo *info, const Vector3 &light, real_t ks, real_t kd, real_t specexp, Vector3 &diffuse, Vector3 &specular)
 {
-
 	// calculate the light direction vector
 	Vector3 lightdir = lightpos - info->point;
 	lightdir.normalize();
@@ -54,19 +53,44 @@ inline Vector3 phong(const Vector3 &campos, const Vector3 &lightpos, const IntIn
 	if (d < 0.0)
 		d = 0;
 
-	Vector3 ray = info->point - campos;
-	Vector3 r = ray.reflected(info->normal); // direction of a perfectly reflected ray
+	Vector3 ray = campos - info->point;
+	ray.normalize();
+
+	Vector3 r = lightdir.reflected(info->normal);
 	r.normalize();
 
-	Vector3 c = -ray; // vector pointing to the camera
-	c.normalize();
-
-	real_t rmv = dot(r, c);
+	real_t rmv = dot(r, ray);
 
 	if (rmv < 0.0)
 		rmv = 0;
 
-	return (kd * d * diffuse) + (ks * pow(rmv, specexp) * specular);
+	return ((kd * d * diffuse) + (ks * pow(rmv, specexp) * specular)) * light;
+}
+
+inline Vector3 blinn_phong(const Vector3 &campos, const Vector3 &lightpos, const IntInfo *info, const Vector3 &light, real_t ks, real_t kd, real_t specexp, Vector3 &diffuse, Vector3 &specular)
+{
+	// calculate the light direction vector
+	Vector3 lightdir = lightpos - info->point;
+	lightdir.normalize();
+
+	// calculate the normal - light dot product
+	real_t d = dot(lightdir, info->normal);
+
+	if (d < 0.0)
+		d = 0;
+
+	Vector3 ray = campos - info->point;
+	ray.normalize();
+
+	Vector3 r = lightdir + ray;
+	r.normalize();
+
+	real_t rmv = dot(r, info->normal);
+
+	if (rmv < 0.0)
+		rmv = 0;
+
+	return ((kd * d * diffuse) + (ks * pow(rmv, specexp) * specular)) * light;
 	
 }
 
