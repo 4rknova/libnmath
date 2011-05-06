@@ -57,6 +57,8 @@ static inline int gcd(int a, int b); /* Euclid's method */
 /* Lowest Common Multiple */
 static inline int lcm(int a, int b);
 
+/* Check if an integer is a power of 2 */
+static inline int is_power_of_2(int v);
 
 #ifdef __cplusplus
 }   /* extern "C" */

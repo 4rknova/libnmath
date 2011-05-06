@@ -129,6 +129,12 @@ static inline int lcm(int a, int b)
    return b*a/lcm(a,b);
 }
 
+/* Check if an integer is a power of 2 */
+static inline int is_power_of_2(int v)
+{
+	return ( (v > 0) && ((v & (v - 1)) == 0) );
+}
+
 #ifdef __cplusplus
 }   /* extern "C" */
 #endif /* __cplusplus */
