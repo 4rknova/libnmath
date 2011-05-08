@@ -1,0 +1,11 @@
+libnmath
+--------
+Copyright 2010, 2011 (c) Papadopoulos Nikos <nikpapas@gmail.com>
+
+About
+-----
+The nemesis math library implements a variety of datatypes and utilities 
+that are useful in graphics related applications. The library provides a 
+double interface in c and c++.
+
+libnmath is based on Nuclear's libvmath [http://gfxtools.sourceforge.net]

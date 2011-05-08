@@ -805,15 +805,17 @@ inline Vector3 Vector3::refracted(const Vector3 &normal, real_t ior_src, real_t 
 {
 	Vector3 n = normal.normalized();
 	Vector3 i = normalized();
+
+	real_t cos_inc = dot(i, -n);
+
 	real_t ior = ior_src / ior_dst;
 
-	real_t cos_inc = - dot(n, i);
-	real_t radical = 1.f - (squared(ior) * (1.f - squared(cos_inc)));
+	real_t radical = 1.f + (squared(ior) * (squared(cos_inc) - 1.0));
 
 	if(radical < 0.f)
 	{
 		/* total internal reflection */
-		return reflected(n);
+		return -reflected(n);
 	}
 
 	real_t beta = ior * cos_inc - sqrt(radical);

@@ -43,7 +43,8 @@ enum NMATH_GEOMETRY_TYPE
 	GEOMETRY_POLYGON,		/* Not yet implemented */
 	GEOMETRY_SPHERE,
 	GEOMETRY_CYLINDER,		/* Not yet implemented */
-	GEOMETRY_CONE			/* Not yet implemented */
+	GEOMETRY_CONE,			/* Not yet implemented */
+	GEOMETRY_MESH
 };
 
 #ifdef __cplusplus
