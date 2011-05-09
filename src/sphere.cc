@@ -96,6 +96,9 @@ bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 		i_info->normal = (i_info->point - origin) / radius;
 		i_info->geometry = this;
 	}
+	
+	if (dot(i_info->normal, ray.direction) > 0) i_info->normal = -i_info->normal;
+
 	return true;
 }
 
