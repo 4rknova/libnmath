@@ -42,16 +42,10 @@ extern "C" {
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-
-// Face
 class Face
 {
 	public:
-		void calc_normal();
-		unsigned int count();
-
-		Vector3 normal;		// face normal
-		Vertex v[3];
+		unsigned int v[3];
 };
 
 // Mesh
@@ -61,16 +55,13 @@ class Mesh: public Geometry
         Mesh();
 		~Mesh();
 
-		void add_face(Face *face);
-		unsigned int get_face_count() const;
-		Face *get_face(unsigned int idx);
-		const Face *get_face(unsigned int idx) const;
-
 		bool intersection(const Ray &ray, IntInfo* i_info) const;
 		void calc_aabb();
+		void calc_vertex_normals();
 
-	protected:
-		std::vector<Face *> m_faces;
+		bool smooth;
+		std::vector<Vertex> vertices;
+		std::vector<Face> faces;
 };
 
 #endif	/* __cplusplus */

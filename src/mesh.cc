@@ -39,56 +39,20 @@ extern "C" {
 #ifdef __cplusplus
 }
 
-void Face::calc_normal()
-{
+/*	
 	Vector3 a, b;
 	a = v[2].position - v[0].position;
 	b = v[1].position - v[0].position;
 	normal = cross(b, a).normalized();
-}
+*/
 
-// Mesh
+
 Mesh::Mesh()
-	: Geometry(GEOMETRY_MESH)
+	: Geometry(GEOMETRY_MESH), smooth(false)
 {}
 
 Mesh::~Mesh()
-{
-	for(size_t i = 0; i < m_faces.size(); i++)
-	{
-		delete m_faces[i];
-	}
-}
-
-void Mesh::add_face(Face *face)
-{
-	m_faces.push_back(face);
-}
-
-unsigned int Mesh::get_face_count() const
-{
-	return (int)m_faces.size();
-}
-
-Face *Mesh::get_face(unsigned int idx) 
-{
-	if(idx >= (unsigned int)m_faces.size()) 
-	{
-		return m_faces[m_faces.size() - 1];
-	}
-	
-	return m_faces[idx];
-}
-
-const Face *Mesh::get_face(unsigned int idx) const
-{
-	if(idx >= (unsigned int)m_faces.size())
-	{
-		return m_faces[m_faces.size() - 1];
-	}
-	
-	return m_faces[idx];
-}
+{}
 
 #include "triangle.h"
 
@@ -104,14 +68,14 @@ bool Mesh::intersection(const Ray &ray, IntInfo* i_info) const
 	IntInfo nearest;
 	nearest.t = INFINITY;
 
-	for(size_t i = 0; i < m_faces.size(); i++)
+	for(size_t i = 0; i < faces.size(); i++)
 	{
 		IntInfo inf;
 
 		Triangle p;
-		p.v[0] = m_faces[i]->v[0];
-		p.v[1] = m_faces[i]->v[1];
-		p.v[2] = m_faces[i]->v[2];
+		p.v[0] = vertices[faces[i].v[0]];
+		p.v[1] = vertices[faces[i].v[1]];
+		p.v[2] = vertices[faces[i].v[2]];
 		p.calc_aabb();
 
 		if(p.intersection(ray, &inf) && inf.t < nearest.t) 
@@ -140,11 +104,11 @@ void Mesh::calc_aabb()
 	aabb.min = Vector3(NM_INFINITY, NM_INFINITY, NM_INFINITY);
 	aabb.max = Vector3(-NM_INFINITY, -NM_INFINITY, -NM_INFINITY);
 		
-	for(size_t i = 0; i < m_faces.size(); i++) 
+	for(size_t i = 0; i < faces.size(); i++) 
 	{
 		for(int j = 0; j < 3; j++) 
 		{
-			Vector3 v = m_faces[i]->v[j].position; 
+			Vector3 v = vertices[faces[i].v[j]].position; 
 
 			// min
 			if(v.x < aabb.min.x) aabb.min.x = v.x;
@@ -156,6 +120,21 @@ void Mesh::calc_aabb()
 			if(v.y > aabb.max.y) aabb.max.y = v.y;
 			if(v.z > aabb.max.z) aabb.max.z = v.z;
 		}
+	}
+}
+
+void Mesh::calc_vertex_normals()
+{
+	for (unsigned int i = 0; i < faces.size(); i++)
+	{
+		
+
+		// Calculate face normal
+	/*	Vector3 a, b;
+		a = (Mesh*(geo))->vertices[2].position - v[0].position;
+		b = v[1].position - v[0].position;
+		normal = cross(b, a).normalized();
+*/
 	}
 }
 
