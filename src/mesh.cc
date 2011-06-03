@@ -127,14 +127,22 @@ void Mesh::calc_vertex_normals()
 {
 	for (unsigned int i = 0; i < faces.size(); i++)
 	{
-		
+		// Calculate the face normal
+		Vector3 v1 = vertices[faces[i].v[2]].position 
+						- vertices[faces[i].v[0]].position;
+		Vector3 v2 = vertices[faces[i].v[1]].position
+						- vertices[faces[i].v[0]].position;
+		Vector3 fnormal = (cross(v1, v2)).normalized();
 
-		// Calculate face normal
-	/*	Vector3 a, b;
-		a = (Mesh*(geo))->vertices[2].position - v[0].position;
-		b = v[1].position - v[0].position;
-		normal = cross(b, a).normalized();
-*/
+		// Modify the vertex normal
+		vertices[faces[i].v[0]].normal += fnormal;
+		vertices[faces[i].v[0]].normal.normalize();
+
+		vertices[faces[i].v[1]].normal += fnormal;
+		vertices[faces[i].v[1]].normal.normalize();
+
+		vertices[faces[i].v[2]].normal += fnormal;
+		vertices[faces[i].v[2]].normal.normalize();
 	}
 }
 

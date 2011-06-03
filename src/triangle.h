@@ -55,7 +55,8 @@ class Triangle: public Geometry
 
 		bool intersection(const Ray &ray, IntInfo* i_info) const;
 		void calc_aabb();
-		Vector3 calc_normal();
+		Vector3 calc_normal() const;
+		Vector3 calc_barycentric(const Vector3 &p) const;
 
         Vertex v[3];
 };

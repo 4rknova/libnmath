@@ -45,19 +45,7 @@ Triangle::Triangle()
 
 bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 {
-
-#ifdef NMATH_USE_BBOX_INTERSECTION
-	if(!aabb.intersection(ray))
-	{
-		return false;
-	}
-#endif
-
-	// find vectors for two edges shading v0
-	Vector3 v1 = v[2].position - v[0].position;
-	Vector3 v2 = v[1].position - v[0].position;
-
-	Vector3 normal = cross(v1, v2);
+	Vector3 normal = calc_normal();
 
 	double n_dot_dir = dot(normal, ray.direction);
 	if(fabs(n_dot_dir) < EPSILON) 
@@ -78,34 +66,25 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 	// intersection point ( on the plane ).
 	Vector3 pos = ray.origin + ray.direction * t;
 
-	// Check for triangle boundaries
-	for(int i=0; i<3; i++) 
+	// calculate barycentric
+	Vector3 bc = calc_barycentric(pos);
+	real_t bc_sum = bc.x + bc.y + bc.z;
+
+	// check for triangle boundaries
+	if (bc_sum < 1.0 - EPSILON || bc_sum > 1.0 + EPSILON)
 	{
-		Vector3 test = cross(v[(i + 1) % 3].position - v[i].position, pos - v[i].position);
-		bool bounds = (-dot(test, normal) >= 0.0);
-		if(!bounds)
-		{
-			return false;   // outside of the triangle
-		}
+		return false;
 	}
-	
+
 	if (i_info)
 	{
 		i_info->t = t;
 		i_info->point = pos;
-
-		Vertex v;
-
-		if(v.normal.length_squared() < REAL_T_XSMALL)
-		{
-			i_info->normal = -normal.normalized();
-		} 
-		else 
-		{
-			i_info->normal = -v.normal.normalized();
-		}
-
 		i_info->geometry = this;
+		
+		// normal
+		Vector3 pn = v[0].normal * bc.x + v[1].normal * bc.y + v[2].normal * bc.z;
+		i_info->normal = pn.length() ? pn : normal;
 	}
 
 	return true;
@@ -129,12 +108,49 @@ void Triangle::calc_aabb()
 	}
 }
 
-Vector3 Triangle::calc_normal()
+Vector3 Triangle::calc_normal() const
 {
 	Vector3 v1 = v[2].position - v[0].position;
 	Vector3 v2 = v[1].position - v[0].position;
 
-	return cross(v1, v2).normalized();
+	return (cross(v1, v2)).normalized();
+}
+
+Vector3 Triangle::calc_barycentric(const Vector3 &p) const
+{
+	Vector3 bc(0.0f, 0.0f, 0.0f);
+
+	Vector3 v1 = v[1].position - v[0].position;
+	Vector3 v2 = v[2].position - v[0].position;
+	Vector3 xv1v2 = cross(v1, v2);
+
+	Vector3 norm = xv1v2.normalized();
+
+	real_t area = fabs(dot(xv1v2, norm)) * 0.5;
+
+	if(area < EPSILON)
+	{
+		return bc;
+	}
+
+	Vector3 pv0 = v[0].position - p;
+	Vector3 pv1 = v[1].position - p;
+	Vector3 pv2 = v[2].position - p;
+
+	// calculate the area of each sub-triangle
+	Vector3 x12 = cross(pv1, pv2);
+	Vector3 x20 = cross(pv2, pv0);
+	Vector3 x01 = cross(pv0, pv1);
+
+	real_t a0 = fabs(dot(x12, norm)) * 0.5;
+	real_t a1 = fabs(dot(x20, norm)) * 0.5;
+	real_t a2 = fabs(dot(x01, norm)) * 0.5;
+	
+	bc.x = a0 / area;
+	bc.y = a1 / area;
+	bc.z = a2 / area;
+
+	return bc;
 }
 
 #endif	/* __cplusplus */
