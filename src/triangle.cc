@@ -113,8 +113,8 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 
 void Triangle::calc_aabb()
 {
-	aabb.min = Vector3(NM_INFINITY, NM_INFINITY, NM_INFINITY);
 	aabb.max = Vector3(-NM_INFINITY, -NM_INFINITY, -NM_INFINITY);
+	aabb.min = Vector3(NM_INFINITY, NM_INFINITY, NM_INFINITY);
 
 	for(unsigned int i=0; i<3; i++)
 	{
