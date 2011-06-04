@@ -59,7 +59,6 @@ class Mesh: public Geometry
 		void calc_aabb();
 		void calc_vertex_normals();
 
-		bool smooth;
 		std::vector<Vertex> vertices;
 		std::vector<Face> faces;
 };

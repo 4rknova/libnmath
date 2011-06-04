@@ -48,7 +48,7 @@ extern "C" {
 
 
 Mesh::Mesh()
-	: Geometry(GEOMETRY_MESH), smooth(false)
+	: Geometry(GEOMETRY_MESH)
 {}
 
 Mesh::~Mesh()
@@ -135,13 +135,13 @@ void Mesh::calc_vertex_normals()
 		Vector3 fnormal = (cross(v1, v2)).normalized();
 
 		// Modify the vertex normal
-		vertices[faces[i].v[0]].normal += fnormal;
+		vertices[faces[i].v[0]].normal += fnormal/3;
 		vertices[faces[i].v[0]].normal.normalize();
 
-		vertices[faces[i].v[1]].normal += fnormal;
+		vertices[faces[i].v[1]].normal += fnormal/3;
 		vertices[faces[i].v[1]].normal.normalize();
 
-		vertices[faces[i].v[2]].normal += fnormal;
+		vertices[faces[i].v[2]].normal += fnormal/3;
 		vertices[faces[i].v[2]].normal.normalize();
 	}
 }
