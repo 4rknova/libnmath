@@ -5,7 +5,7 @@
     mutil.h
     Declares some math utility functions
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -28,28 +28,11 @@
 #ifndef LIBNMATH_MUTIL_H_INCLUDED
 #define LIBNMATH_MUTIL_H_INCLUDED
 
-#include "types.h"
+#include "precision.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
-
-/* conversion between radians and degrees */
-static inline real_t degree_to_radian(real_t r);
-static inline real_t radian_to_degree(real_t d);
-
-/* min - max */
-static inline real_t min(real_t x, real_t y);
-static inline real_t max(real_t x, real_t y);
-
-/* absolute */
-static inline real_t absolute(real_t x);
-static inline real_t absolute_difference(real_t x, real_t y);
-
-/* powers */
-static inline real_t squared(real_t x);
-static inline real_t qubed(real_t x);
-static inline real_t power(real_t a, int b); /* Note: 0^0 will yield 1 */
 
 /* Greater Common Divisor */
 static inline int gcd(int a, int b); /* Euclid's method */

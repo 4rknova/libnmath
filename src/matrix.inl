@@ -5,7 +5,7 @@
     matrix.inl
     Matrix inline functions
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -48,9 +48,9 @@ extern "C" {
 */
 
 static inline void mat3x3_pack(mat3x3_t m,
-	real_t m11, real_t m12, real_t m13,
-	real_t m21, real_t m22, real_t m23,
-	real_t m31, real_t m32, real_t m33)
+	scalar_t m11, scalar_t m12, scalar_t m13,
+	scalar_t m21, scalar_t m22, scalar_t m23,
+	scalar_t m31, scalar_t m32, scalar_t m33)
 {
 	m[0][0] = m11; m[0][1] = m12; m[0][2] = m13;
 	m[1][0] = m21; m[1][1] = m22; m[1][2] = m23;
@@ -113,10 +113,10 @@ static inline void mat3x3_mul(mat3x3_t res, mat3x3_t m1, mat3x3_t m2)
 */
 
 static inline void mat4x4_pack(mat4x4_t m,
-	real_t m11, real_t m12, real_t m13, real_t m14,
-	real_t m21, real_t m22, real_t m23, real_t m24,
-	real_t m31, real_t m32, real_t m33, real_t m34,
-	real_t m41, real_t m42, real_t m43, real_t m44)
+	scalar_t m11, scalar_t m12, scalar_t m13, scalar_t m14,
+	scalar_t m21, scalar_t m22, scalar_t m23, scalar_t m24,
+	scalar_t m31, scalar_t m32, scalar_t m33, scalar_t m34,
+	scalar_t m41, scalar_t m42, scalar_t m43, scalar_t m44)
 {
 	m[0][0] = m11; m[0][1] = m12; m[0][2] = m13; m[0][3] = m14;
 	m[1][0] = m21; m[1][1] = m22; m[1][2] = m23; m[1][3] = m24;
@@ -188,34 +188,34 @@ static inline void mat4x4_mul(mat4x4_t res, mat4x4_t m1, mat4x4_t m2)
 #ifdef __cplusplus
 }   /* extern "C" */
 
-inline real_t *Matrix3x3::operator [](int index)
+inline scalar_t *Matrix3x3::operator [](int index)
 {
     return data[index < 9 ? index : 8];
 }
 
-inline const real_t *Matrix3x3::operator [](int index) const
+inline const scalar_t *Matrix3x3::operator [](int index) const
 {
     return data[index < 9 ? index : 8];
 }
 
 inline void Matrix3x3::reset_identity()
 {
-    memcpy(data, identity.data, 9 * sizeof(real_t));
+    memcpy(data, identity.data, 9 * sizeof(scalar_t));
 }
 
-inline real_t *Matrix4x4::operator [](int index) 
+inline scalar_t *Matrix4x4::operator [](int index) 
 {
     return data[index < 16 ? index : 15];
 }
 
-inline const real_t *Matrix4x4::operator [](int index) const
+inline const scalar_t *Matrix4x4::operator [](int index) const
 {
     return data[index < 16 ? index : 15];
 }
 
 inline void Matrix4x4::reset_identity()
 {
-    memcpy(data, identity.data, 16 * sizeof(real_t));
+    memcpy(data, identity.data, 16 * sizeof(scalar_t));
 }
 
 #endif

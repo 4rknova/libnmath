@@ -32,6 +32,8 @@
 #include "precision.h"
 #include "geometry.h"
 
+#include "declspec.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
@@ -39,14 +41,14 @@ extern "C" {
 #ifdef __cplusplus
 }   /* extern "C" */
 
-class IntInfo
+class DECLSPEC IntInfo
 {
 	public:
 		IntInfo();
 
 		Vector3 normal;
 		Vector3 point;
-		real_t t;
+		scalar_t t;
 		const Geometry* geometry;
 };
 

@@ -5,7 +5,7 @@
     matrix.cc
     Matrix
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ extern "C" {
 	3x3 matrices
 */
 
-void mat3x3_translate(mat3x3_t m, real_t x, real_t y, real_t z)
+void mat3x3_translate(mat3x3_t m, scalar_t x, scalar_t y)
 {
 	mat3x3_t tm;
 	mat3x3_identity(tm);
@@ -53,7 +53,7 @@ void mat3x3_translate(mat3x3_t m, real_t x, real_t y, real_t z)
 	mat3x3_mul(m, m, tm);
 }
 
-void mat3x3_rotate(mat3x3_t m, real_t angle)
+void mat3x3_rotate(mat3x3_t m, scalar_t angle)
 {
 	mat3x3_t rm;
 	mat3x3_identity(rm);
@@ -62,7 +62,7 @@ void mat3x3_rotate(mat3x3_t m, real_t angle)
 	mat3x3_mul(m, m, rm);
 }
 
-void mat3x3_scale(mat3x3_t m, real_t x, real_t y)
+void mat3x3_scale(mat3x3_t m, scalar_t x, scalar_t y)
 {
 	mat3x3_t sm;
 	mat3x3_identity(sm);
@@ -71,7 +71,7 @@ void mat3x3_scale(mat3x3_t m, real_t x, real_t y)
 	mat3x3_mul(m, m, sm);
 }
 
-void mat3x3_shear(mat3x3_t m, real_t s)
+void mat3x3_shear(mat3x3_t m, scalar_t s)
 {
 	mat3x3_t rm;
 	mat3x3_identity(rm);
@@ -104,11 +104,11 @@ void mat3x3_transpose(mat3x3_t res, mat3x3_t m)
 	}
 }
 
-real_t mat3x3_determinant(mat3x3_t m)
+scalar_t mat3x3_determinant(mat3x3_t m)
 {
-	real_t det11 = m[1][1] * (m[2][2] - m[1][2] * m[2][1]);
-	real_t det12 = m[1][0] * (m[2][2] - m[1][2] * m[2][0]);
-	real_t det13 = m[1][0] * (m[2][1] - m[1][1] * m[2][0]);
+	scalar_t det11 = m[1][1] * (m[2][2] - m[1][2] * m[2][1]);
+	scalar_t det12 = m[1][0] * (m[2][2] - m[1][2] * m[2][0]);
+	scalar_t det13 = m[1][0] * (m[2][1] - m[1][1] * m[2][0]);
 
 	return m[0][0] * det11 - m[0][1] * det12 + m[0][2] * det13;
 }
@@ -143,7 +143,7 @@ void mat3x3_inverse(mat3x3_t res, mat3x3_t m)
 {
 	int i, j;
 	mat3x3_t adj;
-	real_t det;
+	scalar_t det;
 
 	det = mat3x3_determinant(m);
 
@@ -185,7 +185,7 @@ void mat3x3_print(FILE *fp, mat3x3_t m)
 	4x4 matrices
 */
 
-void mat4x4_translate(mat4x4_t m, real_t x, real_t y, real_t z)
+void mat4x4_translate(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z)
 {
 	mat4x4_t tm;
 	mat4x4_identity(tm);
@@ -195,14 +195,14 @@ void mat4x4_translate(mat4x4_t m, real_t x, real_t y, real_t z)
 	mat4x4_mul(m, m, tm);
 }
 
-void mat4x4_rotate(mat4x4_t m, real_t x, real_t y, real_t z)
+void mat4x4_rotate(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z)
 {
 	mat4x4_rotate_x(m, x);
 	mat4x4_rotate_y(m, y);
 	mat4x4_rotate_z(m, z);
 }
 
-void mat4x4_rotate_x(mat4x4_t m, real_t angle)
+void mat4x4_rotate_x(mat4x4_t m, scalar_t angle)
 {
 	mat4x4_t rm;
 	mat4x4_identity(rm);
@@ -211,7 +211,7 @@ void mat4x4_rotate_x(mat4x4_t m, real_t angle)
 	mat4x4_mul(m, m, rm);
 }
 
-void mat4x4_rotate_y(mat4x4_t m, real_t angle)
+void mat4x4_rotate_y(mat4x4_t m, scalar_t angle)
 {
 	mat4x4_t rm;
 	mat4x4_identity(rm);
@@ -220,7 +220,7 @@ void mat4x4_rotate_y(mat4x4_t m, real_t angle)
 	mat4x4_mul(m, m, rm);
 }
 
-void mat4x4_rotate_z(mat4x4_t m, real_t angle)
+void mat4x4_rotate_z(mat4x4_t m, scalar_t angle)
 {
 	mat4x4_t rm;
 	mat4x4_identity(rm);
@@ -229,15 +229,15 @@ void mat4x4_rotate_z(mat4x4_t m, real_t angle)
 	mat4x4_mul(m, m, rm);
 }
 
-void mat4x4_rotate_axis(mat4x4_t m, real_t angle, real_t x, real_t y, real_t z)
+void mat4x4_rotate_axis(mat4x4_t m, scalar_t angle, scalar_t x, scalar_t y, scalar_t z)
 {
 	mat4x4_t xform;
-	real_t sina = sin(angle);
-	real_t cosa = cos(angle);
-	real_t one_minus_cosa = 1.0 - cosa;
-	real_t nxsq = x * x;
-	real_t nysq = y * y;
-	real_t nzsq = z * z;
+	scalar_t sina = sin(angle);
+	scalar_t cosa = cos(angle);
+	scalar_t one_minus_cosa = 1.0 - cosa;
+	scalar_t nxsq = x * x;
+	scalar_t nysq = y * y;
+	scalar_t nzsq = z * z;
 
 	mat4x4_identity(xform);
 	xform[0][0] = nxsq + (1.0 - nxsq) * cosa;
@@ -253,7 +253,7 @@ void mat4x4_rotate_axis(mat4x4_t m, real_t angle, real_t x, real_t y, real_t z)
 	mat4x4_mul(m, m, xform);
 }
 
-void mat4x4_scale(mat4x4_t m, real_t x, real_t y, real_t z)
+void mat4x4_scale(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z)
 {
 	mat4x4_t sm;
 	mat4x4_identity(sm);
@@ -261,36 +261,6 @@ void mat4x4_scale(mat4x4_t m, real_t x, real_t y, real_t z)
 	sm[1][1] = y;
 	sm[2][2] = z;
 	mat4x4_mul(m, m, sm);
-}
-
-void mat4x4_prj_orthographic(mat4x4_t m, real_t left, real_t right, real_t top, real_t bottom, real_t far, real_t near)
-{
-	mat4x4_t id = {
-		{2 / (right - left), 0, 0, -(right + left) / (right - left)},
-		{0, 2 / (top - bottom), 0, -(top + bottom) / (top - bottom)},
-		{0, 0, 1 / (far - near), - near / (far - near)},
-		{0, 0, 0, 1}
-	};
-
-	mat4x4_mul(m, m, id);
-}
-
-void mat4x4_prj_perspective(mat4x4_t m, real_t near, real_t far, real_t fov, real_t aspect)
-{
-	real_t w, h, Q;
-
-	w = aspect * ( cosf(fov/2)/sinf(fov/2) );
-    h = cosf(fov/2)/sinf(fov/2);
-    Q = far / ( far - near );
-
-    mat4x4_t id = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
-    id[1][1] = w;
-    id[2][2] = h;
-    id[3][3] = Q;
-    id[3][4] = 1.f;
-    id[4][3] = -Q * near;
-
-    mat4x4_mul(m, m, id);
 }
 
 void mat4x4_transpose(mat4x4_t res, mat4x4_t m)
@@ -306,21 +276,21 @@ void mat4x4_transpose(mat4x4_t res, mat4x4_t m)
 	}
 }
 
-real_t mat4x4_determinant(mat4x4_t m)
+scalar_t mat4x4_determinant(mat4x4_t m)
 {
-	real_t det11 =	(m[1][1] * (m[2][2] * m[3][3] - m[3][2] * m[2][3])) -
+	scalar_t det11 =	(m[1][1] * (m[2][2] * m[3][3] - m[3][2] * m[2][3])) -
 						(m[1][2] * (m[2][1] * m[3][3] - m[3][1] * m[2][3])) +
 						(m[1][3] * (m[2][1] * m[3][2] - m[3][1] * m[2][2]));
 
-	real_t det12 =	(m[1][0] * (m[2][2] * m[3][3] - m[3][2] * m[2][3])) -
+	scalar_t det12 =	(m[1][0] * (m[2][2] * m[3][3] - m[3][2] * m[2][3])) -
 						(m[1][2] * (m[2][0] * m[3][3] - m[3][0] * m[2][3])) +
 						(m[1][3] * (m[2][0] * m[3][2] - m[3][0] * m[2][2]));
 
-	real_t det13 =	(m[1][0] * (m[2][1] * m[3][3] - m[3][1] * m[2][3])) -
+	scalar_t det13 =	(m[1][0] * (m[2][1] * m[3][3] - m[3][1] * m[2][3])) -
 						(m[1][1] * (m[2][0] * m[3][3] - m[3][0] * m[2][3])) +
 						(m[1][3] * (m[2][0] * m[3][1] - m[3][0] * m[2][1]));
 
-	real_t det14 =	(m[1][0] * (m[2][1] * m[3][2] - m[3][1] * m[2][2])) -
+	scalar_t det14 =	(m[1][0] * (m[2][1] * m[3][2] - m[3][1] * m[2][2])) -
 						(m[1][1] * (m[2][0] * m[3][2] - m[3][0] * m[2][2])) +
 						(m[1][2] * (m[2][0] * m[3][1] - m[3][0] * m[2][1]));
 
@@ -400,7 +370,7 @@ void mat4x4_inverse(mat4x4_t res, mat4x4_t m)
 {
 	int i, j;
 	mat4x4_t adj;
-	real_t det;
+	scalar_t det;
 
 	det = mat4x4_determinant(m);
 
@@ -445,9 +415,9 @@ Matrix3x3::Matrix3x3()
     *this = identity;
 }
 
-Matrix3x3::Matrix3x3(	real_t m11, real_t m12, real_t m13,
-						real_t m21, real_t m22, real_t m23,
-						real_t m31, real_t m32, real_t m33)
+Matrix3x3::Matrix3x3(	scalar_t m11, scalar_t m12, scalar_t m13,
+						scalar_t m21, scalar_t m22, scalar_t m23,
+						scalar_t m31, scalar_t m32, scalar_t m33)
 {
 	data[0][0] = m11; data[0][1] = m12; data[0][2] = m13;
 	data[1][0] = m21; data[1][1] = m22; data[1][2] = m23;
@@ -471,8 +441,8 @@ Matrix3x3::Matrix3x3(const Matrix4x4 &mat4)
 Matrix3x3 operator +(const Matrix3x3 &m1, const Matrix3x3 &m2)
 {
 	Matrix3x3 res;
-	const real_t *op1 = m1.data[0], *op2 = m2.data[0];
-    real_t *dest = res.data[0];
+	const scalar_t *op1 = m1.data[0], *op2 = m2.data[0];
+    scalar_t *dest = res.data[0];
 
     for(int i=0; i<9; i++) {
         *dest++ = *op1++ + *op2++;
@@ -483,8 +453,8 @@ Matrix3x3 operator +(const Matrix3x3 &m1, const Matrix3x3 &m2)
 Matrix3x3 operator -(const Matrix3x3 &m1, const Matrix3x3 &m2)
 {
     Matrix3x3 res;
-    const real_t *op1 = m1.data[0], *op2 = m2.data[0];
-    real_t *dest = res.data[0];
+    const scalar_t *op1 = m1.data[0], *op2 = m2.data[0];
+    scalar_t *dest = res.data[0];
 
     for(int i=0; i<9; i++) {
         *dest++ = *op1++ - *op2++;
@@ -505,8 +475,8 @@ Matrix3x3 operator *(const Matrix3x3 &m1, const Matrix3x3 &m2)
 
 void operator +=(Matrix3x3 &m1, const Matrix3x3 &m2)
 {
-    real_t *op1 = m1.data[0];
-    const real_t *op2 = m2.data[0];
+    scalar_t *op1 = m1.data[0];
+    const scalar_t *op2 = m2.data[0];
 
     for(int i=0; i<9; i++) {
         *op1++ += *op2++;
@@ -515,8 +485,8 @@ void operator +=(Matrix3x3 &m1, const Matrix3x3 &m2)
 
 void operator -=(Matrix3x3 &m1, const Matrix3x3 &m2)
 {
-    real_t *op1 = m1.data[0];
-    const real_t *op2 = m2.data[0];
+    scalar_t *op1 = m1.data[0];
+    const scalar_t *op2 = m2.data[0];
 
     for(int i=0; i<9; i++) {
         *op1++ -= *op2++;
@@ -531,14 +501,14 @@ void operator *=(Matrix3x3 &m1, const Matrix3x3 &m2)
             res.data[i][j] = m1.data[i][0] * m2.data[0][j] + m1.data[i][1] * m2.data[1][j] + m1.data[i][2] * m2.data[2][j];
         }
     }
-    memcpy(m1.data, res.data, 9 * sizeof(real_t));
+    memcpy(m1.data, res.data, 9 * sizeof(scalar_t));
 }
 
-Matrix3x3 operator *(const Matrix3x3 &mat, real_t r)
+Matrix3x3 operator *(const Matrix3x3 &mat, scalar_t r)
 {
 	Matrix3x3 res;
-    const real_t *mptr = mat.data[0];
-    real_t *dptr = res.data[0];
+    const scalar_t *mptr = mat.data[0];
+    scalar_t *dptr = res.data[0];
 
     for(int i=0; i<9; i++) {
         *dptr++ = *mptr++ * r;
@@ -546,11 +516,11 @@ Matrix3x3 operator *(const Matrix3x3 &mat, real_t r)
     return res;
 }
 
-Matrix3x3 operator *(real_t r, const Matrix3x3 &mat)
+Matrix3x3 operator *(scalar_t r, const Matrix3x3 &mat)
 {
 	Matrix3x3 res;
-    const real_t *mptr = mat.data[0];
-    real_t *dptr = res.data[0];
+    const scalar_t *mptr = mat.data[0];
+    scalar_t *dptr = res.data[0];
 
     for(int i=0; i<9; i++) {
         *dptr++ = *mptr++ * r;
@@ -569,9 +539,9 @@ Vector3 operator *(const Matrix3x3 &mat, const Vector3 &vec)
 	return res;
 }
 
-void operator *=(Matrix3x3 &mat, real_t r)
+void operator *=(Matrix3x3 &mat, scalar_t r)
 {
-	real_t *mptr = mat.data[0];
+	scalar_t *mptr = mat.data[0];
 
     for(int i=0; i<9; i++) {
         *mptr++ *= r;
@@ -589,10 +559,10 @@ void Matrix3x3::set_translation(const Vector2 &t)
     *this = Matrix3x3(1, 0, t.x, 0, 1, t.y, 0, 0, 1);
 }
 
-void Matrix3x3::rotate(real_t angle)
+void Matrix3x3::rotate(scalar_t angle)
 {
-    real_t cos_a = cos(angle);
-    real_t sin_a = sin(angle);
+    scalar_t cos_a = cos(angle);
+    scalar_t sin_a = sin(angle);
     Matrix3x3 m(cos_a, -sin_a, 0, sin_a, cos_a, 0, 0, 0, 1);
     *this *= m;
 }
@@ -606,14 +576,14 @@ void Matrix3x3::rotate(const Vector3 &euler)
     *this *= xrot * yrot * zrot;
 }
 
-void Matrix3x3::rotate(const Vector3 &axis, real_t angle)
+void Matrix3x3::rotate(const Vector3 &axis, scalar_t angle)
 {
-	real_t sina = (real_t)sin(angle);
-	real_t cosa = (real_t)cos(angle);
-	real_t invcosa = 1-cosa;
-	real_t nxsq = axis.x * axis.x;
-	real_t nysq = axis.y * axis.y;
-	real_t nzsq = axis.z * axis.z;
+	scalar_t sina = (scalar_t)sin(angle);
+	scalar_t cosa = (scalar_t)cos(angle);
+	scalar_t invcosa = 1-cosa;
+	scalar_t nxsq = axis.x * axis.x;
+	scalar_t nysq = axis.y * axis.y;
+	scalar_t nzsq = axis.z * axis.z;
 
 	Matrix3x3 xform;
 	xform.data[0][0] = nxsq + (1-nxsq) * cosa;
@@ -629,10 +599,10 @@ void Matrix3x3::rotate(const Vector3 &axis, real_t angle)
 	*this *= xform;
 }
 
-void Matrix3x3::set_rotation(real_t angle)
+void Matrix3x3::set_rotation(scalar_t angle)
 {
-	real_t cos_a = cos(angle);
-	real_t sin_a = sin(angle);
+	scalar_t cos_a = cos(angle);
+	scalar_t sin_a = sin(angle);
 	*this = Matrix3x3(cos_a, -sin_a, 0, sin_a, cos_a, 0, 0, 0, 1);
 }
 
@@ -645,14 +615,14 @@ void Matrix3x3::set_rotation(const Vector3 &euler)
 	*this = xrot * yrot * zrot;
 }
 
-void Matrix3x3::set_rotation(const Vector3 &axis, real_t angle)
+void Matrix3x3::set_rotation(const Vector3 &axis, scalar_t angle)
 {
-	real_t sina = (real_t)sin(angle);
-	real_t cosa = (real_t)cos(angle);
-	real_t invcosa = 1-cosa;
-	real_t nxsq = axis.x * axis.x;
-	real_t nysq = axis.y * axis.y;
-	real_t nzsq = axis.z * axis.z;
+	scalar_t sina = (scalar_t)sin(angle);
+	scalar_t cosa = (scalar_t)cos(angle);
+	scalar_t invcosa = 1-cosa;
+	scalar_t nxsq = axis.x * axis.x;
+	scalar_t nysq = axis.y * axis.y;
+	scalar_t nzsq = axis.z * axis.z;
 
     reset_identity();
     data[0][0] = nxsq + (1-nxsq) * cosa;
@@ -722,7 +692,7 @@ Matrix3x3 Matrix3x3::transposed() const
     return res;
 }
 
-real_t Matrix3x3::determinant() const
+scalar_t Matrix3x3::determinant() const
 {
 	return	data[0][0] * (data[1][1] * data[2][2] - data[1][2] * data[2][1]) -
 			data[0][1] * (data[1][0] * data[2][2] - data[1][2] * data[2][0]) +
@@ -779,10 +749,10 @@ Matrix4x4::Matrix4x4()
     *this = identity;
 }
 
-Matrix4x4::Matrix4x4(   real_t m11, real_t m12, real_t m13, real_t m14,
-                        real_t m21, real_t m22, real_t m23, real_t m24,
-                        real_t m31, real_t m32, real_t m33, real_t m34,
-                        real_t m41, real_t m42, real_t m43, real_t m44)
+Matrix4x4::Matrix4x4(   scalar_t m11, scalar_t m12, scalar_t m13, scalar_t m14,
+                        scalar_t m21, scalar_t m22, scalar_t m23, scalar_t m24,
+                        scalar_t m31, scalar_t m32, scalar_t m33, scalar_t m34,
+                        scalar_t m41, scalar_t m42, scalar_t m43, scalar_t m44)
 {
     data[0][0] = m11; data[0][1] = m12; data[0][2] = m13; data[0][3] = m14;
     data[1][0] = m21; data[1][1] = m22; data[1][2] = m23; data[1][3] = m24;
@@ -808,8 +778,8 @@ Matrix4x4::Matrix4x4(const Matrix3x3 &mat3)
 Matrix4x4 operator +(const Matrix4x4 &m1, const Matrix4x4 &m2)
 {
 	Matrix4x4 res;
-	const real_t *op1 = m1.data[0], *op2 = m2.data[0];
-	real_t *dest = res.data[0];
+	const scalar_t *op1 = m1.data[0], *op2 = m2.data[0];
+	scalar_t *dest = res.data[0];
 
     for(int i=0; i<16; i++) {
         *dest++ = *op1++ + *op2++;
@@ -820,8 +790,8 @@ Matrix4x4 operator +(const Matrix4x4 &m1, const Matrix4x4 &m2)
 Matrix4x4 operator -(const Matrix4x4 &m1, const Matrix4x4 &m2)
 {
     Matrix4x4 res;
-    const real_t *op1 = m1.data[0], *op2 = m2.data[0];
-    real_t *dest = res.data[0];
+    const scalar_t *op1 = m1.data[0], *op2 = m2.data[0];
+    scalar_t *dest = res.data[0];
 
     for(int i=0; i<16; i++) {
         *dest++ = *op1++ - *op2++;
@@ -846,8 +816,8 @@ Matrix4x4 operator *(const Matrix4x4 &m1, const Matrix4x4 &m2)
 
 void operator +=(Matrix4x4 &m1, const Matrix4x4 &m2)
 {
-	real_t *op1 = m1.data[0];
-	const real_t *op2 = m2.data[0];
+	scalar_t *op1 = m1.data[0];
+	const scalar_t *op2 = m2.data[0];
 
 	for(int i=0; i<16; i++) {
 		*op1++ += *op2++;
@@ -856,8 +826,8 @@ void operator +=(Matrix4x4 &m1, const Matrix4x4 &m2)
 
 void operator -=(Matrix4x4 &m1, const Matrix4x4 &m2)
 {
-	real_t *op1 = m1.data[0];
-	const real_t *op2 = m2.data[0];
+	scalar_t *op1 = m1.data[0];
+	const scalar_t *op2 = m2.data[0];
 
 	for(int i=0; i<16; i++) {
 		*op1++ -= *op2++;
@@ -876,14 +846,14 @@ void operator *=(Matrix4x4 &m1, const Matrix4x4 &m2)
 
         }
     }
-    memcpy(m1.data, res.data, 16 * sizeof(real_t));
+    memcpy(m1.data, res.data, 16 * sizeof(scalar_t));
 }
 
-Matrix4x4 operator *(const Matrix4x4 &mat, real_t r)
+Matrix4x4 operator *(const Matrix4x4 &mat, scalar_t r)
 {
 	Matrix4x4 res;
-	const real_t *mptr = mat.data[0];
-	real_t *dptr = res.data[0];
+	const scalar_t *mptr = mat.data[0];
+	scalar_t *dptr = res.data[0];
 
 	for(int i=0; i<16; i++) {
 		*dptr++ = *mptr++ * r;
@@ -891,11 +861,11 @@ Matrix4x4 operator *(const Matrix4x4 &mat, real_t r)
 	return res;
 }
 
-Matrix4x4 operator *(real_t r, const Matrix4x4 &mat)
+Matrix4x4 operator *(scalar_t r, const Matrix4x4 &mat)
 {
 	Matrix4x4 res;
-	const real_t *mptr = mat.data[0];
-	real_t *dptr = res.data[0];
+	const scalar_t *mptr = mat.data[0];
+	scalar_t *dptr = res.data[0];
 
 	for(int i=0; i<16; i++) {
 		*dptr++ = *mptr++ * r;
@@ -915,9 +885,9 @@ Vector4 operator *(const Matrix4x4 &mat, const Vector4 &vec)
 	return res;
 }
 
-void operator *=(Matrix4x4 &mat, real_t r)
+void operator *=(Matrix4x4 &mat, scalar_t r)
 {
-	real_t *mptr = mat.data[0];
+	scalar_t *mptr = mat.data[0];
 
 	for(int i=0; i<16; i++) {
 		*mptr++ *= r;
@@ -944,14 +914,14 @@ void Matrix4x4::rotate(const Vector3 &euler)
 	*this *= Matrix4x4(xrot * yrot * zrot);
 }
 
-void Matrix4x4::rotate(const Vector3 &axis, real_t angle)
+void Matrix4x4::rotate(const Vector3 &axis, scalar_t angle)
 {
-	real_t sina = (real_t)sin(angle);
-	real_t cosa = (real_t)cos(angle);
-	real_t invcosa = 1-cosa;
-	real_t nxsq = axis.x * axis.x;
-	real_t nysq = axis.y * axis.y;
-	real_t nzsq = axis.z * axis.z;
+	scalar_t sina = (scalar_t)sin(angle);
+	scalar_t cosa = (scalar_t)cos(angle);
+	scalar_t invcosa = 1-cosa;
+	scalar_t nxsq = axis.x * axis.x;
+	scalar_t nysq = axis.y * axis.y;
+	scalar_t nzsq = axis.z * axis.z;
 
 	Matrix3x3 xform;
 	xform.data[0][0] = nxsq + (1-nxsq) * cosa;
@@ -976,14 +946,14 @@ void Matrix4x4::set_rotation(const Vector3 &euler)
 	*this = Matrix4x4(xrot * yrot * zrot);
 }
 
-void Matrix4x4::set_rotation(const Vector3 &axis, real_t angle)
+void Matrix4x4::set_rotation(const Vector3 &axis, scalar_t angle)
 {
-	real_t sina = (real_t)sin(angle);
-	real_t cosa = (real_t)cos(angle);
-	real_t invcosa = 1-cosa;
-	real_t nxsq = axis.x * axis.x;
-	real_t nysq = axis.y * axis.y;
-	real_t nzsq = axis.z * axis.z;
+	scalar_t sina = (scalar_t)sin(angle);
+	scalar_t cosa = (scalar_t)cos(angle);
+	scalar_t invcosa = 1-cosa;
+	scalar_t nxsq = axis.x * axis.x;
+	scalar_t nysq = axis.y * axis.y;
+	scalar_t nzsq = axis.z * axis.z;
 
 	reset_identity();
 	data[0][0] = nxsq + (1-nxsq) * cosa;
@@ -1055,21 +1025,21 @@ Matrix4x4 Matrix4x4::transposed() const
     return res;
 }
 
-real_t Matrix4x4::determinant() const
+scalar_t Matrix4x4::determinant() const
 {
-	real_t det11 =	(data[1][1] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
+	scalar_t det11 =	(data[1][1] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
 					(data[1][2] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) +
 					(data[1][3] * (data[2][1] * data[3][2] - data[3][1] * data[2][2]));
 
-	real_t det12 =	(data[1][0] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
+	scalar_t det12 =	(data[1][0] * (data[2][2] * data[3][3] - data[3][2] * data[2][3])) -
 					(data[1][2] * (data[2][0] * data[3][3] - data[3][0] * data[2][3])) +
 					(data[1][3] * (data[2][0] * data[3][2] - data[3][0] * data[2][2]));
 
-	real_t det13 =	(data[1][0] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) -
+	scalar_t det13 =	(data[1][0] * (data[2][1] * data[3][3] - data[3][1] * data[2][3])) -
 					(data[1][1] * (data[2][0] * data[3][3] - data[3][0] * data[2][3])) +
 					(data[1][3] * (data[2][0] * data[3][1] - data[3][0] * data[2][1]));
 
-	real_t det14 =	(data[1][0] * (data[2][1] * data[3][2] - data[3][1] * data[2][2])) -
+	scalar_t det14 =	(data[1][0] * (data[2][1] * data[3][2] - data[3][1] * data[2][2])) -
 					(data[1][1] * (data[2][0] * data[3][2] - data[3][0] * data[2][2])) +
 					(data[1][2] * (data[2][0] * data[3][1] - data[3][0] * data[2][1]));
 

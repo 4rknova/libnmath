@@ -5,7 +5,7 @@
     aabb.h
     Bounding box
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -31,6 +31,8 @@
 #include "types.h"
 #include "vector.h"
 
+#include "declspec.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
@@ -53,7 +55,7 @@ static inline aabb3_t aabb3_augment_by_aabb(aabb3_t s, aabb3_t b);  // augments 
 }
 
 /* BoundingBox2 class */
-class BoundingBox2
+class DECLSPEC BoundingBox2
 {
     public:
         BoundingBox2();
@@ -71,7 +73,7 @@ class BoundingBox2
 #include "ray.h"
 
 /* BoundingBox3 class */
-class BoundingBox3
+class DECLSPEC BoundingBox3
 {
     public:
         BoundingBox3();

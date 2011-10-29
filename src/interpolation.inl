@@ -5,7 +5,7 @@
     interpolation.inl
     Interpolation inline functions
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -45,17 +45,17 @@
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline real_t interp_step(real_t a, real_t b, real_t p)
+static inline scalar_t interp_step(scalar_t a, scalar_t b, scalar_t p)
 {
     return (p < .5f) ? a : b;
 }
 
-static inline real_t interp_linear(real_t a, real_t b, real_t p)
+static inline scalar_t interp_linear(scalar_t a, scalar_t b, scalar_t p)
 {
     return  (a * (1.f - p)) + (b * p);
 }
 
-static inline real_t interp_cosine(real_t a, real_t b, real_t p)
+static inline scalar_t interp_cosine(scalar_t a, scalar_t b, scalar_t p)
 {
     /*
         First we turn the p value into an angle to sample from the
@@ -65,29 +65,29 @@ static inline real_t interp_cosine(real_t a, real_t b, real_t p)
         value from the cosine wave instead of the value of the given p
     */
 
-    real_t p2 = (1.f - cos(p * PI)) / 2;
+    scalar_t p2 = (1.f - cos(p * PI)) / 2;
     return(a * (1 - p2) + b * p2);
 }
 
-static inline real_t interp_acceleration(real_t a, real_t b, real_t p)
+static inline scalar_t interp_acceleration(scalar_t a, scalar_t b, scalar_t p)
 {
-    real_t np = p * p;
+    scalar_t np = p * p;
     return  (a * (1.f - np)) + (b * np);
 }
 
-static inline real_t interp_deceleration(real_t a, real_t b, real_t p)
+static inline scalar_t interp_deceleration(scalar_t a, scalar_t b, scalar_t p)
 {
-    real_t op = 1 - p;
-    real_t np = 1 - (op * op);
+    scalar_t op = 1 - p;
+    scalar_t np = 1 - (op * op);
     return  (a * (1.f - np)) + (b * np);
 }
 
-static inline real_t interp_cubic(real_t a, real_t b, real_t c, real_t d, real_t p)
+static inline scalar_t interp_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
 {
-    real_t P = (d - c) - (a - b);
-	real_t Q = (a - b) - P;
-	real_t R = c - a;
-	real_t S = b;
+    scalar_t P = (d - c) - (a - b);
+	scalar_t Q = (a - b) - P;
+	scalar_t R = c - a;
+	scalar_t S = b;
 
 	float p2 = p * p;
     float p3 = p2 * p;
@@ -95,7 +95,7 @@ static inline real_t interp_cubic(real_t a, real_t b, real_t c, real_t d, real_t
 	return (P * p3) + (Q * p2) + (R * p) + S;
 }
 
-static inline real_t interp_hermite(real_t t1, real_t a, real_t b, real_t t2, real_t p)
+static inline scalar_t interp_hermite(scalar_t t1, scalar_t a, scalar_t b, scalar_t t2, scalar_t p)
 {
     float p2 = p * p;
     float p3 = p2 * p;
@@ -108,25 +108,25 @@ static inline real_t interp_hermite(real_t t1, real_t a, real_t b, real_t t2, re
     return (h1 * a) + (h2 * b) + (h3 * t1) + (h4 * t2); /* multiply and sum all functions together */
 }
 
-static inline real_t interp_cardinal(real_t a, real_t b, real_t c, real_t d, real_t t, real_t p)
+static inline scalar_t interp_cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t, scalar_t p)
 {
-    real_t t2 = t * t;
-    real_t p3 = p * p * p;
+    scalar_t t2 = t * t;
+    scalar_t p3 = p * p * p;
 
     return t * ( (2 * b) + 	((c - a) * t) + (((2 * a) - (5 * b) + (4 * c) - d) * t2) +(((3 * b) - (3 * c) + d - a) * p3));
 }
 
-static inline real_t interp_catmullrom(real_t a, real_t b, real_t c, real_t d, real_t p)
+static inline scalar_t interp_catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
 {
     /*
         Note
         ----
         CatmullRoms are cardinals with a tension of 0.5
     */
-    real_t P = - (.5f * a) + (1.5f * b) - (1.5f * c) + (0.5f * d);
-    real_t Q = a - (2.5 * b) + (2 * c) - (0.5 * d);
-    real_t R = ( c - a ) * .5f;
-    real_t S = b;
+    scalar_t P = - (.5f * a) + (1.5f * b) - (1.5f * c) + (0.5f * d);
+    scalar_t Q = a - (2.5 * b) + (2 * c) - (0.5 * d);
+    scalar_t R = ( c - a ) * .5f;
+    scalar_t S = b;
 
    	float p2 = p * p;
     float p3 = p2 * p;
@@ -134,17 +134,17 @@ static inline real_t interp_catmullrom(real_t a, real_t b, real_t c, real_t d, r
     return (P * p3) + (Q * p2) + (R * p) + S;
 }
 
-static inline real_t interp_bezier_quadratic(real_t a, real_t b, real_t c, real_t p)
+static inline scalar_t interp_bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t p)
 {
-    real_t ab, bc;
+    scalar_t ab, bc;
     ab = interp_linear(a, b, p);
     bc = interp_linear(b, c, p);
     return interp_linear( ab, bc, p);
 }
 
-static inline real_t interp_bezier_cubic(real_t a, real_t b, real_t c, real_t d, real_t p)
+static inline scalar_t interp_bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
 {
-    real_t ab, bc, cd, abc, bcd;
+    scalar_t ab, bc, cd, abc, bcd;
     ab = interp_linear(a, b, p);
     bc = interp_linear(b, c, p);
     cd = interp_linear(c, d, p);

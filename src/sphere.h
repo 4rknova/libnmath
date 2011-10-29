@@ -5,7 +5,7 @@
     sphere.h
     Sphere
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -33,34 +33,36 @@
 #include "geometry.h"
 #include "ray.h"
 
+#include "declspec.h"
+
 typedef struct
 {
     vec3_t origin;
-    real_t radius;
+    scalar_t radius;
 } sphere_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline sphere_t sphere_pack(vec3_t origin, real_t radius);
+static inline sphere_t sphere_pack(vec3_t origin, scalar_t radius);
 
 #ifdef __cplusplus
 }	/* __cplusplus */
 
 #define NMATH_SPHERE_DEFAULT_RADIUS 1.0
 
-class Sphere: public Geometry
+class DECLSPEC Sphere: public Geometry
 {
     public:
         Sphere();
-        Sphere(const Vector3 &org, real_t rad);
+        Sphere(const Vector3 &org, scalar_t rad);
 
 		bool intersection(const Ray &ray, IntInfo* i_info) const;
 		void calc_aabb();
 
         Vector3 origin;
-        real_t radius;
+        scalar_t radius;
 };
 
 #endif	/* __cplusplus */

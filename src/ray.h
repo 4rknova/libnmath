@@ -5,7 +5,7 @@
     ray.h
     Ray
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -31,6 +31,8 @@
 #include "types.h"
 #include "vector.h"
 
+#include "declspec.h"
+
 typedef struct
 {
     vec3_t origin, direction;
@@ -45,7 +47,7 @@ static inline ray_t ray_pack(vec3_t origin, vec3_t direction);
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-class Ray
+class DECLSPEC Ray
 {
     public:
         Ray();                                          /* This relies on vector class default constructor setting all components to 0 */

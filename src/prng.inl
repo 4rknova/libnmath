@@ -5,7 +5,7 @@
     prng.inl
     Pseudo Random Number Generators - inline functions
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -48,7 +48,7 @@
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline real_t prng_c(real_t a, real_t b)
+static inline scalar_t prng_c(scalar_t a, scalar_t b)
 {
     /*
         This prng uses the default c algorithm.
@@ -80,7 +80,7 @@ static inline real_t prng_c(real_t a, real_t b)
     return (rand() * ( (b - a) / RAND_MAX)) + a;
 }
 
-static inline real_t prng_multiplyWithCarry(real_t a, real_t b)
+static inline scalar_t prng_multiplyWithCarry(scalar_t a, scalar_t b)
 {
     /*
         Marsaglia's comments:
@@ -185,7 +185,7 @@ static inline real_t prng_multiplyWithCarry(real_t a, real_t b)
         top half of a 64-bit product in C.  Can anyone suggest how it might be done? (in integer arithmetic)
 
         George Marsaglia geo@stat.fsu.edu
-*/
+	*/
 
     /*
         We will use only 2 seeds for the fastest possible generation.
@@ -202,7 +202,7 @@ static inline real_t prng_multiplyWithCarry(real_t a, real_t b)
     m_z = 30903 * (m_z & 65535) + (m_z >> 16);
     m_w = 18000 * (m_w & 65535) + (m_w >> 16);
 
-    return (real_t)(((m_z << 16) + m_w ) * (b - a) / 0xFFFFFFFF) + a;
+    return (scalar_t)(((m_z << 16) + m_w ) * (b - a) / 0xFFFFFFFF) + a;
 }
 
 #ifdef __cplusplus

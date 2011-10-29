@@ -5,7 +5,7 @@
     types.h
     Declares global data types
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -30,27 +30,26 @@
 
 #include "precision.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
 /* Vectors */
-typedef struct { real_t x, y; } vec2_t;
-typedef struct { real_t x, y, z; } vec3_t;
-typedef struct { real_t x, y, z, w; } vec4_t;
-
-/* Vertices */
-typedef vec2_t vertex2d_t;
-typedef vec3_t vertex3d_t;
-
-/* Quaternions */
-typedef vec4_t quat_t;
+typedef struct { scalar_t x, y; } vec2_t;
+typedef struct { scalar_t x, y, z; } vec3_t;
+typedef struct { scalar_t x, y, z, w; } vec4_t;
 
 /* Matrices */
-typedef real_t mat3x3_t[3][3];
-typedef real_t mat4x4_t[4][4];
+typedef scalar_t mat3x3_t[3][3];
+typedef scalar_t mat4x4_t[4][4];
 
 /* Bounding boxes */
 typedef struct { vec2_t min, max; } aabb2_t;
 typedef struct { vec3_t min, max; } aabb3_t;
 
 #ifdef __cplusplus
+}   /* extern "C" */
+
 /* C++ equivalents - Forward declarations */
 class Vector2;
 class Vector3;

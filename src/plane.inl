@@ -5,7 +5,7 @@
     plane.h
     Plane inline functions
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline plane_t plane_pack(vec3_t normal, real_t distance)
+static inline plane_t plane_pack(vec3_t normal, scalar_t distance)
 {
 	plane_t s;
 	s.normal = normal;

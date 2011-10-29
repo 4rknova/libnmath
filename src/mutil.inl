@@ -5,7 +5,7 @@
     mutil.inl
     Declares some math utility functions
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -32,87 +32,22 @@
     #error "mutil.h must be included before mutil.inl"
 #endif /* LIBNMATH_MUTIL_H_INCLUDED */
 
-#include "types.h"
-#include "defs.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 /* conversion between radians and degrees */
-static inline real_t degree_to_radian(real_t r)
+	/*
+static inline scalar_t degree_to_radian(scalar_t r)
 {
     return (r * 180.0f) / PI;
 }
 
-static inline real_t radian_to_degree(real_t d)
+static inline scalar_t radian_to_degree(scalar_t d)
 {
     return d * (PI / 180.0f);
 }
-
-/* min - max */
-static inline real_t min(real_t x, real_t y)
-{
-    return (x > y) ? (y) : (x);
-}
-
-static inline real_t max(real_t x, real_t y)
-{
-    return (x > y) ? (x) : (y);
-}
-
-/* absolute */
-static inline real_t absolute(real_t x)
-{
-    return (x >= 0) ? (x) : (x * (-1.0f));
-}
-
-static inline real_t absolute_difference(real_t x, real_t y)
-{
-    return (x >= y) ? (absolute(x - y)) : (absolute(y - x));
-}
-
-/* powers */
-static inline real_t squared(real_t x)
-{
-    return x*x;
-}
-
-static inline real_t qubed(real_t x)
-{
-    return x*x*x;
-}
-
-static inline real_t power(real_t a, int b)
-{
-    if (b<0)
-    {
-        return a;
-    }
-
-    if (b==0)
-    {
-        return 1;
-    }
-
-    if (a==0)
-    {
-        return 0;
-    }
-
-    if (b%2 == 0)
-    {
-        return power(a * a, b / 2);
-    }
-    else if (b%2 == 1)
-    {
-        /* Integer division will discard the remainder */
-        return a * power(a * a, b / 2);
-    }
-
-    return 0;
-}
-
+*/
 
 /* Greater Common Divisor */
 static inline int gcd(int a, int b)

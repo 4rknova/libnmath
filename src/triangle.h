@@ -5,7 +5,7 @@
     triangle.h
     Triangle
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -30,9 +30,10 @@
 
 #include "precision.h"
 #include "vector.h"
-#include "vertex.h"
 #include "geometry.h"
 #include "ray.h"
+
+#include "declspec.h"
 
 typedef struct
 {
@@ -48,7 +49,7 @@ static inline triangle_t triangle_pack(vec3_t v0, vec3_t v1, vec3_t v2);
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-class Triangle: public Geometry
+class DECLSPEC Triangle: public Geometry
 {
     public:
         Triangle();
@@ -58,7 +59,7 @@ class Triangle: public Geometry
 		Vector3 calc_normal() const;
 		Vector3 calc_barycentric(const Vector3 &p) const;
 
-        Vertex v[3];
+        Vector3 v[3];
 };
 
 #endif	/* __cplusplus */

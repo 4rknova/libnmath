@@ -5,7 +5,7 @@
     sphere.h
     Sphere inline functions
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline sphere_t sphere_pack(vec3_t origin, real_t radius)
+static inline sphere_t sphere_pack(vec3_t origin, scalar_t radius)
 {
 	sphere_t s;
 	s.origin = origin;

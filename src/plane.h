@@ -5,7 +5,7 @@
     plane.h
     Plane
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -33,24 +33,26 @@
 #include "geometry.h"
 #include "ray.h"
 
+#include "declspec.h"
+
 typedef struct
 {
     vec3_t normal;
-    real_t distance;
+    scalar_t distance;
 } plane_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline plane_t plane_pack(vec3_t normal, real_t distance);
+static inline plane_t plane_pack(vec3_t normal, scalar_t distance);
 
 #ifdef __cplusplus
 }	/* __cplusplus */
 
 #define NMATH_PLANE_DEFAULT_DISTANCE 1.0
 
-class Plane: public Geometry
+class DECLSPEC Plane: public Geometry
 {
 	public:
 		Plane();
@@ -60,7 +62,7 @@ class Plane: public Geometry
 		void calc_aabb();
 
 		Vector3 normal;
-		real_t distance; 
+		scalar_t distance; 
 };
 
 #endif	/* __cplusplus */

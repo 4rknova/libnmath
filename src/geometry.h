@@ -5,7 +5,7 @@
     geometry.h
     Geometry
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -31,6 +31,8 @@
 #include "aabb.h"
 #include "ray.h"
 
+#include "declspec.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
@@ -51,9 +53,9 @@ enum NMATH_GEOMETRY_TYPE
 }	/* __cplusplus */
 
 // forward declaration
-struct IntInfo;
+class IntInfo;
 
-class Geometry
+class DECLSPEC Geometry
 {
     public:
 		Geometry(NMATH_GEOMETRY_TYPE t);
@@ -65,7 +67,6 @@ class Geometry
 
 	protected:
 		BoundingBox3 aabb;
-
 };
 
 #endif	/* __cplusplus */

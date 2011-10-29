@@ -5,7 +5,7 @@
     precision.h
     Configures precision at compile time
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -32,30 +32,34 @@
     Define MATH_SINGLE_PRECISION to use single precision math
 */
 
-#include "float.h"
-
 #ifdef __cplusplus
 	extern "C" {
 #endif  /* __cplusplus */
 
+#include <float.h>
+
 #ifdef MATH_SINGLE_PRECISION
-	#define REAL_T_MAX FLT_MAX
-	typedef float real_t;
+	#define SCALAR_T_MAX FLT_MAX
+	typedef float scalar_t;
 
 #else
-    #define REAL_T_MAX DBL_MAX
-    typedef double real_t;
+    #define SCALAR_T_MAX DBL_MAX
+    typedef double scalar_t;
 
 #endif /* MATH_SINGLE_PRECISION */
 
 /* Infinity */
-#define NM_INFINITY REAL_T_MAX
+#define NM_INFINITY SCALAR_T_MAX
+
+#ifndef INFINITY
+	#define INFINITY NM_INFINITY
+#endif /* INFINITY */
 
 /* Useful float values used in comparisons */
-#define REAL_T_MEDIUM	1.e-2	/* 0.01 */
-#define REAL_T_SMALL    1.e-4   /* 0.0001 */
-#define REAL_T_XSMALL   1.e-6   /* 0.000001 */
-#define REAL_T_XXSMALL  1.e-8   /* 0.00000001 */
+#define SCALAR_T_MEDIUM   1.e-2   /* 0.01 */
+#define SCALAR_T_SMALL    1.e-4   /* 0.0001 */
+#define SCALAR_T_XSMALL   1.e-6   /* 0.000001 */
+#define SCALAR_T_XXSMALL  1.e-8   /* 0.00000001 */
 
 #ifdef __cplusplus
 	}   /* extern "C" */

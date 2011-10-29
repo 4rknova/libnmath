@@ -5,7 +5,7 @@
     interpolation.h
     Interpolation
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -43,28 +43,28 @@ extern "C" {
 #endif	/* __cplusplus */
 
 /* Step */
-static inline real_t interp_step(real_t a, real_t b, real_t p);
+static inline scalar_t interp_step(scalar_t a, scalar_t b, scalar_t p);
 
 /* Linear */
-static inline real_t interp_linear(real_t a, real_t b, real_t p);
+static inline scalar_t interp_linear(scalar_t a, scalar_t b, scalar_t p);
 
 /* Trigonometric */
-static inline real_t interp_cosine(real_t a, real_t b, real_t p);
+static inline scalar_t interp_cosine(scalar_t a, scalar_t b, scalar_t p);
 
 /* Polynomial */
-static inline real_t interp_acceleration(real_t a, real_t b, real_t p);
-static inline real_t interp_deceleration(real_t a, real_t b, real_t p);
+static inline scalar_t interp_acceleration(scalar_t a, scalar_t b, scalar_t p);
+static inline scalar_t interp_deceleration(scalar_t a, scalar_t b, scalar_t p);
 
-static inline real_t interp_cubic(real_t a, real_t b, real_t c, real_t d, real_t p);
+static inline scalar_t interp_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p);
 
 /* Splines */
-static inline real_t interp_hermite(real_t t1, real_t a, real_t b, real_t t2, real_t p);
-static inline real_t interp_cardinal(real_t a, real_t b, real_t c, real_t d, real_t t, real_t p);
-static inline real_t interp_catmullrom(real_t a, real_t b, real_t c, real_t d, real_t p);
+static inline scalar_t interp_hermite(scalar_t t1, scalar_t a, scalar_t b, scalar_t t2, scalar_t p);
+static inline scalar_t interp_cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t, scalar_t p);
+static inline scalar_t interp_catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p);
 
 /* Bezier */
-static inline real_t interp_bezier_quadratic(real_t a, real_t b, real_t c, real_t p);        /* DeCasteljau */
-static inline real_t interp_bezier_cubic(real_t a, real_t b, real_t c, real_t d, real_t p);  /* DeCasteljau */
+static inline scalar_t interp_bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t p);        /* DeCasteljau */
+static inline scalar_t interp_bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p);  /* DeCasteljau */
 
 #ifdef __cplusplus
 }   /* extern "C" */

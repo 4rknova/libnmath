@@ -5,7 +5,7 @@
     vector.cc
     Vector
 
-    Copyright (C) 2008, 2010
+    Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -51,7 +51,7 @@ void vector_format(std::ostream& out)
 /*
     Vector2
 */
-Vector2::Vector2(real_t aX, real_t aY): x(aX), y(aY){}
+Vector2::Vector2(scalar_t aX, scalar_t aY): x(aX), y(aY){}
 Vector2::Vector2(const Vector2& v): x(v.x), y(v.y){}
 Vector2::Vector2(const Vector3& v): x(v.x), y(v.y){}
 Vector2::Vector2(const Vector4& v): x(v.x), y(v.y){}
@@ -67,7 +67,7 @@ std::ostream& operator <<(std::ostream& out, const Vector2& vec)
 /*
     Vector3
 */
-Vector3::Vector3(real_t aX, real_t aY, real_t aZ): x(aX), y(aY), z(aZ){}
+Vector3::Vector3(scalar_t aX, scalar_t aY, scalar_t aZ): x(aX), y(aY), z(aZ){}
 Vector3::Vector3(const Vector3& v): x(v.x), y(v.y), z(v.z){}
 Vector3::Vector3(const Vector2& v): x(v.x), y(v.y), z(0.0f){}
 Vector3::Vector3(const Vector4& v): x(v.x), y(v.y), z(v.z){}
@@ -83,7 +83,7 @@ std::ostream& operator <<(std::ostream& out, const Vector3 &vec)
 /*
     Vector4
 */
-Vector4::Vector4(real_t aX, real_t aY, real_t aZ, real_t aW): x(aX), y(aY), z(aZ), w(aW){}
+Vector4::Vector4(scalar_t aX, scalar_t aY, scalar_t aZ, scalar_t aW): x(aX), y(aY), z(aZ), w(aW){}
 Vector4::Vector4(const Vector4& v): x(v.x), y(v.y), z(v.z), w(v.w){}
 Vector4::Vector4(const Vector2& v): x(v.x), y(v.y), z(0.0f), w(0.0f){}
 Vector4::Vector4(const Vector3& v): x(v.x), y(v.y), z(v.z), w(0.0f){}
