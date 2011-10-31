@@ -41,7 +41,9 @@ enum NMATH_GEOMETRY_TYPE
 {
 	GEOMETRY_PLANE,
 	GEOMETRY_TRIANGLE,
-	GEOMETRY_SPHERE
+	GEOMETRY_SPHERE,
+	
+	GEOMETRY_MESH		/* For external objects that might extend geometry */
 };
 
 #ifdef __cplusplus
