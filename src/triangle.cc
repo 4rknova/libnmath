@@ -83,7 +83,7 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 		i_info->geometry = this;
 		
 		// normal
-		Vector3 pn = normal;
+		Vector3 pn = n[0] * bc.x + n[1] * bc.y + n[2] * bc.z;;
 		i_info->normal = pn.length() ? pn : normal;
 	}
 

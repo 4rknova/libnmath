@@ -59,7 +59,8 @@ class DECLSPEC Triangle: public Geometry
 		Vector3 calc_normal() const;
 		Vector3 calc_barycentric(const Vector3 &p) const;
 
-        Vector3 v[3];
+        Vector3 v[3]; // position
+        Vector3 n[3]; // normal
 };
 
 #endif	/* __cplusplus */
