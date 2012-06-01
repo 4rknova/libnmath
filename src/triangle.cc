@@ -48,10 +48,9 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 	Vector3 normal = calc_normal();
 
 	double n_dot_dir = dot(normal, ray.direction);
+
 	if(fabs(n_dot_dir) < EPSILON) 
-	{
 		return false; // parallel to the plane
-	}
 
 	// translation of v[0] to axis origin
 	Vector3 vo_vec = ray.origin - v[0];
@@ -59,9 +58,7 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 	// calc intersection distance
 	scalar_t t = -dot(normal, vo_vec) / n_dot_dir;
 	if(t < EPSILON)
-	{
 		return false; // plane in the opposite subspace
-	}
 
 	// intersection point ( on the plane ).
 	Vector3 pos = ray.origin + ray.direction * t;
@@ -72,9 +69,7 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 
 	// check for triangle boundaries
 	if (bc_sum < 1.0 - EPSILON || bc_sum > 1.0 + EPSILON)
-	{
 		return false;
-	}
 
 	if (i_info)
 	{
@@ -126,12 +121,14 @@ Vector3 Triangle::calc_barycentric(const Vector3 &p) const
 
 	Vector3 norm = xv1v2.normalized();
 
+
+/*
+	// OLD SECTION START
+
 	scalar_t area = fabs(dot(xv1v2, norm)) * 0.5;
 
 	if(area < EPSILON)
-	{
 		return bc;
-	}
 
 	Vector3 pv0 = v[0] - p;
 	Vector3 pv1 = v[1] - p;
@@ -149,6 +146,39 @@ Vector3 Triangle::calc_barycentric(const Vector3 &p) const
 	bc.x = a0 / area;
 	bc.y = a1 / area;
 	bc.z = a2 / area;
+
+	// OLD SECTION END
+	// NOTE: The commented section works perfectly. Bellow I am trying an optimization.
+*/
+/*
+	OPTIMISED SECTION START 
+*/
+
+	scalar_t inv_area = 2.0 / fabs(dot(xv1v2, norm));
+
+	if(inv_area > EPSILON)
+		return bc;
+
+	Vector3 pv0 = v[0] - p;
+	Vector3 pv1 = v[1] - p;
+	Vector3 pv2 = v[2] - p;
+
+	// calculate the area of each sub-triangle
+	Vector3 x12 = cross(pv1, pv2);
+	Vector3 x20 = cross(pv2, pv0);
+	Vector3 x01 = cross(pv0, pv1);
+
+	scalar_t a0 = fabs(dot(x12, norm)) * 0.5;
+	scalar_t a1 = fabs(dot(x20, norm)) * 0.5;
+	scalar_t a2 = fabs(dot(x01, norm)) * 0.5;
+	
+	bc.x = a0 * inv_area;
+	bc.y = a1 * inv_area;
+	bc.z = a2 * inv_area;
+
+/*
+	OPTIMISED SECTION END
+*/
 
 	return bc;
 }
