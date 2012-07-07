@@ -1,27 +1,27 @@
 /*
 
-    This file is part of the nemesis math library.
+	This file is part of libnmath.
 
-    triangle.cc
-    Triangle
+	triangle.cc
+	Triangle
 
-    Copyright (C) 2008, 2010, 2011
-    Papadopoulos Nikolaos
+	Copyright (C) 2008, 2010 - 2012
+	Papadopoulos Nikolaos
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 3 of the License, or (at your option) any later version.
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 3 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU	Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General
-    Public License along with this library; if not, write to the
-    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301 USA
+	You should have received a copy of the GNU Lesser General
+	Public License along with this program; if not, write to the
+	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+	Boston, MA 02110-1301 USA
 
 */
 
@@ -32,12 +32,9 @@
 #include "vector.h"
 #include "intinfo.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif	/* __cplusplus */
+namespace NMath {
 
 #ifdef __cplusplus
-}
 
 Triangle::Triangle()
 	:	Geometry(GEOMETRY_TRIANGLE)
@@ -45,7 +42,7 @@ Triangle::Triangle()
 
 bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 {
-	Vector3 normal = calc_normal();
+	Vector3f normal = calc_normal();
 
 	double n_dot_dir = dot(normal, ray.direction);
 
@@ -53,7 +50,7 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 		return false; // parallel to the plane
 
 	// translation of v[0] to axis origin
-	Vector3 vo_vec = ray.origin - v[0];
+	Vector3f vo_vec = ray.origin - v[0];
 
 	// calc intersection distance
 	scalar_t t = -dot(normal, vo_vec) / n_dot_dir;
@@ -61,10 +58,10 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 		return false; // plane in the opposite subspace
 
 	// intersection point ( on the plane ).
-	Vector3 pos = ray.origin + ray.direction * t;
+	Vector3f pos = ray.origin + ray.direction * t;
 
 	// calculate barycentric
-	Vector3 bc = calc_barycentric(pos);
+	Vector3f bc = calc_barycentric(pos);
 	scalar_t bc_sum = bc.x + bc.y + bc.z;
 
 	// check for triangle boundaries
@@ -78,7 +75,7 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 		i_info->geometry = this;
 		
 		// normal
-		Vector3 pn = n[0] * bc.x + n[1] * bc.y + n[2] * bc.z;;
+		Vector3f pn = n[0] * bc.x + n[1] * bc.y + n[2] * bc.z;;
 		i_info->normal = pn.length() ? pn : normal;
 	}
 
@@ -87,39 +84,39 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 
 void Triangle::calc_aabb()
 {
-	aabb.max = Vector3(-NM_INFINITY, -NM_INFINITY, -NM_INFINITY);
-	aabb.min = Vector3(NM_INFINITY, NM_INFINITY, NM_INFINITY);
+	m_aabb.max = Vector3f(-NM_INFINITY, -NM_INFINITY, -NM_INFINITY);
+	m_aabb.min = Vector3f(NM_INFINITY, NM_INFINITY, NM_INFINITY);
 
 	for(unsigned int i=0; i<3; i++)
 	{
-		Vector3 pos = v[i];
-		if(pos.x < aabb.min.x) aabb.min.x = pos.x;
-		if(pos.y < aabb.min.y) aabb.min.y = pos.y;
-		if(pos.z < aabb.min.z) aabb.min.z = pos.z;
+		Vector3f pos = v[i];
+		if(pos.x < m_aabb.min.x) m_aabb.min.x = pos.x;
+		if(pos.y < m_aabb.min.y) m_aabb.min.y = pos.y;
+		if(pos.z < m_aabb.min.z) m_aabb.min.z = pos.z;
 
-		if(pos.x > aabb.max.x) aabb.max.x = pos.x;
-		if(pos.y > aabb.max.y) aabb.max.y = pos.y;
-		if(pos.z > aabb.max.z) aabb.max.z = pos.z;
+		if(pos.x > m_aabb.max.x) m_aabb.max.x = pos.x;
+		if(pos.y > m_aabb.max.y) m_aabb.max.y = pos.y;
+		if(pos.z > m_aabb.max.z) m_aabb.max.z = pos.z;
 	}
 }
 
-Vector3 Triangle::calc_normal() const
+Vector3f Triangle::calc_normal() const
 {
-	Vector3 v1 = v[2] - v[0];
-	Vector3 v2 = v[1] - v[0];
+	Vector3f v1 = v[2] - v[0];
+	Vector3f v2 = v[1] - v[0];
 
 	return (cross(v1, v2)).normalized();
 }
 
-Vector3 Triangle::calc_barycentric(const Vector3 &p) const
+Vector3f Triangle::calc_barycentric(const Vector3f &p) const
 {
-	Vector3 bc(0.0f, 0.0f, 0.0f);
+	Vector3f bc(0.0f, 0.0f, 0.0f);
 
-	Vector3 v1 = v[1] - v[0];
-	Vector3 v2 = v[2] - v[0];
-	Vector3 xv1v2 = cross(v1, v2);
+	Vector3f v1 = v[1] - v[0];
+	Vector3f v2 = v[2] - v[0];
+	Vector3f xv1v2 = cross(v1, v2);
 
-	Vector3 norm = xv1v2.normalized();
+	Vector3f norm = xv1v2.normalized();
 
 
 /*
@@ -130,14 +127,14 @@ Vector3 Triangle::calc_barycentric(const Vector3 &p) const
 	if(area < EPSILON)
 		return bc;
 
-	Vector3 pv0 = v[0] - p;
-	Vector3 pv1 = v[1] - p;
-	Vector3 pv2 = v[2] - p;
+	Vector3f pv0 = v[0] - p;
+	Vector3f pv1 = v[1] - p;
+	Vector3f pv2 = v[2] - p;
 
 	// calculate the area of each sub-triangle
-	Vector3 x12 = cross(pv1, pv2);
-	Vector3 x20 = cross(pv2, pv0);
-	Vector3 x01 = cross(pv0, pv1);
+	Vector3f x12 = cross(pv1, pv2);
+	Vector3f x20 = cross(pv2, pv0);
+	Vector3f x01 = cross(pv0, pv1);
 
 	scalar_t a0 = fabs(dot(x12, norm)) * 0.5;
 	scalar_t a1 = fabs(dot(x20, norm)) * 0.5;
@@ -159,14 +156,14 @@ Vector3 Triangle::calc_barycentric(const Vector3 &p) const
 	if(inv_area > EPSILON)
 		return bc;
 
-	Vector3 pv0 = v[0] - p;
-	Vector3 pv1 = v[1] - p;
-	Vector3 pv2 = v[2] - p;
+	Vector3f pv0 = v[0] - p;
+	Vector3f pv1 = v[1] - p;
+	Vector3f pv2 = v[2] - p;
 
 	// calculate the area of each sub-triangle
-	Vector3 x12 = cross(pv1, pv2);
-	Vector3 x20 = cross(pv2, pv0);
-	Vector3 x01 = cross(pv0, pv1);
+	Vector3f x12 = cross(pv1, pv2);
+	Vector3f x20 = cross(pv2, pv0);
+	Vector3f x01 = cross(pv0, pv1);
 
 	scalar_t a0 = fabs(dot(x12, norm)) * 0.5;
 	scalar_t a1 = fabs(dot(x20, norm)) * 0.5;
@@ -184,3 +181,5 @@ Vector3 Triangle::calc_barycentric(const Vector3 &p) const
 }
 
 #endif	/* __cplusplus */
+
+} /* namespace NMath */

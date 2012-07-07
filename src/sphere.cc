@@ -1,27 +1,27 @@
 /*
 
-    This file is part of the nemesis math library.
+	This file is part of libnmath.
 
-    sphere.cc
-    Sphere
+	sphere.cc
+	Sphere
 
-    Copyright (C) 2008, 2010, 2011
-    Papadopoulos Nikolaos
+	Copyright (C) 2008, 2010 - 2012
+	Papadopoulos Nikolaos
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 3 of the License, or (at your option) any later version.
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 3 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU	Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General
-    Public License along with this library; if not, write to the
-    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301 USA
+	You should have received a copy of the GNU Lesser General
+	Public License along with this program; if not, write to the
+	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+	Boston, MA 02110-1301 USA
 
 */
 
@@ -33,18 +33,15 @@
 #include "vector.h"
 #include "intinfo.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif	/* __cplusplus */
+namespace NMath {
 
 #ifdef __cplusplus
-}
 
 Sphere::Sphere()
     : Geometry(GEOMETRY_SPHERE), radius(NMATH_SPHERE_DEFAULT_RADIUS)
 {}
 
-Sphere::Sphere(const Vector3 &org, scalar_t rad)
+Sphere::Sphere(const Vector3f &org, scalar_t rad)
     : Geometry(GEOMETRY_SPHERE), origin(org), radius(rad > 0 ? rad : NMATH_SPHERE_DEFAULT_RADIUS)
 {}
 
@@ -52,7 +49,7 @@ bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 {
 
 #ifdef NMATH_USE_BBOX_INTERSECTION
-	if(!aabb.intersection(ray))
+	if(!m_aabb.intersection(ray))
 	{
 		return false;
 	}
@@ -102,8 +99,10 @@ bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 
 void Sphere::calc_aabb()
 {
-	aabb.max = origin + Vector3(radius, radius, radius);
-	aabb.min = origin - Vector3(radius, radius, radius);
+	m_aabb.max = origin + Vector3f(radius, radius, radius);
+	m_aabb.min = origin - Vector3f(radius, radius, radius);
 }
 
 #endif	/* __cplusplus */
+
+} /* namespace NMath */

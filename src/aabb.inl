@@ -1,39 +1,41 @@
 /*
 
-    This file is part of the nemesis math library.
+	This file is part of libnmath.
 
-    aabb.h
-    Bounding box
+	aabb.inl
+	Axis Aligned Bounding Box
 
-    Copyright (C) 2008, 2010, 2011
-    Papadopoulos Nikolaos
+	Copyright (C) 2008, 2010 - 2012
+	Papadopoulos Nikolaos
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 3 of the License, or (at your option) any later version.
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 3 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU	Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General
-    Public License along with this library; if not, write to the
-    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301 USA
+	You should have received a copy of the GNU Lesser General
+	Public License along with this program; if not, write to the
+	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+	Boston, MA 02110-1301 USA
 
 */
 
-#ifndef LIBNMATH_BBOX_INL_INCLUDED
-#define LIBNMATH_BBOX_INL_INCLUDED
+#ifndef LIBNMATH_AABB_INL_INCLUDED
+#define LIBNMATH_AABB_INL_INCLUDED
 
-#ifndef LIBNMATH_BBOX_H_INCLUDED
+#ifndef LIBNMATH_AABB_H_INCLUDED
     #error "aabb.h must be included before aabb.inl"
-#endif /* LIBNMATH_BBOX_H_INCLUDED */
+#endif /* LIBNMATH_AABB_H_INCLUDED */
 
 #include "types.h"
 #include "vector.h"
+
+namespace NMath {
 
 #ifdef __cplusplus
 extern "C" {
@@ -136,18 +138,18 @@ static inline aabb3_t aabb3_augment_by_aabb(aabb3_t s, aabb3_t b)
 #ifdef __cplusplus
 }
 
-/* BoundingBox2 class */
-inline bool BoundingBox2::contains(const Vector2& p) const
+/* AABoundingBox2 class */
+inline bool AABoundingBox2::contains(const Vector2f& p) const
 {
     return (p.x >= min.x) && (p.y>=min.y) && (p.x<=max.x) && (p.y<=max.y);
 }
 
-inline Vector2 BoundingBox2::center() const
+inline Vector2f AABoundingBox2::center() const
 {
     return (min + max) / 2;
 }
 
-inline void BoundingBox2::augment(const Vector2& v)
+inline void AABoundingBox2::augment(const Vector2f& v)
 {
     if(v.x > max.x)	max.x = v.x;
     if(v.x < min.x)	min.x = v.x;
@@ -156,7 +158,7 @@ inline void BoundingBox2::augment(const Vector2& v)
     if(v.y < min.y)	min.y = v.y;
 }
 
-inline void BoundingBox2::augment(const BoundingBox2& b)
+inline void AABoundingBox2::augment(const AABoundingBox2& b)
 {
     if(b.max.x > max.x)	max.x = b.max.x;
     if(b.min.x < min.x)	min.x = b.min.x;
@@ -165,18 +167,18 @@ inline void BoundingBox2::augment(const BoundingBox2& b)
     if(b.min.y < min.y)	min.y = b.min.y;
 }
 
-/* BoundingBox3 class */
-inline bool BoundingBox3::contains(const Vector3& p) const
+/* AABoundingBox3 class */
+inline bool AABoundingBox3::contains(const Vector3f& p) const
 {
     return (p.x>= min.x) && (p.y>=min.y) && (p.z>=min.z) && (p.x<=max.x) && (p.y<=max.y) && (p.z<=max.z);
 }
 
-inline Vector3 BoundingBox3::center() const
+inline Vector3f AABoundingBox3::center() const
 {
     return (min + max) / 2;
 }
 
-inline void BoundingBox3::augment(const Vector3& v)
+inline void AABoundingBox3::augment(const Vector3f& v)
 {
     if(v.x > max.x)	max.x = v.x;
     if(v.x < min.x)	min.x = v.x;
@@ -188,7 +190,7 @@ inline void BoundingBox3::augment(const Vector3& v)
     if(v.z < min.z)	min.z = v.z;
 }
 
-inline void BoundingBox3::augment(const BoundingBox3& b)
+inline void AABoundingBox3::augment(const AABoundingBox3& b)
 {
     if(b.max.x > max.x)	max.x = b.max.x;
     if(b.min.x < min.x)	min.x = b.min.x;
@@ -200,8 +202,8 @@ inline void BoundingBox3::augment(const BoundingBox3& b)
     if(b.min.z < min.z)	min.z = b.min.z;
 }
 
-
 #endif /* __cplusplus */
 
+} /* namespace NMath */
 
-#endif /* LIBNMATH_BBOX_INL_INCLUDED */
+#endif /* LIBNMATH_AABB_INL_INCLUDED */

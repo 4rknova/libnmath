@@ -2,8 +2,8 @@
 
 	This file is part of libnmath.
 
-	triangle.inl
-	Triangle
+	bsphere.cc
+	Bounding Sphere
 
 	Copyright (C) 2008, 2010 - 2012
 	Papadopoulos Nikolaos
@@ -25,32 +25,21 @@
 
 */
 
-#ifndef LIBNMATH_TRIANGLE_INL_INCLUDED
-#define LIBNMATH_TRIANGLE_INL_INCLUDED
 
-#ifndef LIBNMATH_TRIANGLE_H_INCLUDED
-    #error "triangle.h must be included before triangle.inl"
-#endif /* LIBNMATH_TRIANGLE_H_INCLUDED */
+#include "bsphere.h"
 
 namespace NMath {
 
 #ifdef __cplusplus
-extern "C" {
-#endif	/* __cplusplus */
 
-static inline triangle_t triangle_pack(vec3_t v0, vec3_t v1, vec3_t v2)
-{
-	triangle_t t;
-	t.v[0] = v0;
-	t.v[1] = v1;
-	t.v[2] = v2;
-	return t;
-}
+BoundingCircle::BoundingCircle()
+{}
 
-#ifdef __cplusplus
-}
-#endif	/* __cplusplus */
+BoundingCircle::BoundingCircle(const Vector2f &a, const scalar_t r)
+	: origin(a),
+	  radius(r)
+{}
+
+#endif  /* __cplusplus */
 
 } /* namespace NMath */
-
-#endif /* LIBNMATH_TRIANGLE_INL_INCLUDED */

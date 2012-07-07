@@ -1,27 +1,27 @@
 /*
 
-    This file is part of the nemesis math library.
+	This file is part of libnmath.
 
-    vector.inl
-    Vector inline functions
+	vector.inl
+	Vector
 
-    Copyright (C) 2008, 2010, 2011
-    Papadopoulos Nikolaos
+	Copyright (C) 2008, 2010 - 2012
+	Papadopoulos Nikolaos
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 3 of the License, or (at your option) any later version.
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 3 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU	Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General
-    Public License along with this library; if not, write to the
-    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301 USA
+	You should have received a copy of the GNU Lesser General
+	Public License along with this program; if not, write to the
+	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+	Boston, MA 02110-1301 USA
 
 */
 
@@ -32,17 +32,20 @@
     #error "vector.h must be included before vector.inl"
 #endif /* LIBNMATH_VECTOR_H_INCLUDED */
 
-#include "precision.h"
-#include "types.h"
-#include "mutil.h"
-
 #ifdef __cplusplus
     #include <cmath>
 #else
     #include <math.h>
 #endif  /* __cplusplus */
 
+#include "precision.h"
+#include "types.h"
+#include "mutil.h"
+
 #include "matrix.h"
+
+
+namespace NMath {
 
 #ifdef __cplusplus
 extern "C" {
@@ -378,156 +381,156 @@ static inline void vec4_print(FILE *fp, vec4_t v)
 #ifdef __cplusplus
 }	/* extern "C" */
 
-/* Vector2 functions */
-inline scalar_t &Vector2::operator [](unsigned int index)
+/* Vector2f functions */
+inline scalar_t &Vector2f::operator [](unsigned int index)
 {
 	return index ? y : x;
 }
 
-inline const scalar_t &Vector2::operator [](unsigned int index) const
+inline const scalar_t &Vector2f::operator [](unsigned int index) const
 {
 	return index ? y : x;
 }
 
-inline const Vector2& Vector2::operator =(const Vector2& v)
+inline const Vector2f& Vector2f::operator =(const Vector2f& v)
 {
     x = v.x;
     y = v.y;
     return v;
 }
 
-inline const Vector2 operator -(const Vector2& v)
+inline const Vector2f operator -(const Vector2f& v)
 {
-	return Vector2(-v.x, -v.y);
+	return Vector2f(-v.x, -v.y);
 }
 
-inline const Vector2 operator +(const Vector2& v1, const Vector2& v2)
+inline const Vector2f operator +(const Vector2f& v1, const Vector2f& v2)
 {
-	return Vector2(v1.x + v2.x, v1.y + v2.y);
+	return Vector2f(v1.x + v2.x, v1.y + v2.y);
 }
 
-inline const Vector2 operator -(const Vector2& v1, const Vector2& v2)
+inline const Vector2f operator -(const Vector2f& v1, const Vector2f& v2)
 {
-	return Vector2(v1.x - v2.x, v1.y - v2.y);
+	return Vector2f(v1.x - v2.x, v1.y - v2.y);
 }
 
-inline const Vector2 operator *(const Vector2& v1, const Vector2& v2)
+inline const Vector2f operator *(const Vector2f& v1, const Vector2f& v2)
 {
-	return Vector2(v1.x * v2.x, v1.y * v2.y);
+	return Vector2f(v1.x * v2.x, v1.y * v2.y);
 }
 
-inline const Vector2 operator /(const Vector2& v1, const Vector2& v2)
+inline const Vector2f operator /(const Vector2f& v1, const Vector2f& v2)
 {
-	return Vector2(v1.x / v2.x, v1.y / v2.y);
+	return Vector2f(v1.x / v2.x, v1.y / v2.y);
 }
 
-inline const Vector2 operator +(const Vector2& v, scalar_t r)
+inline const Vector2f operator +(const Vector2f& v, scalar_t r)
 {
-	return Vector2(v.x + r, v.y + r);
+	return Vector2f(v.x + r, v.y + r);
 }
 
-inline const Vector2 operator +(scalar_t r, const Vector2& v)
+inline const Vector2f operator +(scalar_t r, const Vector2f& v)
 {
-	return Vector2(v.x + r, v.y + r);
+	return Vector2f(v.x + r, v.y + r);
 }
 
-inline const Vector2 operator -(const Vector2& v, scalar_t r)
+inline const Vector2f operator -(const Vector2f& v, scalar_t r)
 {
-	return Vector2(v.x - r, v.y - r);
+	return Vector2f(v.x - r, v.y - r);
 }
 
-inline const Vector2 operator *(const Vector2& v, scalar_t r)
+inline const Vector2f operator *(const Vector2f& v, scalar_t r)
 {
-	return Vector2(v.x * r, v.y * r);
+	return Vector2f(v.x * r, v.y * r);
 }
 
-inline const Vector2 operator *(scalar_t r, const Vector2& v)
+inline const Vector2f operator *(scalar_t r, const Vector2f& v)
 {
-	return Vector2(v.x * r, v.y * r);
+	return Vector2f(v.x * r, v.y * r);
 }
 
-inline const Vector2 operator /(const Vector2& v, scalar_t r)
+inline const Vector2f operator /(const Vector2f& v, scalar_t r)
 {
-	return Vector2(v.x / r, v.y / r);
+	return Vector2f(v.x / r, v.y / r);
 }
 
-inline Vector2& operator +=(Vector2& v1, const Vector2& v2)
+inline Vector2f& operator +=(Vector2f& v1, const Vector2f& v2)
 {
 	v1.x += v2.x;
 	v1.y += v2.y;
 	return v1;
 }
 
-inline Vector2& operator -=(Vector2& v1, const Vector2& v2)
+inline Vector2f& operator -=(Vector2f& v1, const Vector2f& v2)
 {
 	v1.x -= v2.x;
 	v1.y -= v2.y;
 	return v1;
 }
 
-inline Vector2& operator *=(Vector2& v1, const Vector2& v2)
+inline Vector2f& operator *=(Vector2f& v1, const Vector2f& v2)
 {
 	v1.x *= v2.x;
 	v1.y *= v2.y;
 	return v1;
 }
 
-inline Vector2& operator /=(Vector2& v1, const Vector2& v2)
+inline Vector2f& operator /=(Vector2f& v1, const Vector2f& v2)
 {
 	v1.x /= v2.x;
 	v1.y /= v2.y;
 	return v1;
 }
 
-inline Vector2& operator +=(Vector2& v, scalar_t r)
+inline Vector2f& operator +=(Vector2f& v, scalar_t r)
 {
 	v.x += r;
 	v.y += r;
 	return v;
 }
 
-inline Vector2& operator -=(Vector2& v, scalar_t r)
+inline Vector2f& operator -=(Vector2f& v, scalar_t r)
 {
 	v.x -= r;
 	v.y -= r;
 	return v;
 }
 
-inline Vector2& operator *=(Vector2& v, scalar_t r)
+inline Vector2f& operator *=(Vector2f& v, scalar_t r)
 {
 	v.x *= r;
 	v.y *= r;
 	return v;
 }
 
-inline Vector2& operator /=(Vector2& v, scalar_t r)
+inline Vector2f& operator /=(Vector2f& v, scalar_t r)
 {
 	v.x /= r;
 	v.y /= r;
 	return v;
 }
 
-inline bool operator ==(const Vector2& v1, const Vector2& v2)
+inline bool operator ==(const Vector2f& v1, const Vector2f& v2)
 {
 	return (fabs(v1.x - v2.x) < SCALAR_T_XXSMALL) && (fabs(v1.y - v2.x) < SCALAR_T_XXSMALL);
 }
 
-inline bool operator !=(const Vector2& v1, const Vector2& v2)
+inline bool operator !=(const Vector2f& v1, const Vector2f& v2)
 {
 	return (fabs(v1.x - v2.x) >= SCALAR_T_XXSMALL) && (fabs(v1.y - v2.x) >= SCALAR_T_XXSMALL);
 }
 
-inline scalar_t Vector2::length() const
+inline scalar_t Vector2f::length() const
 {
 	return (scalar_t)sqrt(x*x + y*y);
 }
 
-inline scalar_t Vector2::length_squared() const
+inline scalar_t Vector2f::length_squared() const
 {
 	return x*x + y*y;
 }
 
-inline void Vector2::normalize()
+inline void Vector2f::normalize()
 {
 	scalar_t len = length();
 
@@ -538,33 +541,33 @@ inline void Vector2::normalize()
 	y /= len;
 }
 
-inline Vector2 Vector2::normalized() const
+inline Vector2f Vector2f::normalized() const
 {
 	scalar_t len = length();
-	return (len != 0) ? Vector2(x / len, y / len) : *this;
+	return (len != 0) ? Vector2f(x / len, y / len) : *this;
 }
 
-inline void Vector2::reflect(const Vector2 &normal)
+inline void Vector2f::reflect(const Vector2f &normal)
 {
 	*this = reflected(normal);
 }
 
-inline Vector2 Vector2::reflected(const Vector2 &normal) const
+inline Vector2f Vector2f::reflected(const Vector2f &normal) const
 {
-	Vector2 i = normalized();
-	Vector2 n = normal.normalized();
+	Vector2f i = normalized();
+	Vector2f n = normal.normalized();
 	return (2 * dot(i, n) * n) - i;
 }
 
-inline void Vector2::refract(const Vector2 &normal, scalar_t ior_src, scalar_t ior_dst)
+inline void Vector2f::refract(const Vector2f &normal, scalar_t ior_src, scalar_t ior_dst)
 {
 	*this = refracted(normal, ior_src, ior_dst);
 }
 
-inline Vector2 Vector2::refracted(const Vector2 &normal, scalar_t ior_src, scalar_t ior_dst) const
+inline Vector2f Vector2f::refracted(const Vector2f &normal, scalar_t ior_src, scalar_t ior_dst) const
 {
-	Vector2 n = normal.normalized();
-	Vector2 i = normalized();
+	Vector2f n = normal.normalized();
+	Vector2f i = normalized();
 	scalar_t ior = ior_src / ior_dst;
 
 	scalar_t cos_inc = - dot(n, i);
@@ -581,35 +584,35 @@ inline Vector2 Vector2::refracted(const Vector2 &normal, scalar_t ior_src, scala
 	return (ior * i) + (beta * n);
 }
 
-inline Vector2 Vector2::transform(Matrix3x3 &m)
+inline Vector2f Vector2f::transform(Matrix3x3 &m)
 {
 	return *this = transformed(m);
 }
 
-inline Vector2 Vector2::transformed(Matrix3x3 &m)
+inline Vector2f Vector2f::transformed(Matrix3x3 &m)
 {
 	scalar_t nx = m.data[0][0] * x + m.data[0][1]* y + m.data[0][3];
 	scalar_t ny = m.data[1][0] * x + m.data[1][1]* y + m.data[1][3];
-	return Vector2(nx, ny);
+	return Vector2f(nx, ny);
 }
 
-inline scalar_t dot(const Vector2& v1, const Vector2& v2)
+inline scalar_t dot(const Vector2f& v1, const Vector2f& v2)
 {
 	return v1.x * v2.x + v1.y * v2.y;
 }
 
-/* Vector3 functions */
-inline scalar_t& Vector3::operator [](unsigned int index)
+/* Vector3f functions */
+inline scalar_t& Vector3f::operator [](unsigned int index)
 {
 	return index ? (index == 1 ? y : z) : x;
 }
 
-inline const scalar_t& Vector3::operator [](unsigned int index) const
+inline const scalar_t& Vector3f::operator [](unsigned int index) const
 {
 	return index ? (index == 1 ? y : z) : x;
 }
 
-inline const Vector3& Vector3::operator =(const Vector3& v)
+inline const Vector3f& Vector3f::operator =(const Vector3f& v)
 {
     x = v.x;
     y = v.y;
@@ -617,62 +620,62 @@ inline const Vector3& Vector3::operator =(const Vector3& v)
     return v;
 }
 
-inline const Vector3 operator -(const Vector3& v)
+inline const Vector3f operator -(const Vector3f& v)
 {
-	return Vector3(-v.x, -v.y, -v.z);
+	return Vector3f(-v.x, -v.y, -v.z);
 }
 
-inline const Vector3 operator +(const Vector3& v1, const Vector3& v2)
+inline const Vector3f operator +(const Vector3f& v1, const Vector3f& v2)
 {
-	return Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+	return Vector3f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
 }
 
-inline const Vector3 operator -(const Vector3& v1, const Vector3& v2)
+inline const Vector3f operator -(const Vector3f& v1, const Vector3f& v2)
 {
-	return Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
+	return Vector3f(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 }
 
-inline const Vector3 operator *(const Vector3& v1, const Vector3& v2)
+inline const Vector3f operator *(const Vector3f& v1, const Vector3f& v2)
 {
-	return Vector3(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
+	return Vector3f(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z);
 }
 
-inline const Vector3 operator /(const Vector3& v1, const Vector3& v2)
+inline const Vector3f operator /(const Vector3f& v1, const Vector3f& v2)
 {
-	return Vector3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z);
+	return Vector3f(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z);
 }
 
-inline const Vector3 operator +(const Vector3& v, scalar_t r)
+inline const Vector3f operator +(const Vector3f& v, scalar_t r)
 {
-	return Vector3(v.x + r, v.y + r, v.z + r);
+	return Vector3f(v.x + r, v.y + r, v.z + r);
 }
 
-inline const Vector3 operator +(scalar_t r, const Vector3& v)
+inline const Vector3f operator +(scalar_t r, const Vector3f& v)
 {
-	return Vector3(v.x + r, v.y + r, v.z + r);
+	return Vector3f(v.x + r, v.y + r, v.z + r);
 }
 
-inline const Vector3 operator -(const Vector3& v, scalar_t r)
+inline const Vector3f operator -(const Vector3f& v, scalar_t r)
 {
-	return Vector3(v.x - r, v.y - r, v.z - r);
+	return Vector3f(v.x - r, v.y - r, v.z - r);
 }
 
-inline const Vector3 operator *(const Vector3& v, scalar_t r)
+inline const Vector3f operator *(const Vector3f& v, scalar_t r)
 {
-	return Vector3(v.x * r, v.y * r, v.z * r);
+	return Vector3f(v.x * r, v.y * r, v.z * r);
 }
 
-inline const Vector3 operator *(scalar_t r, const Vector3& v)
+inline const Vector3f operator *(scalar_t r, const Vector3f& v)
 {
-	return Vector3(v.x * r, v.y * r, v.z * r);
+	return Vector3f(v.x * r, v.y * r, v.z * r);
 }
 
-inline const Vector3 operator /(const Vector3& v, scalar_t r)
+inline const Vector3f operator /(const Vector3f& v, scalar_t r)
 {
-	return Vector3(v.x / r, v.y / r, v.z / r);
+	return Vector3f(v.x / r, v.y / r, v.z / r);
 }
 
-inline Vector3& operator +=(Vector3& v1, const Vector3& v2)
+inline Vector3f& operator +=(Vector3f& v1, const Vector3f& v2)
 {
 	v1.x += v2.x;
 	v1.y += v2.y;
@@ -680,7 +683,7 @@ inline Vector3& operator +=(Vector3& v1, const Vector3& v2)
 	return v1;
 }
 
-inline Vector3& operator -=(Vector3& v1, const Vector3& v2)
+inline Vector3f& operator -=(Vector3f& v1, const Vector3f& v2)
 {
 	v1.x -= v2.x;
 	v1.y -= v2.y;
@@ -688,7 +691,7 @@ inline Vector3& operator -=(Vector3& v1, const Vector3& v2)
 	return v1;
 }
 
-inline Vector3& operator *=(Vector3& v1, const Vector3& v2)
+inline Vector3f& operator *=(Vector3f& v1, const Vector3f& v2)
 {
 	v1.x *= v2.x;
 	v1.y *= v2.y;
@@ -696,7 +699,7 @@ inline Vector3& operator *=(Vector3& v1, const Vector3& v2)
 	return v1;
 }
 
-inline Vector3& operator /=(Vector3& v1, const Vector3& v2)
+inline Vector3f& operator /=(Vector3f& v1, const Vector3f& v2)
 {
 	v1.x /= v2.x;
 	v1.y /= v2.y;
@@ -704,7 +707,7 @@ inline Vector3& operator /=(Vector3& v1, const Vector3& v2)
 	return v1;
 }
 
-inline Vector3& operator +=(Vector3& v, scalar_t r)
+inline Vector3f& operator +=(Vector3f& v, scalar_t r)
 {
 	v.x += r;
 	v.y += r;
@@ -712,7 +715,7 @@ inline Vector3& operator +=(Vector3& v, scalar_t r)
 	return v;
 }
 
-inline Vector3& operator -=(Vector3& v, scalar_t r)
+inline Vector3f& operator -=(Vector3f& v, scalar_t r)
 {
 	v.x -= r;
 	v.y -= r;
@@ -720,7 +723,7 @@ inline Vector3& operator -=(Vector3& v, scalar_t r)
 	return v;
 }
 
-inline Vector3& operator *=(Vector3& v, scalar_t r)
+inline Vector3f& operator *=(Vector3f& v, scalar_t r)
 {
 	v.x *= r;
 	v.y *= r;
@@ -728,7 +731,7 @@ inline Vector3& operator *=(Vector3& v, scalar_t r)
 	return v;
 }
 
-inline Vector3& operator /=(Vector3& v, scalar_t r)
+inline Vector3f& operator /=(Vector3f& v, scalar_t r)
 {
 	v.x /= r;
 	v.y /= r;
@@ -736,37 +739,37 @@ inline Vector3& operator /=(Vector3& v, scalar_t r)
 	return v;
 }
 
-inline bool operator ==(const Vector3& v1, const Vector3& v2)
+inline bool operator ==(const Vector3f& v1, const Vector3f& v2)
 {
 	return (fabs(v1.x - v2.x) < SCALAR_T_XXSMALL) && (fabs(v1.y - v2.y) < SCALAR_T_XXSMALL) && (fabs(v1.z - v2.z) < SCALAR_T_XXSMALL);
 }
 
-inline bool operator !=(const Vector3& v1, const Vector3& v2)
+inline bool operator !=(const Vector3f& v1, const Vector3f& v2)
 {
 	return (fabs(v1.x - v2.x) >= SCALAR_T_XXSMALL) && (fabs(v1.y - v2.y) >= SCALAR_T_XXSMALL) && (fabs(v1.z - v2.z) >= SCALAR_T_XXSMALL);
 }
 
-inline bool operator < (const Vector3 &v1, const Vector3 &v2)
+inline bool operator < (const Vector3f &v1, const Vector3f &v2)
 {
 	return v1.x < v2.x && v1.y < v2.y && v1.z < v2.z;
 }
 
-inline bool operator > (const Vector3 &v1, const Vector3 &v2)
+inline bool operator > (const Vector3f &v1, const Vector3f &v2)
 {
 	return v1.x > v2.x && v1.y > v2.y && v1.z > v2.z;
 }
 
-inline scalar_t Vector3::length() const
+inline scalar_t Vector3f::length() const
 {
 	return sqrt(x*x + y*y + z*z);
 }
 
-inline scalar_t Vector3::length_squared() const
+inline scalar_t Vector3f::length_squared() const
 {
 	return x*x + y*y + z*z;
 }
 
-inline void Vector3::normalize()
+inline void Vector3f::normalize()
 {
 	scalar_t len = length();
 
@@ -778,33 +781,33 @@ inline void Vector3::normalize()
 	z /= len;
 }
 
-inline Vector3 Vector3::normalized() const
+inline Vector3f Vector3f::normalized() const
 {
 	scalar_t len = length();
-	return (len != 0) ? Vector3(x / len, y / len, z / len) : *this;
+	return (len != 0) ? Vector3f(x / len, y / len, z / len) : *this;
 }
 
-inline void Vector3::reflect(const Vector3 &normal)
+inline void Vector3f::reflect(const Vector3f &normal)
 {
 	*this = reflected(normal);
 }
 
-inline Vector3 Vector3::reflected(const Vector3 &normal) const
+inline Vector3f Vector3f::reflected(const Vector3f &normal) const
 {
-	Vector3 i = normalized();
-	Vector3 n = normal.normalized();
+	Vector3f i = normalized();
+	Vector3f n = normal.normalized();
 	return (2 * dot(i, n) * n) - i;
 }
 
-inline void Vector3::refract(const Vector3 &normal, scalar_t ior_src, scalar_t ior_dst)
+inline void Vector3f::refract(const Vector3f &normal, scalar_t ior_src, scalar_t ior_dst)
 {
 	*this = refracted(normal, ior_src, ior_dst);
 }
 
-inline Vector3 Vector3::refracted(const Vector3 &normal, scalar_t ior_src, scalar_t ior_dst) const
+inline Vector3f Vector3f::refracted(const Vector3f &normal, scalar_t ior_src, scalar_t ior_dst) const
 {
-	Vector3 n = normal.normalized();
-	Vector3 i = normalized();
+	Vector3f n = normal.normalized();
+	Vector3f i = normalized();
 
 	scalar_t cos_inc = dot(i, -n);
 
@@ -823,41 +826,41 @@ inline Vector3 Vector3::refracted(const Vector3 &normal, scalar_t ior_src, scala
 	return (ior * i) + (beta * n);
 }
 
-inline scalar_t dot(const Vector3& v1, const Vector3& v2)
+inline scalar_t dot(const Vector3f& v1, const Vector3f& v2)
 {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
 
-inline Vector3 cross(const Vector3& v1, const Vector3& v2)
+inline Vector3f cross(const Vector3f& v1, const Vector3f& v2)
 {
-	return Vector3(v1.y * v2.z - v1.z * v2.y,  v1.z * v2.x - v1.x * v2.z,  v1.x * v2.y - v1.y * v2.x);
+	return Vector3f(v1.y * v2.z - v1.z * v2.y,  v1.z * v2.x - v1.x * v2.z,  v1.x * v2.y - v1.y * v2.x);
 }
 
-inline Vector3 Vector3::transform(Matrix4x4 &m)
+inline Vector3f Vector3f::transform(Matrix4x4 &m)
 {
 	return *this = transformed(m);
 }
 
-inline Vector3 Vector3::transformed(Matrix4x4 &m)
+inline Vector3f Vector3f::transformed(Matrix4x4 &m)
 {
 	scalar_t nx = m.data[0][0] * x + m.data[0][1] * y + m.data[0][2] * z + m.data[0][3];
 	scalar_t ny = m.data[1][0] * x + m.data[1][1] * y + m.data[1][2] * z + m.data[1][3];
 	scalar_t nz = m.data[2][0] * x + m.data[2][1] * y + m.data[2][2] * z + m.data[2][3];
-	return Vector3(nx, ny, nz);
+	return Vector3f(nx, ny, nz);
 }
 
-/* Vector4 functions */
-inline scalar_t& Vector4::operator [](unsigned int index)
+/* Vector4f functions */
+inline scalar_t& Vector4f::operator [](unsigned int index)
 {
 	return index ? (index == 1 ? y : (index == 2 ? z : w)) : x;
 }
 
-inline const scalar_t& Vector4::operator [](unsigned int index) const
+inline const scalar_t& Vector4f::operator [](unsigned int index) const
 {
 	return index ? (index == 1 ? y : (index == 2 ? z : w)) : x;
 }
 
-inline const Vector4& Vector4::operator =(const Vector4& v)
+inline const Vector4f& Vector4f::operator =(const Vector4f& v)
 {
     x = v.x;
     y = v.y;
@@ -866,62 +869,62 @@ inline const Vector4& Vector4::operator =(const Vector4& v)
     return v;
 }
 
-inline const Vector4 operator -(const Vector4& v)
+inline const Vector4f operator -(const Vector4f& v)
 {
-	return Vector4(-v.x, -v.y, -v.z, -v.w);
+	return Vector4f(-v.x, -v.y, -v.z, -v.w);
 }
 
-inline const Vector4 operator +(const Vector4& v1, const Vector4& v2)
+inline const Vector4f operator +(const Vector4f& v1, const Vector4f& v2)
 {
-	return Vector4(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
+	return Vector4f(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
 }
 
-inline const Vector4 operator -(const Vector4& v1, const Vector4& v2)
+inline const Vector4f operator -(const Vector4f& v1, const Vector4f& v2)
 {
-	return Vector4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
+	return Vector4f(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
 }
 
-inline const Vector4 operator *(const Vector4& v1, const Vector4& v2)
+inline const Vector4f operator *(const Vector4f& v1, const Vector4f& v2)
 {
-	return Vector4(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w);
+	return Vector4f(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z, v1.w * v2.w);
 }
 
-inline const Vector4 operator /(const Vector4& v1, const Vector4& v2)
+inline const Vector4f operator /(const Vector4f& v1, const Vector4f& v2)
 {
-	return Vector4(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w);
+	return Vector4f(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w);
 }
 
-inline const Vector4 operator +(const Vector4& v, scalar_t r)
+inline const Vector4f operator +(const Vector4f& v, scalar_t r)
 {
-	return Vector4(v.x + r, v.y + r, v.z + r, v.w + r);
+	return Vector4f(v.x + r, v.y + r, v.z + r, v.w + r);
 }
 
-inline const Vector4 operator +(scalar_t r, const Vector4& v)
+inline const Vector4f operator +(scalar_t r, const Vector4f& v)
 {
-	return Vector4(v.x + r, v.y + r, v.z + r, v.w + r);
+	return Vector4f(v.x + r, v.y + r, v.z + r, v.w + r);
 }
 
-inline const Vector4 operator -(const Vector4& v, scalar_t r)
+inline const Vector4f operator -(const Vector4f& v, scalar_t r)
 {
-	return Vector4(v.x - r, v.y - r, v.z - r, v.w - r);
+	return Vector4f(v.x - r, v.y - r, v.z - r, v.w - r);
 }
 
-inline const Vector4 operator *(const Vector4& v, scalar_t r)
+inline const Vector4f operator *(const Vector4f& v, scalar_t r)
 {
-	return Vector4(v.x * r, v.y * r, v.z * r, v.w * r);
+	return Vector4f(v.x * r, v.y * r, v.z * r, v.w * r);
 }
 
-inline const Vector4 operator *(scalar_t r, const Vector4& v)
+inline const Vector4f operator *(scalar_t r, const Vector4f& v)
 {
-	return Vector4(v.x * r, v.y * r, v.z * r, v.w * r);
+	return Vector4f(v.x * r, v.y * r, v.z * r, v.w * r);
 }
 
-inline const Vector4 operator /(const Vector4& v, scalar_t r)
+inline const Vector4f operator /(const Vector4f& v, scalar_t r)
 {
-	return Vector4(v.x / r, v.y / r, v.z / r, v.w / r);
+	return Vector4f(v.x / r, v.y / r, v.z / r, v.w / r);
 }
 
-inline Vector4& operator +=(Vector4& v1, const Vector4& v2)
+inline Vector4f& operator +=(Vector4f& v1, const Vector4f& v2)
 {
 	v1.x += v2.x;
 	v1.y += v2.y;
@@ -930,7 +933,7 @@ inline Vector4& operator +=(Vector4& v1, const Vector4& v2)
 	return v1;
 }
 
-inline Vector4& operator -=(Vector4& v1, const Vector4& v2)
+inline Vector4f& operator -=(Vector4f& v1, const Vector4f& v2)
 {
 	v1.x -= v2.x;
 	v1.y -= v2.y;
@@ -939,7 +942,7 @@ inline Vector4& operator -=(Vector4& v1, const Vector4& v2)
 	return v1;
 }
 
-inline Vector4& operator *=(Vector4& v1, const Vector4& v2)
+inline Vector4f& operator *=(Vector4f& v1, const Vector4f& v2)
 {
 	v1.x *= v2.x;
 	v1.y *= v2.y;
@@ -948,7 +951,7 @@ inline Vector4& operator *=(Vector4& v1, const Vector4& v2)
 	return v1;
 }
 
-inline Vector4& operator /=(Vector4& v1, const Vector4& v2)
+inline Vector4f& operator /=(Vector4f& v1, const Vector4f& v2)
 {
 	v1.x /= v2.x;
 	v1.y /= v2.y;
@@ -957,7 +960,7 @@ inline Vector4& operator /=(Vector4& v1, const Vector4& v2)
 	return v1;
 }
 
-inline Vector4& operator +=(Vector4& v, scalar_t r)
+inline Vector4f& operator +=(Vector4f& v, scalar_t r)
 {
 	v.x += r;
 	v.y += r;
@@ -966,7 +969,7 @@ inline Vector4& operator +=(Vector4& v, scalar_t r)
 	return v;
 }
 
-inline Vector4& operator -=(Vector4& v, scalar_t r)
+inline Vector4f& operator -=(Vector4f& v, scalar_t r)
 {
 	v.x -= r;
 	v.y -= r;
@@ -975,7 +978,7 @@ inline Vector4& operator -=(Vector4& v, scalar_t r)
 	return v;
 }
 
-inline Vector4& operator *=(Vector4& v, scalar_t r)
+inline Vector4f& operator *=(Vector4f& v, scalar_t r)
 {
 	v.x *= r;
 	v.y *= r;
@@ -984,7 +987,7 @@ inline Vector4& operator *=(Vector4& v, scalar_t r)
 	return v;
 }
 
-inline Vector4& operator /=(Vector4& v, scalar_t r)
+inline Vector4f& operator /=(Vector4f& v, scalar_t r)
 {
 	v.x /= r;
 	v.y /= r;
@@ -993,27 +996,27 @@ inline Vector4& operator /=(Vector4& v, scalar_t r)
 	return v;
 }
 
-inline bool operator ==(const Vector4& v1, const Vector4& v2)
+inline bool operator ==(const Vector4f& v1, const Vector4f& v2)
 {
 	return (fabs(v1.x - v2.x) < SCALAR_T_XXSMALL) && (fabs(v1.y - v2.y) < SCALAR_T_XXSMALL) && (fabs(v1.z - v2.z) < SCALAR_T_XXSMALL) && (fabs(v1.w - v2.w) < SCALAR_T_XXSMALL);;
 }
 
-inline bool operator !=(const Vector4& v1, const Vector4& v2)
+inline bool operator !=(const Vector4f& v1, const Vector4f& v2)
 {
 	return (fabs(v1.x - v2.x) >= SCALAR_T_XXSMALL) && (fabs(v1.y - v2.y) >= SCALAR_T_XXSMALL) && (fabs(v1.z - v2.z) >= SCALAR_T_XXSMALL) && (fabs(v1.w - v2.w) >= SCALAR_T_XXSMALL);
 }
 
-inline scalar_t Vector4::length() const
+inline scalar_t Vector4f::length() const
 {
 	return sqrt(x*x + y*y + z*z + w*w);
 }
 
-inline scalar_t Vector4::length_squared() const
+inline scalar_t Vector4f::length_squared() const
 {
 	return x*x + y*y + z*z + w*w;
 }
 
-inline void Vector4::normalize()
+inline void Vector4f::normalize()
 {
 	scalar_t len = length();
 
@@ -1026,33 +1029,33 @@ inline void Vector4::normalize()
 	w /= len;
 }
 
-inline Vector4 Vector4::normalized() const
+inline Vector4f Vector4f::normalized() const
 {
 	scalar_t len = length();
-	return (len != 0) ? Vector4(x / len, y / len, z / len, w / len) : *this;
+	return (len != 0) ? Vector4f(x / len, y / len, z / len, w / len) : *this;
 }
 
-inline void Vector4::reflect(const Vector4 &normal)
+inline void Vector4f::reflect(const Vector4f &normal)
 {
 	*this = reflected(normal);
 }
 
-inline Vector4 Vector4::reflected(const Vector4 &normal) const
+inline Vector4f Vector4f::reflected(const Vector4f &normal) const
 {
-	Vector4 i = normalized();
-	Vector4 n = normal.normalized();
+	Vector4f i = normalized();
+	Vector4f n = normal.normalized();
 	return (2 * dot(i, n) * n) - i;
 }
 
-inline void Vector4::refract(const Vector4 &normal, scalar_t ior_src, scalar_t ior_dst)
+inline void Vector4f::refract(const Vector4f &normal, scalar_t ior_src, scalar_t ior_dst)
 {
 	*this = refracted(normal, ior_src, ior_dst);
 }
 
-inline Vector4 Vector4::refracted(const Vector4 &normal, scalar_t ior_src, scalar_t ior_dst) const
+inline Vector4f Vector4f::refracted(const Vector4f &normal, scalar_t ior_src, scalar_t ior_dst) const
 {
-	Vector4 n = normal.normalized();
-	Vector4 i = normalized();
+	Vector4f n = normal.normalized();
+	Vector4f i = normalized();
 	scalar_t ior = ior_src / ior_dst;
 
 	scalar_t cos_inc = - dot(n, i);
@@ -1069,11 +1072,13 @@ inline Vector4 Vector4::refracted(const Vector4 &normal, scalar_t ior_src, scala
 	return (ior * i) + (beta * n);
 }
 
-inline scalar_t dot(const Vector4& v1, const Vector4& v2)
+inline scalar_t dot(const Vector4f& v1, const Vector4f& v2)
 {
 	return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z + v1.w * v2.w;
 }
 
 #endif /* __cplusplus */
+
+} /* namespace NMath */
 
 #endif /* LIBNMATH_VECTOR_INL_INCLUDED */

@@ -1,27 +1,27 @@
 /*
 
-    This file is part of the nemesis math library.
+	This file is part of libnmath.
 
-    matrix.cc
-    Matrix
+	matrix.cc
+	Matrix
 
-    Copyright (C) 2008, 2010, 2011
-    Papadopoulos Nikolaos
+	Copyright (C) 2008, 2010 - 2012
+	Papadopoulos Nikolaos
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 3 of the License, or (at your option) any later version.
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 3 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU	Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General
-    Public License along with this library; if not, write to the
-    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301 USA
+	You should have received a copy of the GNU Lesser General
+	Public License along with this program; if not, write to the
+	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+	Boston, MA 02110-1301 USA
 
 */
 
@@ -30,11 +30,11 @@
 
 #ifdef __cplusplus
     #include <cmath>
-	#include <cstdio>
 #else
     #include <math.h>
-	#include <stdio.h>
 #endif  /* __cplusplus */
+
+namespace NMath {
 
 #ifdef __cplusplus
 extern "C" {
@@ -171,14 +171,6 @@ void mat3x3_to_m4x4(mat4x4_t dest, mat3x3_t src)
 		}
 	}
 	dest[3][3] = 1.0;
-}
-
-void mat3x3_print(FILE *fp, mat3x3_t m)
-{
-	int i;
-	for(i=0; i<3; i++) {
-		fprintf(fp, "[ %12.5f, %12.5f, %12.5f ]\n", (float)m[i][0], (float)m[i][1], (float)m[i][2]);
-	}
 }
 
 /*
@@ -397,14 +389,6 @@ void mat4x4_to_m3x3(mat3x3_t dest, mat4x4_t src)
 	}
 }
 
-void mat4x4_print(FILE *fp, mat4x4_t m)
-{
-	int i;
-	for(i=0; i<4; i++) {
-		fprintf(fp, "[ %12.5f, %12.5f, %12.5f, %12.5f ]\n", (float)m[i][0], (float)m[i][1], (float)m[i][2], (float)m[i][3]);
-	}
-}
-
 #ifdef __cplusplus
 }   /* extern "C" */
 
@@ -528,9 +512,9 @@ Matrix3x3 operator *(scalar_t r, const Matrix3x3 &mat)
     return res;
 }
 
-Vector3 operator *(const Matrix3x3 &mat, const Vector3 &vec)
+Vector3f operator *(const Matrix3x3 &mat, const Vector3f &vec)
 {
-	Vector3 res;
+	Vector3f res;
 
 	res.x = (mat[0][0] * vec.x) + (mat[0][1] * vec.y) + (mat[0][2] * vec.z);
 	res.y = (mat[1][0] * vec.x) + (mat[1][1] * vec.y) + (mat[1][2] * vec.z);
@@ -548,13 +532,13 @@ void operator *=(Matrix3x3 &mat, scalar_t r)
     }
 }
 
-void Matrix3x3::translate(const Vector2 &t)
+void Matrix3x3::translate(const Vector2f &t)
 {
     Matrix3x3 tmat(1, 0, t.x, 0, 1, t.y, 0, 0, 1);
     *this *= tmat;
 }
 
-void Matrix3x3::set_translation(const Vector2 &t)
+void Matrix3x3::set_translation(const Vector2f &t)
 {
     *this = Matrix3x3(1, 0, t.x, 0, 1, t.y, 0, 0, 1);
 }
@@ -567,7 +551,7 @@ void Matrix3x3::rotate(scalar_t angle)
     *this *= m;
 }
 
-void Matrix3x3::rotate(const Vector3 &euler)
+void Matrix3x3::rotate(const Vector3f &euler)
 {
     Matrix3x3 xrot, yrot, zrot;
     xrot = Matrix3x3(1, 0, 0, 0, cos(euler.x), -sin(euler.x), 0, sin(euler.x), cos(euler.x));
@@ -576,7 +560,7 @@ void Matrix3x3::rotate(const Vector3 &euler)
     *this *= xrot * yrot * zrot;
 }
 
-void Matrix3x3::rotate(const Vector3 &axis, scalar_t angle)
+void Matrix3x3::rotate(const Vector3f &axis, scalar_t angle)
 {
 	scalar_t sina = (scalar_t)sin(angle);
 	scalar_t cosa = (scalar_t)cos(angle);
@@ -606,7 +590,7 @@ void Matrix3x3::set_rotation(scalar_t angle)
 	*this = Matrix3x3(cos_a, -sin_a, 0, sin_a, cos_a, 0, 0, 0, 1);
 }
 
-void Matrix3x3::set_rotation(const Vector3 &euler)
+void Matrix3x3::set_rotation(const Vector3f &euler)
 {
 	Matrix3x3 xrot, yrot, zrot;
 	xrot = Matrix3x3(1, 0, 0, 0, cos(euler.x), -sin(euler.x), 0, sin(euler.x), cos(euler.x));
@@ -615,7 +599,7 @@ void Matrix3x3::set_rotation(const Vector3 &euler)
 	*this = xrot * yrot * zrot;
 }
 
-void Matrix3x3::set_rotation(const Vector3 &axis, scalar_t angle)
+void Matrix3x3::set_rotation(const Vector3f &axis, scalar_t angle)
 {
 	scalar_t sina = (scalar_t)sin(angle);
 	scalar_t cosa = (scalar_t)cos(angle);
@@ -636,39 +620,39 @@ void Matrix3x3::set_rotation(const Vector3 &axis, scalar_t angle)
     data[2][2] = nzsq + (1-nzsq) * cosa;
 }
 
-void Matrix3x3::scale(const Vector3 &vec)
+void Matrix3x3::scale(const Vector3f &vec)
 {
     Matrix3x3 mat(vec.x, 0, 0, 0, vec.y, 0, 0, 0, vec.z);
     *this *= mat;
 }
 
-void Matrix3x3::set_scaling(const Vector3 &vec)
+void Matrix3x3::set_scaling(const Vector3f &vec)
 {
     *this = Matrix3x3(vec.x, 0, 0, 0, vec.y, 0, 0, 0, vec.z);
 }
 
-void Matrix3x3::set_column_vector(const Vector3 &vec, unsigned int index)
+void Matrix3x3::set_column_vector(const Vector3f &vec, unsigned int index)
 {
 	data[0][index] = vec.x;
 	data[1][index] = vec.y;
 	data[2][index] = vec.z;
 }
 
-void Matrix3x3::set_row_vector(const Vector3 &vec, unsigned int index)
+void Matrix3x3::set_row_vector(const Vector3f &vec, unsigned int index)
 {
 	data[index][0] = vec.x;
 	data[index][1] = vec.y;
 	data[index][2] = vec.z;
 }
 
-Vector3 Matrix3x3::get_column_vector(unsigned int index) const
+Vector3f Matrix3x3::get_column_vector(unsigned int index) const
 {
-	return Vector3(data[0][index], data[1][index], data[2][index]);
+	return Vector3f(data[0][index], data[1][index], data[2][index]);
 }
 
-Vector3 Matrix3x3::get_row_vector(unsigned int index) const
+Vector3f Matrix3x3::get_row_vector(unsigned int index) const
 {
-	return Vector3(data[index][0], data[index][1], data[index][2]);
+	return Vector3f(data[index][0], data[index][1], data[index][2]);
 }
 
 void Matrix3x3::transpose()
@@ -730,16 +714,6 @@ Matrix3x3 Matrix3x3::inverse() const
 {
 	Matrix3x3 adjMat = adjoint();
     return adjMat * (1.0f / determinant());
-}
-std::ostream &operator <<(std::ostream &out, const Matrix3x3 &mat)
-{
-    for(int i=0; i<3; i++)
-	{
-        char str[100];
-        sprintf(str, "[ %12.5f, %12.5f, %12.5f ]\n", (float)mat.data[i][0], (float)mat.data[i][1], (float)mat.data[i][2]);
-        out << str;
-    }
-    return out;
 }
 
 const Matrix4x4 Matrix4x4::identity = Matrix4x4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -873,9 +847,9 @@ Matrix4x4 operator *(scalar_t r, const Matrix4x4 &mat)
 	return res;
 }
 
-Vector4 operator *(const Matrix4x4 &mat, const Vector4 &vec)
+Vector4f operator *(const Matrix4x4 &mat, const Vector4f &vec)
 {
-	Vector4 res;
+	Vector4f res;
 
 	res.x = (mat[0][0] * vec.x) + (mat[0][1] * vec.y) + (mat[0][2] * vec.z) + (mat[0][3] * vec.w);
 	res.y = (mat[1][0] * vec.x) + (mat[1][1] * vec.y) + (mat[1][2] * vec.z) + (mat[1][3] * vec.w);
@@ -894,18 +868,18 @@ void operator *=(Matrix4x4 &mat, scalar_t r)
 	}
 }
 
-void Matrix4x4::translate(const Vector3 &trans)
+void Matrix4x4::translate(const Vector3f &trans)
 {
 	Matrix4x4 tmat(1, 0, 0, trans.x, 0, 1, 0, trans.y, 0, 0, 1, trans.z, 0, 0, 0, 1);
 	*this *= tmat;
 }
 
-void Matrix4x4::set_translation(const Vector3 &trans)
+void Matrix4x4::set_translation(const Vector3f &trans)
 {
 	*this = Matrix4x4(1, 0, 0, trans.x, 0, 1, 0, trans.y, 0, 0, 1, trans.z, 0, 0, 0, 1);
 }
 
-void Matrix4x4::rotate(const Vector3 &euler)
+void Matrix4x4::rotate(const Vector3f &euler)
 {
 	Matrix3x3 xrot, yrot, zrot;
     xrot = Matrix3x3(1, 0, 0, 0, cos(euler.x), -sin(euler.x), 0, sin(euler.x), cos(euler.x));
@@ -914,7 +888,7 @@ void Matrix4x4::rotate(const Vector3 &euler)
 	*this *= Matrix4x4(xrot * yrot * zrot);
 }
 
-void Matrix4x4::rotate(const Vector3 &axis, scalar_t angle)
+void Matrix4x4::rotate(const Vector3f &axis, scalar_t angle)
 {
 	scalar_t sina = (scalar_t)sin(angle);
 	scalar_t cosa = (scalar_t)cos(angle);
@@ -937,7 +911,7 @@ void Matrix4x4::rotate(const Vector3 &axis, scalar_t angle)
 	*this *= Matrix4x4(xform);
 }
 
-void Matrix4x4::set_rotation(const Vector3 &euler)
+void Matrix4x4::set_rotation(const Vector3f &euler)
 {
 	Matrix3x3 xrot, yrot, zrot;
 	xrot = Matrix3x3(1, 0, 0, 0, cos(euler.x), -sin(euler.x), 0, sin(euler.x), cos(euler.x));
@@ -946,7 +920,7 @@ void Matrix4x4::set_rotation(const Vector3 &euler)
 	*this = Matrix4x4(xrot * yrot * zrot);
 }
 
-void Matrix4x4::set_rotation(const Vector3 &axis, scalar_t angle)
+void Matrix4x4::set_rotation(const Vector3f &axis, scalar_t angle)
 {
 	scalar_t sina = (scalar_t)sin(angle);
 	scalar_t cosa = (scalar_t)cos(angle);
@@ -967,18 +941,18 @@ void Matrix4x4::set_rotation(const Vector3 &axis, scalar_t angle)
 	data[2][2] = nzsq + (1-nzsq) * cosa;
 }
 
-void Matrix4x4::scale(const Vector4 &vec)
+void Matrix4x4::scale(const Vector4f &vec)
 {
 	Matrix4x4 smat(vec.x, 0, 0, 0, 0, vec.y, 0, 0, 0, 0, vec.z, 0, 0, 0, 0, vec.w);
 	*this *= smat;
 }
 
-void Matrix4x4::set_scaling(const Vector4 &vec)
+void Matrix4x4::set_scaling(const Vector4f &vec)
 {
 	 *this = Matrix4x4(vec.x, 0, 0, 0, 0, vec.y, 0, 0, 0, 0, vec.z, 0, 0, 0, 0, vec.w);
 }
 
-void Matrix4x4::set_column_vector(const Vector4 &vec, unsigned int index)
+void Matrix4x4::set_column_vector(const Vector4f &vec, unsigned int index)
 {
 	data[0][index] = vec.x;
 	data[1][index] = vec.y;
@@ -986,7 +960,7 @@ void Matrix4x4::set_column_vector(const Vector4 &vec, unsigned int index)
 	data[3][index] = vec.w;
 }
 
-void Matrix4x4::set_row_vector(const Vector4 &vec, unsigned int index)
+void Matrix4x4::set_row_vector(const Vector4f &vec, unsigned int index)
 {
 	data[index][0] = vec.x;
 	data[index][1] = vec.y;
@@ -994,14 +968,14 @@ void Matrix4x4::set_row_vector(const Vector4 &vec, unsigned int index)
 	data[index][3] = vec.w;
 }
 
-Vector4 Matrix4x4::get_column_vector(unsigned int index) const
+Vector4f Matrix4x4::get_column_vector(unsigned int index) const
 {
-	return Vector4(data[0][index], data[1][index], data[2][index], data[3][index]);
+	return Vector4f(data[0][index], data[1][index], data[2][index], data[3][index]);
 }
 
-Vector4 Matrix4x4::get_row_vector(unsigned int index) const
+Vector4f Matrix4x4::get_row_vector(unsigned int index) const
 {
-	return Vector4(data[index][0], data[index][1], data[index][2], data[index][3]);
+	return Vector4f(data[index][0], data[index][1], data[index][2], data[index][3]);
 }
 
 void Matrix4x4::transpose()
@@ -1133,15 +1107,6 @@ Matrix4x4 Matrix4x4::inverse() const
     return adjMat * (1.0f / determinant());
 }
 
-std::ostream &operator <<(std::ostream &out, const Matrix4x4 &mat)
-{
-    for(int i=0; i<4; i++)
-	{
-        char str[100];
-        sprintf(str, "[ %12.5f, %12.5f, %12.5f, %12.5f ]\n", (float)mat.data[i][0], (float)mat.data[i][1], (float)mat.data[i][2], (float)mat.data[i][3]);
-        out << str;
-    }
-    return out;
-}
+} /* namespace NMath */
 
-#endif
+#endif /* __cplusplus */

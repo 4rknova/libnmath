@@ -1,27 +1,27 @@
 /*
 
-    This file is part of the nemesis math library.
+	This file is part of libnmath.
 
-    vector.h
-    Vector
+	vector.h
+	Vector
 
-    Copyright (C) 2008, 2010, 2011
-    Papadopoulos Nikolaos
+	Copyright (C) 2008, 2010 - 2012
+	Papadopoulos Nikolaos
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 3 of the License, or (at your option) any later version.
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 3 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU	Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General
-    Public License along with this library; if not, write to the
-    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301 USA
+	You should have received a copy of the GNU Lesser General
+	Public License along with this program; if not, write to the
+	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+	Boston, MA 02110-1301 USA
 
 */
 
@@ -37,6 +37,8 @@
 #else
     #include <stdio.h>
 #endif  /* __cplusplus */
+
+namespace NMath {
 
 #ifdef __cplusplus
 extern "C" {
@@ -110,62 +112,57 @@ static inline vec4_t vec4_refract(vec4_t v, vec4_t n, scalar_t ior_src, scalar_t
 #ifdef __cplusplus
 }   /* extern "C" */
 
-#include <ostream>
-
 /*
     2D VECTOR
 */
-class DECLSPEC Vector2
+class DECLSPEC Vector2f
 {
     public:
         /* Constructors */
-        Vector2(scalar_t aX = 0.0, scalar_t aY = 0.0);
-        Vector2(const Vector2 &v);
-        Vector2(const Vector3 &v);
-        Vector2(const Vector4 &v);
+        explicit Vector2f(scalar_t aX = 0.0, scalar_t aY = 0.0);
+        Vector2f(const Vector2f &v);
+        Vector2f(const Vector3f &v);
+        Vector2f(const Vector4f &v);
 
         /* Array subscript */
         inline scalar_t& operator [](unsigned int index);
         inline const scalar_t& operator [](unsigned int index) const;
 
         /* Assignment operator */
-        inline const Vector2 &operator =(const Vector2 &v);
+        inline const Vector2f &operator =(const Vector2f &v);
 
         /* Unary operator */
-        friend inline const Vector2 operator -(const Vector2 &v);
+        friend inline const Vector2f operator -(const Vector2f &v);
 
         /* Arithmetic operators */
         /* - Binary */
-        friend inline const Vector2 operator +(const Vector2 &v1, const Vector2 &v2);
-        friend inline const Vector2 operator -(const Vector2 &v1, const Vector2 &v2);
-        friend inline const Vector2 operator *(const Vector2 &v1, const Vector2 &v2);
-        friend inline const Vector2 operator /(const Vector2 &v1, const Vector2 &v2);
+        friend inline const Vector2f operator +(const Vector2f &v1, const Vector2f &v2);
+        friend inline const Vector2f operator -(const Vector2f &v1, const Vector2f &v2);
+        friend inline const Vector2f operator *(const Vector2f &v1, const Vector2f &v2);
+        friend inline const Vector2f operator /(const Vector2f &v1, const Vector2f &v2);
         /* - Scalar */
-        friend inline const Vector2 operator +(scalar_t r, const Vector2 &v);
-        friend inline const Vector2 operator +(const Vector2 &v, scalar_t r);
-        friend inline const Vector2 operator -(const Vector2 &v, scalar_t r);
-        friend inline const Vector2 operator *(scalar_t r, const Vector2 &v);
-        friend inline const Vector2 operator *(const Vector2 &v, scalar_t r);
-        friend inline const Vector2 operator /(const Vector2 &v, scalar_t r);
+        friend inline const Vector2f operator +(scalar_t r, const Vector2f &v);
+        friend inline const Vector2f operator +(const Vector2f &v, scalar_t r);
+        friend inline const Vector2f operator -(const Vector2f &v, scalar_t r);
+        friend inline const Vector2f operator *(scalar_t r, const Vector2f &v);
+        friend inline const Vector2f operator *(const Vector2f &v, scalar_t r);
+        friend inline const Vector2f operator /(const Vector2f &v, scalar_t r);
 
         /* Compound assignment operators */
         /* - Binary */
-        friend inline Vector2 &operator +=(Vector2 &v1, const Vector2 &v2);
-        friend inline Vector2 &operator -=(Vector2 &v1, const Vector2 &v2);
-        friend inline Vector2 &operator *=(Vector2 &v1, const Vector2 &v2);
-        friend inline Vector2 &operator /=(Vector2 &v1, const Vector2 &v2);
+        friend inline Vector2f &operator +=(Vector2f &v1, const Vector2f &v2);
+        friend inline Vector2f &operator -=(Vector2f &v1, const Vector2f &v2);
+        friend inline Vector2f &operator *=(Vector2f &v1, const Vector2f &v2);
+        friend inline Vector2f &operator /=(Vector2f &v1, const Vector2f &v2);
         /* - Scalar */
-        friend inline Vector2 &operator +=(Vector2 &vec, scalar_t scalar);
-        friend inline Vector2 &operator -=(Vector2 &vec, scalar_t scalar);
-        friend inline Vector2 &operator *=(Vector2 &vec, scalar_t scalar);
-        friend inline Vector2 &operator /=(Vector2 &vec, scalar_t scalar);
+        friend inline Vector2f &operator +=(Vector2f &vec, scalar_t scalar);
+        friend inline Vector2f &operator -=(Vector2f &vec, scalar_t scalar);
+        friend inline Vector2f &operator *=(Vector2f &vec, scalar_t scalar);
+        friend inline Vector2f &operator /=(Vector2f &vec, scalar_t scalar);
 
         /* Comparison operations */
-        friend inline bool operator ==(const Vector2 &v1, const Vector2 &v2);
-        friend inline bool operator !=(const Vector2 &v1, const Vector2 &v2);
-
-        /* Stream operations */
-        friend std::ostream& operator <<(std::ostream& out, const Vector2 &vec);
+        friend inline bool operator ==(const Vector2f &v1, const Vector2f &v2);
+        friend inline bool operator !=(const Vector2f &v1, const Vector2f &v2);
 
         /* Vector member functions */
         /* - Length */
@@ -173,76 +170,73 @@ class DECLSPEC Vector2
         inline scalar_t length_squared() const;
         /* - Normalization */
         inline void normalize();
-        inline Vector2 normalized() const;
+        inline Vector2f normalized() const;
         /* - Reflection / Refraction */
-        inline void reflect(const Vector2 &normal);
-        inline Vector2 reflected(const Vector2 &normal) const;
-        inline void refract(const Vector2 &normal, scalar_t ior_src, scalar_t ior_dst);
-        inline Vector2 refracted(const Vector2 &normal, scalar_t ior_src, scalar_t ior_dst) const;
+        inline void reflect(const Vector2f &normal);
+        inline Vector2f reflected(const Vector2f &normal) const;
+        inline void refract(const Vector2f &normal, scalar_t ior_src, scalar_t ior_dst);
+        inline Vector2f refracted(const Vector2f &normal, scalar_t ior_src, scalar_t ior_dst) const;
 
 		/* Transformation */
-		inline Vector2 transform(Matrix3x3 &m);
-		inline Vector2 transformed(Matrix3x3 &m);
+		inline Vector2f transform(Matrix3x3 &m);
+		inline Vector2f transformed(Matrix3x3 &m);
 
         scalar_t x, y;
 };
 
-inline scalar_t dot(const Vector2 &v1, const Vector2 &v2);
+inline scalar_t dot(const Vector2f &v1, const Vector2f &v2);
 
 /*
     3D VECTOR
 */
-class DECLSPEC Vector3
+class DECLSPEC Vector3f
 {
     public:
         /* Constructors */
-        Vector3(scalar_t aX = 0.0, scalar_t aY = 0.0, scalar_t aZ = 0.0);
-        Vector3(const Vector3 &v);
-        Vector3(const Vector2 &v);
-        Vector3(const Vector4 &v);
+        explicit Vector3f(scalar_t aX = 0.0, scalar_t aY = 0.0, scalar_t aZ = 0.0);
+        Vector3f(const Vector3f &v);
+        Vector3f(const Vector2f &v);
+        Vector3f(const Vector4f &v);
 
         /* Array subscript */
         inline scalar_t& operator [](unsigned int index);
         inline const scalar_t& operator [](unsigned int index) const;
 
         /* Assignment operator */
-        inline const Vector3 &operator =(const Vector3 &v);
+        inline const Vector3f &operator =(const Vector3f &v);
 
         /* Unary operator */
-        friend inline const Vector3 operator -(const Vector3 &v);
+        friend inline const Vector3f operator -(const Vector3f &v);
 
         /* Arithmetic operators */
         /* - Binary */
-        friend inline const Vector3 operator +(const Vector3 &v1, const Vector3 &v2);
-        friend inline const Vector3 operator -(const Vector3 &v1, const Vector3 &v2);
-        friend inline const Vector3 operator *(const Vector3 &v1, const Vector3 &v2);
-        friend inline const Vector3 operator /(const Vector3 &v1, const Vector3 &v2);
+        friend inline const Vector3f operator +(const Vector3f &v1, const Vector3f &v2);
+        friend inline const Vector3f operator -(const Vector3f &v1, const Vector3f &v2);
+        friend inline const Vector3f operator *(const Vector3f &v1, const Vector3f &v2);
+        friend inline const Vector3f operator /(const Vector3f &v1, const Vector3f &v2);
         /* - Scalar */
-        friend inline const Vector3 operator +(scalar_t r, const Vector3 &v);
-        friend inline const Vector3 operator +(const Vector3 &v, scalar_t r);
-        friend inline const Vector3 operator -(const Vector3 &v, scalar_t r);
-        friend inline const Vector3 operator *(scalar_t r, const Vector3 &v);
-        friend inline const Vector3 operator *(const Vector3 &v, scalar_t r);
-        friend inline const Vector3 operator /(const Vector3 &v, scalar_t r);
+        friend inline const Vector3f operator +(scalar_t r, const Vector3f &v);
+        friend inline const Vector3f operator +(const Vector3f &v, scalar_t r);
+        friend inline const Vector3f operator -(const Vector3f &v, scalar_t r);
+        friend inline const Vector3f operator *(scalar_t r, const Vector3f &v);
+        friend inline const Vector3f operator *(const Vector3f &v, scalar_t r);
+        friend inline const Vector3f operator /(const Vector3f &v, scalar_t r);
 
         /* Compound assignment operators */
         /* - Binary */
-        friend inline Vector3 &operator +=(Vector3 &v1, const Vector3 &v2);
-        friend inline Vector3 &operator -=(Vector3 &v1, const Vector3 &v2);
-        friend inline Vector3 &operator *=(Vector3 &v1, const Vector3 &v2);
-        friend inline Vector3 &operator /=(Vector3 &v1, const Vector3 &v2);
+        friend inline Vector3f &operator +=(Vector3f &v1, const Vector3f &v2);
+        friend inline Vector3f &operator -=(Vector3f &v1, const Vector3f &v2);
+        friend inline Vector3f &operator *=(Vector3f &v1, const Vector3f &v2);
+        friend inline Vector3f &operator /=(Vector3f &v1, const Vector3f &v2);
         /* - Scalar */
-        friend inline Vector3 &operator +=(Vector3 &vec, scalar_t scalar);
-        friend inline Vector3 &operator -=(Vector3 &vec, scalar_t scalar);
-        friend inline Vector3 &operator *=(Vector3 &vec, scalar_t scalar);
-        friend inline Vector3 &operator /=(Vector3 &vec, scalar_t scalar);
+        friend inline Vector3f &operator +=(Vector3f &vec, scalar_t scalar);
+        friend inline Vector3f &operator -=(Vector3f &vec, scalar_t scalar);
+        friend inline Vector3f &operator *=(Vector3f &vec, scalar_t scalar);
+        friend inline Vector3f &operator /=(Vector3f &vec, scalar_t scalar);
 
         /* Comparison operations */
-        friend inline bool operator ==(const Vector3 &v1, const Vector3 &v2);
-        friend inline bool operator !=(const Vector3 &v1, const Vector3 &v2);
-
-        /* Stream operations */
-        friend std::ostream& operator <<(std::ostream& out, const Vector3 &vec);
+        friend inline bool operator ==(const Vector3f &v1, const Vector3f &v2);
+        friend inline bool operator !=(const Vector3f &v1, const Vector3f &v2);
 
         /* Vector member functions */
         /* - Length */
@@ -250,80 +244,77 @@ class DECLSPEC Vector3
         inline scalar_t length_squared() const;
         /* - Normalization */
         inline void normalize();
-        inline Vector3 normalized() const;
+        inline Vector3f normalized() const;
         /* - Reflection / Refraction */
-        inline void reflect(const Vector3 &normal);
-        inline Vector3 reflected(const Vector3 &normal) const;
-        inline void refract(const Vector3 &normal, scalar_t ior_src, scalar_t ior_dst);
-        inline Vector3 refracted(const Vector3 &normal, scalar_t ior_src, scalar_t ior_dst) const;
+        inline void reflect(const Vector3f &normal);
+        inline Vector3f reflected(const Vector3f &normal) const;
+        inline void refract(const Vector3f &normal, scalar_t ior_src, scalar_t ior_dst);
+        inline Vector3f refracted(const Vector3f &normal, scalar_t ior_src, scalar_t ior_dst) const;
 
 		/* Transformation */
-		inline Vector3 transform(Matrix4x4 &m);
-		inline Vector3 transformed(Matrix4x4 &m);
+		inline Vector3f transform(Matrix4x4 &m);
+		inline Vector3f transformed(Matrix4x4 &m);
 
         scalar_t x, y, z;
 };
 
-inline scalar_t dot(const Vector3 &v1, const Vector3 &v2);
-inline Vector3 cross(const Vector3 &v1, const Vector3 &v2);
+inline scalar_t dot(const Vector3f &v1, const Vector3f &v2);
+inline Vector3f cross(const Vector3f &v1, const Vector3f &v2);
 
 /*
     4D VECTOR
 */
-class DECLSPEC Vector4
+class DECLSPEC Vector4f
 {
     public:
         /* Constructors */
-        Vector4(scalar_t aX = 0.0, scalar_t aY = 0.0, scalar_t aZ = 0.0, scalar_t aW = 0.0);
-        Vector4(const Vector4 &v);
-        Vector4(const Vector2 &v);
-        Vector4(const Vector3 &v);
+        explicit Vector4f(scalar_t aX = 0.0, scalar_t aY = 0.0, scalar_t aZ = 0.0, scalar_t aW = 0.0);
+        Vector4f(const Vector4f &v);
+        Vector4f(const Vector2f &v);
+        Vector4f(const Vector3f &v);
 
         /* Array subscript */
         inline scalar_t& operator [](unsigned int index);
         inline const scalar_t& operator [](unsigned int index) const;
 
         /* Assignment operator */
-        inline const Vector4 &operator =(const Vector4 &v);
+        inline const Vector4f &operator =(const Vector4f &v);
 
         /* Unary operator */
-        friend inline const Vector4 operator -(const Vector4 &v);
+        friend inline const Vector4f operator -(const Vector4f &v);
 
         /* Arithmetic operators */
         /* - Binary */
-        friend inline const Vector4 operator +(const Vector4 &v1, const Vector4 &v2);
-        friend inline const Vector4 operator -(const Vector4 &v1, const Vector4 &v2);
-        friend inline const Vector4 operator *(const Vector4 &v1, const Vector4 &v2);
-        friend inline const Vector4 operator /(const Vector4 &v1, const Vector4 &v2);
+        friend inline const Vector4f operator +(const Vector4f &v1, const Vector4f &v2);
+        friend inline const Vector4f operator -(const Vector4f &v1, const Vector4f &v2);
+        friend inline const Vector4f operator *(const Vector4f &v1, const Vector4f &v2);
+        friend inline const Vector4f operator /(const Vector4f &v1, const Vector4f &v2);
         /* - Scalar */
-        friend inline const Vector4 operator +(scalar_t r, const Vector4 &v);
-        friend inline const Vector4 operator +(const Vector4 &v, scalar_t r);
-        friend inline const Vector4 operator -(const Vector4 &v, scalar_t r);
-        friend inline const Vector4 operator *(scalar_t r, const Vector4 &v);
-        friend inline const Vector4 operator *(const Vector4 &v, scalar_t r);
-        friend inline const Vector4 operator /(const Vector4 &v, scalar_t r);
+        friend inline const Vector4f operator +(scalar_t r, const Vector4f &v);
+        friend inline const Vector4f operator +(const Vector4f &v, scalar_t r);
+        friend inline const Vector4f operator -(const Vector4f &v, scalar_t r);
+        friend inline const Vector4f operator *(scalar_t r, const Vector4f &v);
+        friend inline const Vector4f operator *(const Vector4f &v, scalar_t r);
+        friend inline const Vector4f operator /(const Vector4f &v, scalar_t r);
 
         /* Compound assignment operators */
         /* - Binary */
-        friend inline Vector4 &operator +=(Vector4 &v1, const Vector4 &v2);
-        friend inline Vector4 &operator -=(Vector4 &v1, const Vector4 &v2);
-        friend inline Vector4 &operator *=(Vector4 &v1, const Vector4 &v2);
-        friend inline Vector4 &operator /=(Vector4 &v1, const Vector4 &v2);
+        friend inline Vector4f &operator +=(Vector4f &v1, const Vector4f &v2);
+        friend inline Vector4f &operator -=(Vector4f &v1, const Vector4f &v2);
+        friend inline Vector4f &operator *=(Vector4f &v1, const Vector4f &v2);
+        friend inline Vector4f &operator /=(Vector4f &v1, const Vector4f &v2);
         /* - Scalar */
-        friend inline Vector4 &operator +=(Vector4 &vec, scalar_t scalar);
-        friend inline Vector4 &operator -=(Vector4 &vec, scalar_t scalar);
-        friend inline Vector4 &operator *=(Vector4 &vec, scalar_t scalar);
-        friend inline Vector4 &operator /=(Vector4 &vec, scalar_t scalar);
+        friend inline Vector4f &operator +=(Vector4f &vec, scalar_t scalar);
+        friend inline Vector4f &operator -=(Vector4f &vec, scalar_t scalar);
+        friend inline Vector4f &operator *=(Vector4f &vec, scalar_t scalar);
+        friend inline Vector4f &operator /=(Vector4f &vec, scalar_t scalar);
 
         /* Comparison operations */
-        friend inline bool operator ==(const Vector4 &v1, const Vector4 &v2);
-        friend inline bool operator !=(const Vector4 &v1, const Vector4 &v2);
+        friend inline bool operator ==(const Vector4f &v1, const Vector4f &v2);
+        friend inline bool operator !=(const Vector4f &v1, const Vector4f &v2);
 
-		friend inline bool operator < (const Vector3 &v1, const Vector3 &v2);
-		friend inline bool operator > (const Vector3 &v1, const Vector3 &v2);
-
-        /* Stream operations */
-        friend std::ostream& operator <<(std::ostream& out, const Vector4 &vec);
+		friend inline bool operator < (const Vector3f &v1, const Vector3f &v2);
+		friend inline bool operator > (const Vector3f &v1, const Vector3f &v2);
 
         /* Vector member functions */
         /* - Length */
@@ -331,19 +322,21 @@ class DECLSPEC Vector4
         inline scalar_t length_squared() const;
         /* - Normalization */
         inline void normalize();
-        inline Vector4 normalized() const;
+        inline Vector4f normalized() const;
         /* - Reflection / Refraction */
-        inline void reflect(const Vector4 &normal);
-        inline Vector4 reflected(const Vector4 &normal) const;
-        inline void refract(const Vector4 &normal, scalar_t ior_src, scalar_t ior_dst);
-        inline Vector4 refracted(const Vector4 &normal, scalar_t ior_src, scalar_t ior_dst) const;
+        inline void reflect(const Vector4f &normal);
+        inline Vector4f reflected(const Vector4f &normal) const;
+        inline void refract(const Vector4f &normal, scalar_t ior_src, scalar_t ior_dst);
+        inline Vector4f refracted(const Vector4f &normal, scalar_t ior_src, scalar_t ior_dst) const;
 
         scalar_t x, y, z, w;
 };
 
-inline scalar_t dot(const Vector4 &v1, const Vector4 &v2);
+inline scalar_t dot(const Vector4f &v1, const Vector4f &v2);
 
 #endif	/* __cplusplus */
+
+} /* namespace NMath */
 
 #include "vector.inl"
 

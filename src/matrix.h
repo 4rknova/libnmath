@@ -1,27 +1,27 @@
 /*
 
-    This file is part of the nemesis math library.
+	This file is part of libnmath.
 
-    matrix.h
-    Matrix
+	matrix.h
+	Matrix
 
-    Copyright (C) 2008, 2010, 2011
-    Papadopoulos Nikolaos
+	Copyright (C) 2008, 2010 - 2012
+	Papadopoulos Nikolaos
 
-    This library is free software; you can redistribute it and/or
-    modify it under the terms of the GNU Lesser General Public
-    License as published by the Free Software Foundation; either
-    version 3 of the License, or (at your option) any later version.
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Lesser General Public
+	License as published by the Free Software Foundation; either
+	version 3 of the License, or (at your option) any later version.
 
-    This library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    Lesser General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU	Lesser General Public License for more details.
 
-    You should have received a copy of the GNU Lesser General
-    Public License along with this library; if not, write to the
-    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-    Boston, MA 02110-1301 USA
+	You should have received a copy of the GNU Lesser General
+	Public License along with this program; if not, write to the
+	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+	Boston, MA 02110-1301 USA
 
 */
 
@@ -41,16 +41,11 @@
 #ifndef LIBNMATH_MATRIX_H_INCLUDED
 #define LIBNMATH_MATRIX_H_INCLUDED
 
-#ifdef __cplusplus
-    #include <cstdio>
-#else
-    #include <stdio.h>
-#endif  /* __cplusplus */
-
+#include "declspec.h"
 #include "precision.h"
 #include "types.h"
 
-#include "declspec.h"
+namespace NMath {
 
 #ifdef __cplusplus
 extern "C" {
@@ -88,8 +83,6 @@ DECLSPEC void mat3x3_inverse(mat3x3_t res, mat3x3_t m);
 
 DECLSPEC void mat3x3_to_m4x4(mat4x4_t dest, mat3x3_t src);
 
-DECLSPEC void mat3x3_print(FILE *fp, mat3x3_t m);
-
 /*
 	4x4 matrices
 */
@@ -125,12 +118,8 @@ DECLSPEC void mat4x4_inverse(mat4x4_t res, mat4x4_t m);
 
 DECLSPEC void mat4x4_to_m3x3(mat3x3_t dest, mat4x4_t src);
 
-DECLSPEC void mat4x4_print(FILE *fp, mat4x4_t m);
-
 #ifdef __cplusplus
 }   /* extern "C" */
-
-#include <ostream>
 
 class DECLSPEC Matrix3x3
 {
@@ -159,7 +148,7 @@ class DECLSPEC Matrix3x3
 		friend Matrix3x3 operator *(scalar_t r, const Matrix3x3 &mat);
 
 		/* Vector operators */
-		friend Vector3 operator *(const Matrix3x3 &mat, const Vector3 &vec);
+		friend Vector3f operator *(const Matrix3x3 &mat, const Vector3f &vec);
 
 		/* Compound scalar operators */
 		friend void operator *=(Matrix3x3 &mat, scalar_t r);
@@ -172,33 +161,31 @@ class DECLSPEC Matrix3x3
 		inline void reset_identity();
 
 		/* Transformations */
-		void translate(const Vector2 &trans);
-		void set_translation(const Vector2 &trans);
+		void translate(const Vector2f &trans);
+		void set_translation(const Vector2f &trans);
 
 		void rotate(scalar_t angle);						/* 2d rotation */
-    	void rotate(const Vector3 &euler);				/* 3d rotation with euler angles */
-    	void rotate(const Vector3 &axis, scalar_t angle);	/* 3d axis/angle rotation */
+    	void rotate(const Vector3f &euler);				/* 3d rotation with euler angles */
+    	void rotate(const Vector3f &axis, scalar_t angle);	/* 3d axis/angle rotation */
 
 		void set_rotation(scalar_t angle);
-    	void set_rotation(const Vector3 &euler);
-		void set_rotation(const Vector3 &axis, scalar_t angle);
+    	void set_rotation(const Vector3f &euler);
+		void set_rotation(const Vector3f &axis, scalar_t angle);
 
-		void scale(const Vector3 &vec);
-		void set_scaling(const Vector3 &vec);
+		void scale(const Vector3f &vec);
+		void set_scaling(const Vector3f &vec);
 
 		/* Tuple operations */
-		void set_column_vector(const Vector3 &vec, unsigned int index);
-		void set_row_vector(const Vector3 &vec, unsigned int index);
-		Vector3 get_column_vector(unsigned int index) const;
-		Vector3 get_row_vector(unsigned int index) const;
+		void set_column_vector(const Vector3f &vec, unsigned int index);
+		void set_row_vector(const Vector3f &vec, unsigned int index);
+		Vector3f get_column_vector(unsigned int index) const;
+		Vector3f get_row_vector(unsigned int index) const;
 
 		void transpose();
 		Matrix3x3 transposed() const;
 		scalar_t determinant() const;
 		Matrix3x3 adjoint() const;
 		Matrix3x3 inverse() const;
-
-	    friend std::ostream &operator <<(std::ostream &out, const Matrix3x3 &mat);
 
 		static const Matrix3x3 identity;
 
@@ -233,7 +220,7 @@ class DECLSPEC Matrix4x4
 		friend Matrix4x4 operator *(scalar_t r, const Matrix4x4 &mat);
 
 		/* Vector operators */
-		friend Vector4 operator *(const Matrix4x4 &mat, const Vector4 &vec);
+		friend Vector4f operator *(const Matrix4x4 &mat, const Vector4f &vec);
 
 		/* Compound scalar operators */
 		friend void operator *=(Matrix4x4 &mat, scalar_t r);
@@ -246,22 +233,22 @@ class DECLSPEC Matrix4x4
 		inline void reset_identity();
 
 		/* Transformations */
-		void translate(const Vector3 &trans);
-		void set_translation(const Vector3 &trans);
+		void translate(const Vector3f &trans);
+		void set_translation(const Vector3f &trans);
 
-		void rotate(const Vector3 &euler);           	/* 3d rotation with euler angles */
-		void rotate(const Vector3 &axis, scalar_t angle); /* 3d axis/angle rotation */
-		void set_rotation(const Vector3 &euler);
-		void set_rotation(const Vector3 &axis, scalar_t angle);
+		void rotate(const Vector3f &euler);           	/* 3d rotation with euler angles */
+		void rotate(const Vector3f &axis, scalar_t angle); /* 3d axis/angle rotation */
+		void set_rotation(const Vector3f &euler);
+		void set_rotation(const Vector3f &axis, scalar_t angle);
 
-		void scale(const Vector4 &vec);
-		void set_scaling(const Vector4 &vec);
+		void scale(const Vector4f &vec);
+		void set_scaling(const Vector4f &vec);
 		
 		/* Tuple operations */
- 		void set_column_vector(const Vector4 &vec, unsigned int index);
-		void set_row_vector(const Vector4 &vec, unsigned int index);
-		Vector4 get_column_vector(unsigned int index) const;
-		Vector4 get_row_vector(unsigned int index) const;
+ 		void set_column_vector(const Vector4f &vec, unsigned int index);
+		void set_row_vector(const Vector4f &vec, unsigned int index);
+		Vector4f get_column_vector(unsigned int index) const;
+		Vector4f get_row_vector(unsigned int index) const;
 
 		void transpose();
 		Matrix4x4 transposed() const;
@@ -269,14 +256,14 @@ class DECLSPEC Matrix4x4
 		Matrix4x4 adjoint() const;
 		Matrix4x4 inverse() const;
 
-		friend std::ostream &operator <<(std::ostream &out, const Matrix4x4 &mat);
-
 		static const Matrix4x4 identity;
 
 		scalar_t data[4][4];
 };
 
 #endif	/* __cplusplus */
+
+} /* namespace NMath */
 
 #include "matrix.inl"
 
