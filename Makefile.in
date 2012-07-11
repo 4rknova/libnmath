@@ -1,58 +1,83 @@
-# paths
-# - target
-spath = src
-opath = $(bpath)/obj
-# - source
-ccsrc = $(wildcard $(spath)/*.cc)
+SOURCE_H   = $(wildcard $(PATH_SRC)/*.h)
+SOURCE_HPP = $(wildcard $(PATH_SRC)/*.hpp)
+SOURCE_INL = $(wildcard $(PATH_SRC)/*.inl)
+SOURCE_TML = $(wildcard $(PATH_SRC)/*.tml)
+SOURCE_C   = $(wildcard $(PATH_SRC)/*.c)
+SOURCE_CC  = $(wildcard $(PATH_SRC)/*.cc)
+SOURCE_CPP = $(wildcard $(PATH_SRC)/*.cpp)
 
-# binaries
-obj = $(ccsrc:.cc=.o) 
-bin = $(bpath)/$(pkgname)
+SOURCE_API = $(SOURCE_H) $(SOURCE_HPP) $(SOURCE_INL) $(SOURCE_TML)
 
-lib_a = $(bin).a
-lib_so = $(bin).$(so)
+BINOBJ_C   = $(SOURCE_C:.c=.o)
+BINOBJ_CC  = $(SOURCE_CC:.cc=.o)
+BINOBJ_CPP = $(SOURCE_CPP:.cpp=.o)
+BINOBJ     = $(BINOBJ_C) $(BINOBJ_CC) $(BINOBJ_CPP)
 
-CC = gcc
-CXX = g++
-CCFLAGS = -std=c89 -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
-CXXFLAGS = -ansi -pedantic -Wall -Wno-strict-aliasing $(opt) $(dbg) -fPIC -Isrc
-LDFLAGS =
+BIN = $(PATH_BIN)/$(SW_PACKAGE)
+LIB_STATIC = $(BIN).$(EXT_STATIC)
+LIB_DYNAMIC= $(BIN).$(EXT_DYNAMIC)
 
+MAN = $(PATH_MAN)/$(SW_TITLE).$(MAN_SECTION)
+
+FLAGS_WARNLV = -Wall
+FLAGS_INCLSN = -I/usr/local/include -I$(PATH_SRC)
+FLAGS_PREPRC = -D'$(SW_SYMID)_VERSION="$(SW_VERSION)"'
+FLAGS_COMMON = -fPIC $(FLAGS_OPT) $(FLAGS_DBG) $(FLAGS_WARNLV) $(FLAGS_INCLSN) $(FLAGS_PREPRC) -Wno-strict-aliasing
+FLAGS_LD =
+FLAGS_CC  = $(FLAGS_COMMON) -std=c89
+FLAGS_CXX = $(FLAGS_COMMON) -ansi -pedantic
+
+# TARGETS
 .PHONY: all
-all: $(lib_a) $(lib_so)
+all: $(LIB_STATIC) $(LIB_DYNAMIC)
+
+$(LIB_STATIC): $(BINOBJ)
+	$(AR) rcs $@ $^
+
+$(LIB_DYNAMIC): $(BINOBJ)
+	$(CXX) $(FLAGS_CC) $(FLAGS_SHARED) -o $@ $(BINOBJ) $(FLAGS_LD) $(DEP_DLIB)
+
+%.o: %.c
+	$(CC) -c $(FLAGS_CC) -o $@ $<  $(DEP_DLIB)
+
+%.o: %.cc
+	$(CXX) -c $(FLAGS_CXX) -o $@ $<
+
+%.o: %.cpp
+	$(CXX) -c $(FLAGS_CXX) -o $@ $<
+
+.PHONY: bin
+bin: $(LIB_STATIC) $(LIB_DYNAMIC)
 
 .PHONY: install
 install: all
-	$(INSTALL) -d $(PREFIX)/lib
-	$(INSTALL) -m 644 $(lib_a) $(lib_so) $(PREFIX)/lib
-	$(INSTALL) -d $(PREFIX)/include/nmath
-	cd src; $(INSTALL) -m 644 *.h *.inl $(PREFIX)/include/nmath
-	$(INSTALL) -d $(PREFIX)/lib/pkgconfig
-	$(INSTALL) -m 644 nmath.pc $(PREFIX)/lib/pkgconfig
-	ldconfig
+	$(INSTALL) -d $(PATH_PREFIX)/lib
+	$(INSTALL) -m 644 $(LIB_STATIC) $(LIB_DYNAMIC) $(PATH_PREFIX)/lib
+	$(INSTALL) -d $(PATH_PREFIX)/include/$(SW_TITLE)
+	$(INSTALL) -m 644 $(SOURCE_API) $(PATH_PREFIX)/include/$(SW_TITLE)/
+	$(INSTALL) -d $(PATH_PREFIX)/lib/pkgconfig
+	$(INSTALL) -m 644 $(SW_TITLE).pc $(PATH_PREFIX)/lib/pkgconfig
+	$(LDCONFIG)
+	if $(TEST) -f $(MAN); then $(INSTALL) -D -c -m 444 $(MAN) $(PATH_PREFIX)/share/man/man$(MAN_SECTION)/$(SW_TITLE).$(MAN_SECTION); fi
 
 .PHONY: uninstall
 uninstall:
-	rm -f $(PREFIX)/lib/$(lib_a)
-	rm -f $(PREFIX)/lib/$(lib_so)
-	rm -f $(PREFIX)/include/nmath/*
-	rmdir $(PREFIX)/include/nmath
-	rm -f $(PREFIX)/lib/pkgconfig/nmath.pc
+	$(RM) -f $(PATH_PREFIX)/lib/$(LIB_STATIC)
+	$(RM) -f $(PATH_PREFIX)/lib/$(LIB_DYNAMIC)
+	$(RM) -f $(PATH_PREFIX)/include/$(SW_TITLE)/*
+	$(RMDIR) $(PATH_PREFIX)/include/$(SW_TITLE)
+	$(RM) -f $(PATH_PREFIX)/lib/pkgconfig/$(SW_TITLE).pc
+	if $(TEST) -f $(MAN); then $(RM) -f $(PATH_PREFIX)/share/man/man$(MAN_SECTION)/$(SW_TITLE).$(MAN_SECTION); fi
 
-$(lib_a): $(obj)
-	$(AR) rcs $@ $^
-
-$(lib_so): $(obj)
-	$(CXX) $(CCFLAGS) $(shared) -o $@ $(obj) $(LDFLAGS)
-
-%.o: %.cc
-	$(CXX) -D'NMATH_USE_BBOX_INTERSECTION' -c $(CXXFLAGS) -o $@  $<
+.PHONY: man-preview
+man-preview:
+	$(CLEAR) && $(NROFF) -Tascii -man "$(PATH_MAN)/$(SW_TITLE).$(MAN_SECTION)" | $(COL) -x | $(LESS) -c
 
 .PHONY: clean
 clean:
-	rm -rf $(obj)
+	$(RM) -rf $(BINOBJ)
 
 .PHONY: clean-all
 clean-all: clean
-	rm -f Makefile nmath.pc $(dep) $(lib_so) $(lib_a)
-
+	$(RM) -f Makefile $(SW_TITLE).pc $(LIB_STATIC) $(LIB_DYNAMIC)
+	$(RM) -rf $(PATH_BIN)

@@ -65,7 +65,6 @@ static inline void mat3x3_add(mat3x3_t res, mat3x3_t m1, mat3x3_t m2);
 static inline void mat3x3_mul(mat3x3_t res, mat3x3_t m1, mat3x3_t m2);
 
 DECLSPEC void mat3x3_to_m4x4(mat4x4_t dest, mat3x3_t src);
-DECLSPEC void mat3x3_translate(mat3x3_t m, scalar_t x, scalar_t y);
 DECLSPEC void mat3x3_rotate(mat3x3_t m, scalar_t angle);
 DECLSPEC void mat3x3_scale(mat3x3_t m, scalar_t x, scalar_t y);
 DECLSPEC void mat3x3_shear(mat3x3_t m, scalar_t s);

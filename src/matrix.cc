@@ -43,16 +43,6 @@ extern "C" {
 /*
     3x3 matrices
 */
-
-void mat3x3_translate(mat3x3_t m, scalar_t x, scalar_t y)
-{
-    mat3x3_t tm;
-    mat3x3_identity(tm);
-    tm[0][3] = x;
-    tm[1][3] = y;
-    mat3x3_mul(m, m, tm);
-}
-
 void mat3x3_rotate(mat3x3_t m, scalar_t angle)
 {
     mat3x3_t rm;

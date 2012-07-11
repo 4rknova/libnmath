@@ -1,8 +1,0 @@
-libdir=${prefix}/lib
-incdir=${prefix}/include/nmath
-
-Name: nmath
-Description: nemesis math library
-Version: ${ver}
-Cflags: -I${incdir}
-Libs: -L${libdir} -lnmath
