@@ -189,34 +189,34 @@ static inline void mat4x4_mul(mat4x4_t res, mat4x4_t m1, mat4x4_t m2)
 #ifdef __cplusplus
 }   /* extern "C" */
 
-inline scalar_t *Matrix3x3::operator [](int index)
+inline scalar_t *Matrix3x3f::operator [](const unsigned int index)
 {
-    return data[index < 9 ? index : 8];
+    return m_data[index < 9 ? index : 8];
 }
 
-inline const scalar_t *Matrix3x3::operator [](int index) const
+inline const scalar_t *Matrix3x3f::operator [](const unsigned int index) const
 {
-    return data[index < 9 ? index : 8];
+    return m_data[index < 9 ? index : 8];
 }
 
-inline void Matrix3x3::reset_identity()
+inline void Matrix3x3f::load_identity()
 {
-    memcpy(data, identity.data, 9 * sizeof(scalar_t));
+    memcpy(m_data, identity[0], 9 * sizeof(scalar_t));
 }
 
-inline scalar_t *Matrix4x4::operator [](int index) 
+inline scalar_t *Matrix4x4f::operator [](const unsigned int index) 
 {
-    return data[index < 16 ? index : 15];
+    return m_data[index < 16 ? index : 15];
 }
 
-inline const scalar_t *Matrix4x4::operator [](int index) const
+inline const scalar_t *Matrix4x4f::operator [](const unsigned int index) const
 {
-    return data[index < 16 ? index : 15];
+    return m_data[index < 16 ? index : 15];
 }
 
-inline void Matrix4x4::reset_identity()
+inline void Matrix4x4f::load_identity()
 {
-    memcpy(data, identity.data, 16 * sizeof(scalar_t));
+    memcpy(m_data, identity[0], 16 * sizeof(scalar_t));
 }
 
 #endif /* __cplusplus */

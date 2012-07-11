@@ -28,10 +28,11 @@
 #ifndef LIBNMATH_GEOMETRY_H_INCLUDED
 #define LIBNMATH_GEOMETRY_H_INCLUDED
 
-#include "aabb.h"
-#include "ray.h"
-
 #include "declspec.h"
+#include "aabb.h"
+#include "matrix.h"
+#include "ray.h"
+#include "surfpoint.h"
 
 namespace NMath {
 
@@ -44,8 +45,8 @@ enum NMATH_GEOMETRY_TYPE
 	GEOMETRY_PLANE,
 	GEOMETRY_TRIANGLE,
 	GEOMETRY_SPHERE,
-	
-	GEOMETRY_MESH		/* For external objects that might extend geometry */
+	GEOMETRY_CYLINDER,	
+	GEOMETRY_MESH
 };
 
 #ifdef __cplusplus
@@ -58,14 +59,20 @@ class DECLSPEC Geometry
 {
     public:
 		Geometry(NMATH_GEOMETRY_TYPE t);
-		virtual ~Geometry(); 
-		virtual bool intersection(const Ray &ray, IntInfo* i_info) const = 0;
-		virtual void calc_aabb() = 0;
+		virtual ~Geometry();
 
-		const NMATH_GEOMETRY_TYPE type;
+		NMATH_GEOMETRY_TYPE type();
+		Matrix4x4f &matrix();
+		const AABoundingBox3 &aabb();
+
+		virtual bool intersection(const Ray &ray, SurfacePoint * sp) const = 0;
 
 	protected:
+		virtual void calc_aabb() = 0;
+
+		Matrix4x4f m_matrix;
 		AABoundingBox3 m_aabb;
+		const NMATH_GEOMETRY_TYPE m_type;
 };
 
 #endif	/* __cplusplus */

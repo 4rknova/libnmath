@@ -25,82 +25,79 @@
 
 */
 
-#include <math.h>
-
+#include "precision.h"
 #include "sphere.h"
-
-#include "defs.h"
-#include "vector.h"
-#include "intinfo.h"
 
 namespace NMath {
 
 #ifdef __cplusplus
 
 Sphere::Sphere()
-    : Geometry(GEOMETRY_SPHERE), radius(NMATH_SPHERE_DEFAULT_RADIUS)
+    : Geometry(GEOMETRY_SPHERE), 
+	  m_radius(1.0f)
 {}
 
 Sphere::Sphere(const Vector3f &org, scalar_t rad)
-    : Geometry(GEOMETRY_SPHERE), origin(org), radius(rad > 0 ? rad : NMATH_SPHERE_DEFAULT_RADIUS)
+    : Geometry(GEOMETRY_SPHERE),
+	  m_radius(rad > 0 ? rad : 0.0f)
 {}
 
-bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
+bool Sphere::intersection(const Ray &ray, SurfacePoint * sp) const
 {
+	// Transform ray to local coordinates.
+ 	Matrix4x4f inv_mat = m_matrix.inverse();
+	Ray tray = ray.transformed(inv_mat);
 
-#ifdef NMATH_USE_BBOX_INTERSECTION
-	if(!m_aabb.intersection(ray))
-	{
+	scalar_t a = dot(tray.direction(), tray.direction());
+	scalar_t b = 2.0f * tray.direction().x * tray.origin().x + 
+				 2.0f * tray.direction().y * tray.origin().y +
+				 2.0f * tray.direction().z * tray.origin().z;
+	scalar_t c = dot(tray.origin(), tray.origin()) - squared(radius());
+	scalar_t d = squared(b) - 4.0f * a * c;
+
+	if (d < 0.0f)
 		return false;
-	}
-#endif
 
-	// We use the algebraic solution
-	scalar_t a = dot(ray.direction, ray.direction);
+	scalar_t sqrt_d = nmath_sqrt(d);
+	scalar_t dblf_a = 2.0f * a;
+	scalar_t t1 = (-b + sqrt_d) / dblf_a;
+	scalar_t t2 = (-b - sqrt_d) / dblf_a;
 
-	scalar_t b = 2 * ray.direction.x * (ray.origin.x - origin.x) +
-		2 * ray.direction.y * (ray.origin.y - origin.y) +
-		2 * ray.direction.z * (ray.origin.z - origin.z);
-
-	scalar_t c = dot(origin, origin) + dot(ray.origin, ray.origin) + 
-		2 * dot(-origin, ray.origin) - radius * radius;
-	
-	scalar_t discr = (b * b - 4 * a * c);
-
-	if (discr < 0.0) 
-	{
+	if (t1 < EPSILON && t2 < EPSILON)
 		return false;
+
+
+	if (sp) {
+		Matrix4x4f invtransp_mat = inv_mat.transposed();
+
+		if (t1 < EPSILON) t1 = t2;
+		if (t2 < EPSILON) t2 = t1;
+
+		sp->distance = t1 < t2 ? t1 : t2;
+		sp->position = tray.origin() + tray.direction() * sp->distance;
+		sp->normal   = sp->position / radius();
+		sp->tangent  = cross(Vector3f(0.0f, 1.0f, 0.0f), sp->normal);
+/*
+		SphVector sphv(pt->pos);
+		sphv.theta += M_PI;
+		sp->texcoord = Vector2(sphv.theta / TWO_PI, sphv.phi / M_PI);
+*/
+		// Transform everything back into world coordinates
+		sp->position.transform(m_matrix);
+		sp->normal.transform(invtransp_mat);
+		sp->tangent.transform(invtransp_mat);
 	}
 
-	scalar_t sqrt_discr = sqrt(discr);
-	scalar_t t1 = (-b + sqrt_discr) / (2.0 * a);
-	scalar_t t2 = (-b - sqrt_discr) / (2.0 * a);
-	
-	if (t1 < EPSILON) t1 = t2;
-	if (t2 < EPSILON) t2 = t1;
-	
-	scalar_t t = t1 < t2 ? t1 : t2;
-
-	if (t < EPSILON )
-	{
-		return false;
-	}
-
-	if (i_info)
-	{
-		i_info->t = t;
-		i_info->point = ray.origin + ray.direction * t;
-		i_info->normal = (i_info->point - origin) / radius;
-		i_info->geometry = this;
-	}
-	
 	return true;
 }
 
 void Sphere::calc_aabb()
 {
-	m_aabb.max = origin + Vector3f(radius, radius, radius);
-	m_aabb.min = origin - Vector3f(radius, radius, radius);
+	Vector3f pos = Vector3f(0.0f, 0.0f, 0.0f).transformed(matrix());
+	Vector3f rv(radius(), radius(), radius());
+
+	m_aabb.min = pos - rv;
+	m_aabb.max = pos + rv;
 }
 
 #endif	/* __cplusplus */

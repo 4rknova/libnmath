@@ -26,7 +26,6 @@
 */
 
 #include "ray.h"
-#include "vector.h"
 
 namespace NMath {
 
@@ -37,13 +36,52 @@ extern "C" {
 #ifdef __cplusplus
 }
 
-Ray::Ray(const Vector3f &org, const Vector3f &dir)
-    : origin(org), direction(dir.normalized())
+Ray::Ray()
+	: m_origin(Vector3f(0.0f, 0.0f, 0.0f)), 
+	  m_direction(Vector3f(0.0f, 0.0f, 1.0f))
 {}
 
-Ray::Ray()
-	: origin(Vector3f(0,0,0)), direction(Vector3f(0,0,1))
+Ray::Ray(const Vector3f &org, const Vector3f &dir)
+    : m_origin(org),
+	  m_direction(dir.normalized())
 {}
+
+void Ray::transform(const Matrix4x4f &mat)
+{
+	Matrix4x4f upper = mat;
+	upper[0][3] = upper[1][3] = upper[2][3] = upper[3][0] = upper[3][1] = upper[3][2] = 0.0f;
+	upper[3][3] = 1.0f;
+
+	direction(m_direction.transformed(upper));
+	origin(m_origin.transformed(mat));
+}
+
+Ray Ray::transformed(const Matrix4x4f &mat) const
+{
+	Ray res = *this;
+	res.transform(mat);
+	return res;
+}
+
+const Vector3f &Ray::origin() const
+{
+	return m_origin;
+}
+
+const Vector3f &Ray::direction() const
+{
+	return m_direction;
+}
+
+void Ray::origin(const Vector3f &origin)
+{
+	m_origin = origin;
+}
+
+void Ray::direction(const Vector3f &direction)
+{
+	m_direction = direction.normalized();
+}
 
 #endif	/* __cplusplus */
 

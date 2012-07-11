@@ -40,17 +40,37 @@ namespace NMath {
 extern "C" {
 #endif /* __cplusplus */
 
-static inline scalar_t degree_to_radian(scalar_t s)
+static inline scalar_t min(const scalar_t a, const scalar_t b)
+{
+	return a <= b ? a : b;
+}
+
+static inline scalar_t max(const scalar_t a, const scalar_t b)
+{
+	return a >= b ? a : b;
+}
+
+static inline scalar_t squared(const scalar_t x)
+{
+	return x * x;
+}
+
+static inline scalar_t qubed(const scalar_t x)
+{
+	return x * x * x;
+}
+
+static inline scalar_t degree_to_radian(const scalar_t s)
 {
     return (s * 180.0f) / PI;
 }
 
-static inline scalar_t radian_to_degree(scalar_t s)
+static inline scalar_t radian_to_degree(const scalar_t s)
 {
     return s * (PI / 180.0f);
 }
 
-static inline int gcd(int a, int b)
+static inline int gcd(const int a, const int b)
 {
    if (!b)
     return a;
@@ -58,12 +78,12 @@ static inline int gcd(int a, int b)
    return gcd(b,a%b);
 }
 
-static inline int lcm(int a, int b)
+static inline int lcm(const int a, const int b)
 {
    return b*a/lcm(a,b);
 }
 
-static inline int is_power_of_2(int v)
+static inline int is_power_of_2(const int v)
 {
 	return ( (v > 0) && ((v & (v - 1)) == 0) );
 }

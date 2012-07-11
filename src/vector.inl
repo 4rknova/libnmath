@@ -32,18 +32,9 @@
     #error "vector.h must be included before vector.inl"
 #endif /* LIBNMATH_VECTOR_H_INCLUDED */
 
-#ifdef __cplusplus
-    #include <cmath>
-#else
-    #include <math.h>
-#endif  /* __cplusplus */
-
 #include "precision.h"
-#include "types.h"
 #include "mutil.h"
-
 #include "matrix.h"
-
 
 namespace NMath {
 
@@ -512,12 +503,12 @@ inline Vector2f& operator /=(Vector2f& v, scalar_t r)
 
 inline bool operator ==(const Vector2f& v1, const Vector2f& v2)
 {
-	return (fabs(v1.x - v2.x) < SCALAR_T_XXSMALL) && (fabs(v1.y - v2.x) < SCALAR_T_XXSMALL);
+	return (fabs(v1.x - v2.x) < SCALAR_XXSMALL) && (fabs(v1.y - v2.x) < SCALAR_XXSMALL);
 }
 
 inline bool operator !=(const Vector2f& v1, const Vector2f& v2)
 {
-	return (fabs(v1.x - v2.x) >= SCALAR_T_XXSMALL) && (fabs(v1.y - v2.x) >= SCALAR_T_XXSMALL);
+	return (fabs(v1.x - v2.x) >= SCALAR_XXSMALL) && (fabs(v1.y - v2.x) >= SCALAR_XXSMALL);
 }
 
 inline scalar_t Vector2f::length() const
@@ -584,16 +575,19 @@ inline Vector2f Vector2f::refracted(const Vector2f &normal, scalar_t ior_src, sc
 	return (ior * i) + (beta * n);
 }
 
-inline Vector2f Vector2f::transform(Matrix3x3 &m)
+inline void Vector2f::transform(const Matrix3x3f &mat)
 {
-	return *this = transformed(m);
+	scalar_t nx = mat[0][0] * x + mat[0][1] * y + mat[0][2];
+	y = mat[1][0] * x + mat[1][1] * y + mat[1][2];
+	x = nx;
 }
 
-inline Vector2f Vector2f::transformed(Matrix3x3 &m)
+inline Vector2f Vector2f::transformed(const Matrix3x3f &mat)
 {
-	scalar_t nx = m.data[0][0] * x + m.data[0][1]* y + m.data[0][3];
-	scalar_t ny = m.data[1][0] * x + m.data[1][1]* y + m.data[1][3];
-	return Vector2f(nx, ny);
+	Vector2f vec;
+	vec.x = mat[0][0] * x + mat[0][1] * y + mat[0][2];
+	vec.y = mat[1][0] * x + mat[1][1] * y + mat[1][2];
+	return vec;
 }
 
 inline scalar_t dot(const Vector2f& v1, const Vector2f& v2)
@@ -741,12 +735,12 @@ inline Vector3f& operator /=(Vector3f& v, scalar_t r)
 
 inline bool operator ==(const Vector3f& v1, const Vector3f& v2)
 {
-	return (fabs(v1.x - v2.x) < SCALAR_T_XXSMALL) && (fabs(v1.y - v2.y) < SCALAR_T_XXSMALL) && (fabs(v1.z - v2.z) < SCALAR_T_XXSMALL);
+	return (fabs(v1.x - v2.x) < SCALAR_XXSMALL) && (fabs(v1.y - v2.y) < SCALAR_XXSMALL) && (fabs(v1.z - v2.z) < SCALAR_XXSMALL);
 }
 
 inline bool operator !=(const Vector3f& v1, const Vector3f& v2)
 {
-	return (fabs(v1.x - v2.x) >= SCALAR_T_XXSMALL) && (fabs(v1.y - v2.y) >= SCALAR_T_XXSMALL) && (fabs(v1.z - v2.z) >= SCALAR_T_XXSMALL);
+	return (fabs(v1.x - v2.x) >= SCALAR_XXSMALL) && (fabs(v1.y - v2.y) >= SCALAR_XXSMALL) && (fabs(v1.z - v2.z) >= SCALAR_XXSMALL);
 }
 
 inline bool operator < (const Vector3f &v1, const Vector3f &v2)
@@ -836,17 +830,40 @@ inline Vector3f cross(const Vector3f& v1, const Vector3f& v2)
 	return Vector3f(v1.y * v2.z - v1.z * v2.y,  v1.z * v2.x - v1.x * v2.z,  v1.x * v2.y - v1.y * v2.x);
 }
 
-inline Vector3f Vector3f::transform(Matrix4x4 &m)
+inline void Vector3f::transform(const Matrix3x3f &mat)
 {
-	return *this = transformed(m);
+	scalar_t nx = mat[0][0] * x + mat[0][1] * y + mat[0][2] * z;
+	scalar_t ny = mat[1][0] * x + mat[1][1] * y + mat[1][2] * z;
+	z = mat[2][0] * x + mat[2][1] * y + mat[2][2] * z;
+	x = nx;
+	y = ny;
 }
 
-inline Vector3f Vector3f::transformed(Matrix4x4 &m)
+inline void Vector3f::transform(const Matrix4x4f &mat)
 {
-	scalar_t nx = m.data[0][0] * x + m.data[0][1] * y + m.data[0][2] * z + m.data[0][3];
-	scalar_t ny = m.data[1][0] * x + m.data[1][1] * y + m.data[1][2] * z + m.data[1][3];
-	scalar_t nz = m.data[2][0] * x + m.data[2][1] * y + m.data[2][2] * z + m.data[2][3];
-	return Vector3f(nx, ny, nz);
+	scalar_t nx = mat[0][0] * x + mat[0][1] * y + mat[0][2] * z + mat[0][3];
+	scalar_t ny = mat[1][0] * x + mat[1][1] * y + mat[1][2] * z + mat[1][3];
+	z = mat[2][0] * x + mat[2][1] * y + mat[2][2] * z + mat[2][3];
+	x = nx;
+	y = ny;
+}
+
+inline Vector3f Vector3f::transformed(const Matrix3x3f &mat)
+{
+	Vector3f vec;
+	vec.x = mat[0][0] * x + mat[0][1] * y + mat[0][2] * z;
+	vec.y = mat[1][0] * x + mat[1][1] * y + mat[1][2] * z;
+	vec.z = mat[2][0] * x + mat[2][1] * y + mat[2][2] * z;
+	return vec;
+}
+
+inline Vector3f Vector3f::transformed(const Matrix4x4f &mat)
+{
+	Vector3f vec;
+	vec.x = mat[0][0] * x + mat[0][1] * y + mat[0][2] * z + mat[0][3];
+	vec.y = mat[1][0] * x + mat[1][1] * y + mat[1][2] * z + mat[1][3];
+	vec.z = mat[2][0] * x + mat[2][1] * y + mat[2][2] * z + mat[2][3];
+	return vec;
 }
 
 /* Vector4f functions */
@@ -998,12 +1015,12 @@ inline Vector4f& operator /=(Vector4f& v, scalar_t r)
 
 inline bool operator ==(const Vector4f& v1, const Vector4f& v2)
 {
-	return (fabs(v1.x - v2.x) < SCALAR_T_XXSMALL) && (fabs(v1.y - v2.y) < SCALAR_T_XXSMALL) && (fabs(v1.z - v2.z) < SCALAR_T_XXSMALL) && (fabs(v1.w - v2.w) < SCALAR_T_XXSMALL);;
+	return (fabs(v1.x - v2.x) < SCALAR_XXSMALL) && (fabs(v1.y - v2.y) < SCALAR_XXSMALL) && (fabs(v1.z - v2.z) < SCALAR_XXSMALL) && (fabs(v1.w - v2.w) < SCALAR_XXSMALL);;
 }
 
 inline bool operator !=(const Vector4f& v1, const Vector4f& v2)
 {
-	return (fabs(v1.x - v2.x) >= SCALAR_T_XXSMALL) && (fabs(v1.y - v2.y) >= SCALAR_T_XXSMALL) && (fabs(v1.z - v2.z) >= SCALAR_T_XXSMALL) && (fabs(v1.w - v2.w) >= SCALAR_T_XXSMALL);
+	return (fabs(v1.x - v2.x) >= SCALAR_XXSMALL) && (fabs(v1.y - v2.y) >= SCALAR_XXSMALL) && (fabs(v1.z - v2.z) >= SCALAR_XXSMALL) && (fabs(v1.w - v2.w) >= SCALAR_XXSMALL);
 }
 
 inline scalar_t Vector4f::length() const

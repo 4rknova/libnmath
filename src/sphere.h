@@ -28,12 +28,12 @@
 #ifndef LIBNMATH_SPHERE_H_INCLUDED
 #define LIBNMATH_SPHERE_H_INCLUDED
 
+#include "declspec.h"
 #include "precision.h"
 #include "vector.h"
 #include "geometry.h"
+#include "surfpoint.h"
 #include "ray.h"
-
-#include "declspec.h"
 
 namespace NMath {
 
@@ -54,19 +54,23 @@ static inline sphere_t sphere_pack(vec3_t origin, scalar_t radius);
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-#define NMATH_SPHERE_DEFAULT_RADIUS 1.0
-
 class DECLSPEC Sphere: public Geometry
 {
     public:
         Sphere();
         Sphere(const Vector3f &org, scalar_t rad);
 
-		bool intersection(const Ray &ray, IntInfo* i_info) const;
-		void calc_aabb();
+		inline scalar_t radius() const;
+		inline void radius(const scalar_t radius);
 
-        Vector3f origin;
-        scalar_t radius;
+		// NOTE:
+		// If sp == NULL, the intersection point is not calculated.
+		bool intersection(const Ray &ray, SurfacePoint * sp) const;
+
+	private:
+		void calc_aabb();
+        
+		scalar_t m_radius;
 };
 
 #endif	/* __cplusplus */

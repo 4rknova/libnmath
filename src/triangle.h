@@ -28,12 +28,12 @@
 #ifndef LIBNMATH_TRIANGLE_H_INCLUDED
 #define LIBNMATH_TRIANGLE_H_INCLUDED
 
+#include "declspec.h"
 #include "precision.h"
 #include "vector.h"
 #include "geometry.h"
+#include "surfpoint.h"
 #include "ray.h"
-
-#include "declspec.h"
 
 namespace NMath {
 
@@ -56,13 +56,17 @@ class DECLSPEC Triangle: public Geometry
     public:
         Triangle();
 
-		bool intersection(const Ray &ray, IntInfo* i_info) const;
-		void calc_aabb();
-		Vector3f calc_normal() const;
-		Vector3f calc_barycentric(const Vector3f &p) const;
+		Vector3f barycentric(const Vector3f &p) const;
+		
+		// NOTE:
+		// If sp == NULL, the intersection point is not calculated.
+		bool intersection(const Ray &ray, SurfacePoint * sp) const;
 
-        Vector3f v[3]; // position
-        Vector3f n[3]; // normal
+        Vector3f position[3], normal[3];
+		Vector2f uv[3];
+
+	private:
+		void calc_aabb();
 };
 
 #endif	/* __cplusplus */

@@ -2,8 +2,8 @@
 
 	This file is part of libnmath.
 
-	plane.h
-	Plane
+	cylinder.inl
+	Cylinder
 
 	Copyright (C) 2008, 2010 - 2012
 	Papadopoulos Nikolaos
@@ -25,62 +25,63 @@
 
 */
 
-#ifndef LIBNMATH_PLANE_H_INCLUDED
-#define LIBNMATH_PLANE_H_INCLUDED
+#ifndef LIBNMATH_CYLINDER_INL_INCLUDED
+#define LIBNMATH_CYLINDER_INL_INCLUDED
 
-#include "declspec.h"
-#include "precision.h"
-#include "vector.h"
-#include "geometry.h"
-#include "surfpoint.h"
-#include "ray.h"
+#ifndef LIBNMATH_CYLINDER_H_INCLUDED
+    #error "cylinder.h must be included before cylinder.inl"
+#endif /* LIBNMATH_CYLINDER_H_INCLUDED */
 
 namespace NMath {
-
-struct plane_t
-{
-    vec3_t normal;
-    scalar_t distance;
-};
-
-typedef struct plane_t plane_t;
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline plane_t plane_pack(vec3_t normal, scalar_t distance);
+static inline cylinder_t cylinder_pack(const scalar_t radius, const scalar_t end_a, const scalar_t end_b)
+{
+	cylinder_t s;
+	s.radius = radius;
+	s.end_a = end_a;
+	s.end_b = end_b;
+	return s;
+}
 
 #ifdef __cplusplus
-}	/* __cplusplus */
+} /* extern C */
 
-class DECLSPEC Plane: public Geometry
+inline scalar_t Cylinder::radius() const
 {
-	public:
-		Plane();
-		Plane(const Vector3f &normal, scalar_t distance);
-		
-		inline const Vector3f &normal() const;
-		inline scalar_t distance() const;
+	return m_radius;
+}
 
-		inline void normal(const Vector3f &normal);
-		inline void distance(const scalar_t distance);
+inline scalar_t Cylinder::end_a() const
+{
+	return m_end_a;
+}
 
-		// NOTE:
-		// If sp == NULL, the intersection point is not calculated.
-		bool intersection(const Ray &ray, SurfacePoint* sp) const;
+inline scalar_t Cylinder::end_b() const
+{
+	return m_end_b;
+}
 
-	private:
-		void calc_aabb();
+inline void Cylinder::radius(const scalar_t radius)
+{
+	m_radius = (radius > 0.0f ? radius : 0.0f);
+}
 
-		Vector3f m_normal;
-		scalar_t m_distance; 
-};
+inline void Cylinder::end_a(const scalar_t end_a)
+{
+	m_end_a = end_a;
+}
+
+inline void Cylinder::end_b(const scalar_t end_b)
+{
+	m_end_b = end_b;
+}
 
 #endif	/* __cplusplus */
 
 } /* namespace NMath */
 
-#include "plane.inl"
-
-#endif /* LIBNMATH_PLANE_H_INCLUDED */
+#endif /* LIBNMATH_CYLINDER_INL_INCLUDED */

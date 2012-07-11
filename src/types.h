@@ -37,17 +37,17 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* Vectors */
-typedef struct { scalar_t x, y; } vec2_t;
-typedef struct { scalar_t x, y, z; } vec3_t;
-typedef struct { scalar_t x, y, z, w; } vec4_t;
+struct vec2_t { scalar_t x, y; };
+struct vec3_t { scalar_t x, y, z; };
+struct vec4_t { scalar_t x, y, z, w; };
+
+typedef struct vec2_t vec2_t;
+typedef struct vec3_t vec3_t;
+typedef struct vec4_t vec4_t;
 
 /* Matrices */
 typedef scalar_t mat3x3_t[3][3];
 typedef scalar_t mat4x4_t[4][4];
-
-/* Bounding boxes */
-typedef struct { vec2_t min, max; } aabb2_t;
-typedef struct { vec3_t min, max; } aabb3_t;
 
 #ifdef __cplusplus
 }   /* extern "C" */
@@ -57,13 +57,8 @@ class Vector2f;
 class Vector3f;
 class Vector4f;
 
-class Quaternion;
-
-class Matrix3x3;
-class Matrix4x4;
-
-class BoundingBox2;
-class BoundingBox3;
+class Matrix3x3f;
+class Matrix4x4f;
 
 #endif	/* __cplusplus */
 

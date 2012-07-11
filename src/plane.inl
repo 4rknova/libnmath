@@ -50,6 +50,26 @@ static inline plane_t plane_pack(vec3_t normal, scalar_t distance)
 } /* extern C */
 #endif	/* __cplusplus */
 
+inline const Vector3f &Plane::normal() const
+{
+	return m_normal;
+}
+
+inline scalar_t Plane::distance() const
+{
+	return m_distance;
+}
+
+inline void Plane::normal(const Vector3f &normal)
+{
+	m_normal = normal.normalized();
+}
+
+inline void Plane::distance(const scalar_t distance)
+{
+	m_distance = distance;
+}
+
 } /* namespace NMath */
 
 #endif /* LIBNMATH_PLANE_INL_INCLUDED */

@@ -3,7 +3,7 @@
 	This file is part of libnmath.
 
 	defs.h
-	C & Math constants
+	C constants
 
 	Copyright (C) 2008, 2010 - 2012
 	Papadopoulos Nikolaos
@@ -36,35 +36,5 @@
         #define inline
 	#endif
 #endif /* __STDC_VERSION__ */
-
-/*
-    PI
-*/
-#define PI_DOUBLE		6.283185307179586232
-#define PI				3.14159265358979323846
-#define PI_HALF			1.57079632679489661923
-#define PI_QUARTER		0.78539816339744830962
-
-#ifndef M_PI
-    #define M_PI	    PI
-#endif /* M_PI */
-
-#ifndef EPSILON
-	#define EPSILON   		1E-8
-	#define FLOAT_EPSILON	EPSILON
-	#define DOUBLE_EPSILON	1E-15
-#endif /* EPSILON */
-
-/*
-     EULER_E
-*/
-#define EULER_E     2.7182818284590452354
-
-#ifndef M_E
-    #define M_E		EULER_E
-#endif /* M_E */
-
-#define LN2		0.69314718055994530942
-#define LN10	2.30258509299404568402
 
 #endif /* LIBNMATH_DEFS_H_INCLUDED */

@@ -2,8 +2,8 @@
 
 	This file is part of libnmath.
 
-	intinfo.cc
-	Intersection info
+	surfpoint.cc
+	Surface point
 
 	Copyright (C) 2008, 2010 - 2012
 	Papadopoulos Nikolaos
@@ -25,14 +25,14 @@
 
 */
 
-#include "intinfo.h"
+#include "surfpoint.h"
 
 namespace NMath {
 
 #ifdef __cplusplus
 
-IntInfo::IntInfo()
-	: t(NM_INFINITY), geometry(NULL)
+SurfacePoint::SurfacePoint()
+	: distance(INFINITY)
 {}
 
 #endif /* __cplusplus */

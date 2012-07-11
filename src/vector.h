@@ -28,15 +28,15 @@
 #ifndef LIBNMATH_VECTOR_H_INCLUDED
 #define LIBNMATH_VECTOR_H_INCLUDED
 
-#include "types.h"
-
-#include "declspec.h"
-
 #ifdef __cplusplus
     #include <cstdio>
 #else
     #include <stdio.h>
 #endif  /* __cplusplus */
+
+#include "declspec.h"
+#include "precision.h"
+#include "types.h"
 
 namespace NMath {
 
@@ -48,7 +48,6 @@ extern "C" {
     C 2D vector functions
 */
 static inline vec2_t vec2_pack(scalar_t x, scalar_t y);
-
 static inline vec2_t vec2_add(vec2_t v1, vec2_t v2);
 static inline vec2_t vec2_sub(vec2_t v1, vec2_t v2);
 static inline vec2_t vec2_neg(vec2_t v);
@@ -112,6 +111,8 @@ static inline vec4_t vec4_refract(vec4_t v, vec4_t n, scalar_t ior_src, scalar_t
 #ifdef __cplusplus
 }   /* extern "C" */
 
+/* Forward declarations */
+
 /*
     2D VECTOR
 */
@@ -119,7 +120,7 @@ class DECLSPEC Vector2f
 {
     public:
         /* Constructors */
-        explicit Vector2f(scalar_t aX = 0.0, scalar_t aY = 0.0);
+        explicit Vector2f(scalar_t aX = 0.0f, scalar_t aY = 0.0f);
         Vector2f(const Vector2f &v);
         Vector2f(const Vector3f &v);
         Vector2f(const Vector4f &v);
@@ -177,9 +178,9 @@ class DECLSPEC Vector2f
         inline void refract(const Vector2f &normal, scalar_t ior_src, scalar_t ior_dst);
         inline Vector2f refracted(const Vector2f &normal, scalar_t ior_src, scalar_t ior_dst) const;
 
-		/* Transformation */
-		inline Vector2f transform(Matrix3x3 &m);
-		inline Vector2f transformed(Matrix3x3 &m);
+		/* Transformations */
+		inline void transform(const Matrix3x3f &mat);
+		inline Vector2f transformed(const Matrix3x3f &mat);
 
         scalar_t x, y;
 };
@@ -193,7 +194,7 @@ class DECLSPEC Vector3f
 {
     public:
         /* Constructors */
-        explicit Vector3f(scalar_t aX = 0.0, scalar_t aY = 0.0, scalar_t aZ = 0.0);
+        explicit Vector3f(scalar_t aX = 0.0f, scalar_t aY = 0.0f, scalar_t aZ = 0.0f);
         Vector3f(const Vector3f &v);
         Vector3f(const Vector2f &v);
         Vector3f(const Vector4f &v);
@@ -251,9 +252,11 @@ class DECLSPEC Vector3f
         inline void refract(const Vector3f &normal, scalar_t ior_src, scalar_t ior_dst);
         inline Vector3f refracted(const Vector3f &normal, scalar_t ior_src, scalar_t ior_dst) const;
 
-		/* Transformation */
-		inline Vector3f transform(Matrix4x4 &m);
-		inline Vector3f transformed(Matrix4x4 &m);
+		/* Transformations */
+		inline void transform(const Matrix3x3f &mat);
+		inline void transform(const Matrix4x4f &mat);
+		inline Vector3f transformed(const Matrix3x3f &mat);
+		inline Vector3f transformed(const Matrix4x4f &mat);
 
         scalar_t x, y, z;
 };
@@ -268,7 +271,7 @@ class DECLSPEC Vector4f
 {
     public:
         /* Constructors */
-        explicit Vector4f(scalar_t aX = 0.0, scalar_t aY = 0.0, scalar_t aZ = 0.0, scalar_t aW = 0.0);
+        explicit Vector4f(scalar_t aX = 0.0f, scalar_t aY = 0.0f, scalar_t aZ = 0.0f, scalar_t aW = 0.0f);
         Vector4f(const Vector4f &v);
         Vector4f(const Vector2f &v);
         Vector4f(const Vector3f &v);

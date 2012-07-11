@@ -32,10 +32,24 @@ namespace NMath {
 
 #ifdef __cplusplus
 
+/* BoundingCircle class */
 BoundingCircle::BoundingCircle()
+	: origin(Vector2f(0.0f, 0.0f)),
+	  radius(0.0f)
 {}
 
 BoundingCircle::BoundingCircle(const Vector2f &a, const scalar_t r)
+	: origin(a),
+	  radius(r)
+{}
+
+/* BoundingSphere class */
+BoundingSphere::BoundingSphere()
+	: origin(Vector3f(0.0f, 0.0f, 0.0f)),
+	  radius(0.0f)
+{}
+
+BoundingSphere::BoundingSphere(const Vector3f &a, const scalar_t r)
 	: origin(a),
 	  radius(r)
 {}

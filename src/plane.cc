@@ -25,12 +25,10 @@
 
 */
 
-#include <math.h>
-#include "plane.h"
-
 #include "defs.h"
 #include "vector.h"
-#include "intinfo.h"
+#include "surfpoint.h"
+#include "plane.h"
 
 namespace NMath {
 
@@ -42,44 +40,57 @@ extern "C" {
 }
 
 Plane::Plane()
-	: Geometry(GEOMETRY_PLANE), distance(NMATH_PLANE_DEFAULT_DISTANCE)
+	: Geometry(GEOMETRY_PLANE),
+	  m_normal(Vector3f(0.0f, 1.0f, 0.0f)),
+	  m_distance(0.0f)
 {}
 
-Plane::Plane(const Vector3f &norm, double distance)
-	: Geometry(GEOMETRY_PLANE), normal(norm), distance(distance > 0 ? distance : NMATH_PLANE_DEFAULT_DISTANCE)
+Plane::Plane(const Vector3f &normal, scalar_t distance)
+	: Geometry(GEOMETRY_PLANE),
+	  m_normal(normal),
+	  m_distance(distance)
 {}
 
-bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
+bool Plane::intersection(const Ray &ray, SurfacePoint* sp) const
 {
-	// algebraic solution
+	// Transform ray to local coordinates.
+	Matrix4x4f inv_mat = m_matrix.inverse();
+	Ray tray = ray.transformed(inv_mat);
 
-	// check if the ray is travelling parallel to the plane.
-	// if the ray is in the plane then we ignore it.
-	double n_dot_dir = dot(ray.direction, normal);
+	// Check if the ray is travelling parallel to the plane.
+	// If the ray is in the plane then we ignore it.
+	scalar_t n_dot_dir = dot(tray.direction(), normal());
 
-	// we use two-sided planes so we ignore the sign of n_dot_dir
+	// The planes are treated as two-sided so the sign of n_dot_dir is ignored.
 	if (fabs(n_dot_dir) < EPSILON) 
-	{
 		return false;
-	}
 	
-	Vector3f v = normal * distance;
-	Vector3f vorigin = v - ray.origin;
+	Vector3f v = normal() * distance();
+	Vector3f vorigin = v - tray.origin();
 
-	double n_dot_vo = dot(vorigin, normal);
-	double t = n_dot_vo / n_dot_dir; 
+	scalar_t n_dot_vo = dot(vorigin, normal());
+	scalar_t t = n_dot_vo / n_dot_dir; 
 
 	if (t < EPSILON) 
-	{
 		return false;
-	}
 
-	if (i_info) 
+	if (sp) 
 	{
-		i_info->t = t;
-		i_info->point = ray.origin + ray.direction * t;
-		i_info->normal = dot(normal, ray.direction) < 0 ? normal : -normal;
-		i_info->geometry = this;
+		Matrix4x4f invtransp_mat = inv_mat.transposed();
+
+		sp->distance = t;
+		sp->position = tray.origin() + tray.direction() * sp->distance;
+		sp->normal   = dot(normal(), tray.direction()) < 0 ? normal() : -normal();
+		sp->tangent  = cross(Vector3f(0.0f, 1.0f, 0.0f), sp->normal);
+	/*
+		// UV coords for tecture mapping.
+		sp->texcoord =
+	*/
+
+		 // Transform everything back into world coordinates.
+		 sp->position.transform(m_matrix);
+		 sp->normal.transform(invtransp_mat);
+		 sp->tangent.transform(invtransp_mat);
 	}
 
 	return true;
@@ -88,8 +99,10 @@ bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
 void Plane::calc_aabb()
 {
 	// The plane is infinite so the bounding box is infinity as well
-	m_aabb.max = Vector3f(NM_INFINITY, NM_INFINITY, NM_INFINITY);
-	m_aabb.min = -m_aabb.max;
+	// This violates the cases in which the plane is parallel to an
+	// axis plane but it's not practical to include those cases.
+	m_aabb.min = Vector3f(-INFINITY, -INFINITY, -INFINITY);
+	m_aabb.max = Vector3f( INFINITY,  INFINITY,  INFINITY);
 }
 
 #endif	/* __cplusplus */

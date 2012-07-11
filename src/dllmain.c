@@ -2,8 +2,8 @@
 
     This file is part of the nemesis math library.
 
-    dllmain.cpp
-    dll entry point
+    dllmain.c
+   	Dll entry point 
 
     Copyright (C) 2008, 2010, 2011
     Papadopoulos Nikolaos
@@ -25,13 +25,18 @@
 
 */
 
+#ifdef _WIN32
 
 #include <windows.h>
+
+#ifdef __cplusplus
+	extern "C" {
+#endif  /* __cplusplus */
 
 #pragma warning( push ) 
 #pragma warning( disable : 4100 ) // unreferenced formal parameter
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
 {
 	switch (ul_reason_for_call)
 	{
@@ -47,3 +52,9 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
 	return TRUE;
 }
+
+#ifdef __cplusplus
+	}
+#endif  /* __cplusplus */
+
+#endif /* _WIN32 */

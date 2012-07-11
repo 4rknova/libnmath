@@ -2,8 +2,8 @@
 
 	This file is part of libnmath.
 
-	intinfo.h
-	Intersection info
+	surfpoint.h
+	Surface point
 
 	Copyright (C) 2008, 2010 - 2012
 	Papadopoulos Nikolaos
@@ -25,32 +25,29 @@
 
 */
 
-#ifndef LIBNMATH_INTINFO_H_INCLUDED
-#define LIBNMATH_INTINFO_H_INCLUDED
+#ifndef LIBNMATH_SURFPOINT_H_INCLUDED
+#define LIBNMATH_SURFPOINT_H_INCLUDED
 
 #include "vector.h"
 #include "precision.h"
-#include "geometry.h"
-
-#include "declspec.h"
 
 namespace NMath {
 
 #ifdef __cplusplus
 
-class DECLSPEC IntInfo
-{
+class SurfacePoint {
 	public:
-		IntInfo();
+		SurfacePoint();
 
+		scalar_t distance;
+		Vector3f position;
 		Vector3f normal;
-		Vector3f point;
-		scalar_t t;
-		const Geometry* geometry;
+		Vector3f tangent;
+		Vector2f texcoord;
 };
 
 #endif /* __cplusplus */
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_INTINFO_H_INCLUDED */
+#endif /* LIBNMATH_SURFPOINT_H_INCLUDED */

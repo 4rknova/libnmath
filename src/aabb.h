@@ -29,9 +29,8 @@
 #define LIBNMATH_AABB_H_INCLUDED
 
 #include "declspec.h"
-#include "types.h"
-#include "ray.h"
 #include "vector.h"
+#include "ray.h"
 
 namespace NMath {
 
@@ -39,19 +38,25 @@ namespace NMath {
 extern "C" {
 #endif	/* __cplusplus */
 
+struct aabb2_t { vec2_t min, max; };
+struct aabb3_t { vec3_t min, max; };
+
+typedef struct aabb2_t aabb2_t;
+typedef struct aabb3_t aabb3_t;
+
 /* C 2D bounding box functions */
-static inline aabb2_t aabb2_pack(vec2_t a, vec2_t b);
-static inline short aabb2_contains(aabb2_t b, vec2_t v);            // returns 0 if the given point is within the bounds of the box, else 1
-static inline vec2_t aabb2_center(aabb2_t b);                       // returns the center coordinates of the box
-static inline aabb2_t aabb2_augment_by_vec(aabb2_t s, vec2_t v);    // augments the bounding box to include the given vector
-static inline aabb2_t aabb2_augment_by_aabb(aabb2_t s, aabb2_t b);  // augments the bounding box to include the given bounding box
+static inline aabb2_t aabb2_pack(const vec2_t a, const vec2_t b);
+static inline vec2_t  aabb2_center(const aabb2_t b);						// returns the center coordinates of the box
+static inline aabb2_t aabb2_augment_by_vec(aabb2_t b, const vec2_t v);		// augments the bounding box to include the given vector
+static inline aabb2_t aabb2_augment_by_aabb(aabb2_t b, const aabb2_t r);	// augments the bounding box to include the given bounding box
+static inline short   aabb2_contains(const aabb2_t b, const vec2_t v);		// returns 0 if the given point is within the bounds of the box, else 1
 
 /* C 3D bounding box functions */
-static inline aabb3_t aabb3_pack(vec3_t a, vec3_t b);
-static inline short aabb3_contains(aabb3_t b, vec3_t v);            // returns 0 if the given point is within the bounds of the box, else 1
-static inline vec3_t aabb3_center(aabb3_t b);                       // returns the center coordinates of the box
-static inline aabb3_t aabb3_augment_by_vec(aabb3_t s, vec3_t v);    // augments the bounding box to include the given vector
-static inline aabb3_t aabb3_augment_by_aabb(aabb3_t s, aabb3_t b);  // augments the bounding box to include the given bounding box
+static inline aabb3_t aabb3_pack(const vec3_t a, const vec3_t b);
+static inline vec3_t  aabb3_center(const aabb3_t b);						// returns the center coordinates of the box
+static inline aabb3_t aabb3_augment_by_vec(aabb3_t b, const vec3_t v);		// augments the bounding box to include the given vector
+static inline aabb3_t aabb3_augment_by_aabb(aabb3_t b, const aabb3_t r);	// augments the bounding box to include the given bounding box
+static inline short   aabb3_contains(const aabb3_t b, const vec3_t v);		// returns 0 if the given point is within the bounds of the box, else 1
 
 #ifdef __cplusplus
 }
@@ -60,16 +65,17 @@ static inline aabb3_t aabb3_augment_by_aabb(aabb3_t s, aabb3_t b);  // augments 
 class DECLSPEC AABoundingBox2
 {
     public:
-        AABoundingBox2();
-        AABoundingBox2(const Vector2f& a, const Vector2f& b);
+		AABoundingBox2();
+		AABoundingBox2(const Vector2f& a, const Vector2f& b);
 
-        inline bool contains(const Vector2f& p) const;           // returns true if the given point is within the bounds of the box, else false
-        inline Vector2f center() const;                          // returns the center coordinates of the box
+		inline Vector2f center() const;                         // returns the center coordinates of the box.
+		inline bool contains(const Vector2f& p) const;          // returns true if the given point is within the bounds of the box, else false.
+		inline void augment(const Vector2f& v);                 // augments the bounding box to include the given vector.
+		inline void augment(const AABoundingBox2& b);			// augments the bounding box to include the given bounding box.
+		inline bool test(const AABoundingBox2 &b) const;        // Test for intersection with bounding box.
+		inline void reset(const Vector2f &pivot);               // Reset the bounding box.
 
-        inline void augment(const Vector2f& v);                  // augments the bounding box to include the given vector
-        inline void augment(const AABoundingBox2& b);           // augments the bounding box to include the given bounding box
-
-        Vector2f min, max;
+		Vector2f min, max;
 };
 
 #include "ray.h"
@@ -78,18 +84,19 @@ class DECLSPEC AABoundingBox2
 class DECLSPEC AABoundingBox3
 {
     public:
-        AABoundingBox3();
-        AABoundingBox3(const Vector3f& a, const Vector3f& b);
+		AABoundingBox3();
+		AABoundingBox3(const Vector3f& a, const Vector3f& b);
 
-        inline bool contains(const Vector3f& p) const;           // returns true if the given point is within the bounds of the box, else false
-        inline Vector3f center() const;                          // returns the center coordinates of the box
-
-        inline void augment(const Vector3f& v);                  // augments the bounding box to include the given vector
-        inline void augment(const AABoundingBox3& b);           // augments the bounding box to include the given bounding box
+		inline Vector3f center() const;							// returns the center coordinates of the box
+		inline bool contains(const Vector3f& p) const;			// returns true if the given point is within the bounds of the box, else false
+		inline void augment(const Vector3f& v);					// augments the bounding box to include the given vector
+		inline void augment(const AABoundingBox3& b);			// augments the bounding box to include the given bounding box
+		inline bool test(const AABoundingBox3 &b) const;		// Test for intersection with bounding box.
+		inline void reset(const Vector3f &pivot);				// Reset the bounding box.
 
 		bool intersection(const Ray &ray) const;
 
-        Vector3f min, max;
+		Vector3f min, max;
 };
 
 #endif /* __cplusplus */

@@ -32,11 +32,27 @@ namespace NMath {
 #ifdef __cplusplus
 
 Geometry::Geometry(NMATH_GEOMETRY_TYPE t)
-	: type(t)
+	: m_type(t)
 {}
 
 Geometry::~Geometry()
 {}
+
+NMATH_GEOMETRY_TYPE Geometry::type()
+{
+	return m_type;
+}
+
+Matrix4x4f &Geometry::matrix()
+{
+	return m_matrix;
+}
+
+const AABoundingBox3 &Geometry::aabb()
+{
+	calc_aabb();
+	return m_aabb;
+}
 
 #endif	/* __cplusplus */
 

@@ -42,22 +42,23 @@
 #endif  /* __cplusplus */
 
 namespace NMath {
+	namespace Interpolation {
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline scalar_t interp_step(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t step(scalar_t a, scalar_t b, scalar_t p)
 {
     return (p < .5f) ? a : b;
 }
 
-static inline scalar_t interp_linear(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t linear(scalar_t a, scalar_t b, scalar_t p)
 {
     return  (a * (1.f - p)) + (b * p);
 }
 
-static inline scalar_t interp_cosine(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t cosine(scalar_t a, scalar_t b, scalar_t p)
 {
     /*
         First we turn the p value into an angle to sample from the
@@ -71,20 +72,20 @@ static inline scalar_t interp_cosine(scalar_t a, scalar_t b, scalar_t p)
     return(a * (1 - p2) + b * p2);
 }
 
-static inline scalar_t interp_acceleration(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t acceleration(scalar_t a, scalar_t b, scalar_t p)
 {
     scalar_t np = p * p;
     return  (a * (1.f - np)) + (b * np);
 }
 
-static inline scalar_t interp_deceleration(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t deceleration(scalar_t a, scalar_t b, scalar_t p)
 {
     scalar_t op = 1 - p;
     scalar_t np = 1 - (op * op);
     return  (a * (1.f - np)) + (b * np);
 }
 
-static inline scalar_t interp_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
+static inline scalar_t cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
 {
     scalar_t P = (d - c) - (a - b);
 	scalar_t Q = (a - b) - P;
@@ -97,7 +98,7 @@ static inline scalar_t interp_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t
 	return (P * p3) + (Q * p2) + (R * p) + S;
 }
 
-static inline scalar_t interp_hermite(scalar_t t1, scalar_t a, scalar_t b, scalar_t t2, scalar_t p)
+static inline scalar_t hermite(scalar_t t1, scalar_t a, scalar_t b, scalar_t t2, scalar_t p)
 {
     float p2 = p * p;
     float p3 = p2 * p;
@@ -110,7 +111,7 @@ static inline scalar_t interp_hermite(scalar_t t1, scalar_t a, scalar_t b, scala
     return (h1 * a) + (h2 * b) + (h3 * t1) + (h4 * t2); /* multiply and sum all functions together */
 }
 
-static inline scalar_t interp_cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t, scalar_t p)
+static inline scalar_t cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t, scalar_t p)
 {
     scalar_t t2 = t * t;
     scalar_t p3 = p * p * p;
@@ -118,7 +119,7 @@ static inline scalar_t interp_cardinal(scalar_t a, scalar_t b, scalar_t c, scala
     return t * ( (2 * b) + 	((c - a) * t) + (((2 * a) - (5 * b) + (4 * c) - d) * t2) +(((3 * b) - (3 * c) + d - a) * p3));
 }
 
-static inline scalar_t interp_catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
+static inline scalar_t catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
 {
     /*
         Note
@@ -136,7 +137,7 @@ static inline scalar_t interp_catmullrom(scalar_t a, scalar_t b, scalar_t c, sca
     return (P * p3) + (Q * p2) + (R * p) + S;
 }
 
-static inline scalar_t interp_bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t p)
+static inline scalar_t bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t p)
 {
     scalar_t ab, bc;
     ab = interp_linear(a, b, p);
@@ -144,7 +145,7 @@ static inline scalar_t interp_bezier_quadratic(scalar_t a, scalar_t b, scalar_t 
     return interp_linear( ab, bc, p);
 }
 
-static inline scalar_t interp_bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
+static inline scalar_t bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
 {
     scalar_t ab, bc, cd, abc, bcd;
     ab = interp_linear(a, b, p);
@@ -159,6 +160,7 @@ static inline scalar_t interp_bezier_cubic(scalar_t a, scalar_t b, scalar_t c, s
 }   /* extern "C" */
 #endif
 
+	} /* namespace Interpolation */
 } /* namespace NMath */
 
 #endif /* LIBNMATH_INTERPOLATION_INL_INCLUDED */

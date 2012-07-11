@@ -32,22 +32,26 @@ namespace NMath {
 #ifdef __cplusplus
 
 /* AABoundingBox2 class */
-AABoundingBox2::AABoundingBox2(){}
+AABoundingBox2::AABoundingBox2()
+	: min(Vector2f(0.0f, 0.0f)),
+	  max(Vector2f(0.0f, 0.0f))
+{}
 
 AABoundingBox2::AABoundingBox2(const Vector2f& a, const Vector2f& b)
-{
-    min=Vector2f( (a.x<=b.x)? a.x : b.x, (a.y<=b.y)? a.y : b.y );
-    min=Vector2f( (a.x>=b.x)? a.x : b.x, (a.y>=b.y)? a.y : b.y );
-}
+	: min(Vector2f((a.x <= b.x) ? a.x : b.x, (a.y <= b.y) ? a.y : b.y)),
+	  max(Vector2f((a.x >= b.x) ? a.x : b.x, (a.y >= b.y) ? a.y : b.y))
+{}
 
 /* AABoundingBox3 class */
-AABoundingBox3::AABoundingBox3(){}
+AABoundingBox3::AABoundingBox3()
+	: min(Vector3f(0.0f, 0.0f)),
+	  max(Vector3f(0.0f, 0.0f))
+{}
 
 AABoundingBox3::AABoundingBox3(const Vector3f& a, const Vector3f& b)
-{
-    min=Vector3f( (a.x<=b.x)? a.x : b.x, (a.y<=b.y)? a.y : b.y, (a.z<=b.z)? a.z : b.z );
-    min=Vector3f( (a.x>=b.x)? a.x : b.x, (a.y>=b.y)? a.y : b.y, (a.z>=b.z)? a.z : b.z );
-}
+	: min(Vector3f((a.x <= b.x) ? a.x : b.x, (a.y <= b.y)? a.y : b.y, (a.z <= b.z)? a.z : b.z)),
+	  max(Vector3f((a.x >= b.x) ? a.x : b.x, (a.y >= b.y)? a.y : b.y, (a.z >= b.z)? a.z : b.z))
+{}
 
 /* 	
 	ray - axis aligned bounding box intersection test based on:
@@ -57,47 +61,41 @@ AABoundingBox3::AABoundingBox3(const Vector3f& a, const Vector3f& b)
 */
 bool AABoundingBox3::intersection(const Ray &ray) const
 {
-	if (ray.origin > min && ray.origin < max)
-	{
+	// Check if the origin is inside the aabb.
+	if (ray.origin() > min && ray.origin() < max)
 		return true;
-	}
 
 	Vector3f aabb[2] = {min, max};
-	static const double t0 = 0.0;
 
-	int xsign = (int)(ray.direction.x < 0.0);
-	double invdirx = 1.0 / ray.direction.x;
+	int xsign = (int)(ray.direction().x < 0.0f);
+	scalar_t invdirx = 1.0f / ray.direction().x;
 
-	double tmin = (aabb[xsign].x - ray.origin.x) * invdirx;
-	double tmax = (aabb[1 - xsign].x - ray.origin.x) * invdirx;
+	scalar_t tmin = (aabb[xsign].x - ray.origin().x) * invdirx;
+	scalar_t tmax = (aabb[1 - xsign].x - ray.origin().x) * invdirx;
 
-	int ysign = (int)(ray.direction.y < 0.0);
-	double invdiry = 1.0 / ray.direction.y;
-	double tymin = (aabb[ysign].y - ray.origin.y) * invdiry;
-	double tymax = (aabb[1 - ysign].y - ray.origin.y) * invdiry;
+	int ysign = (int)(ray.direction().y < 0.0f);
+	scalar_t invdiry = 1.0f / ray.direction().y;
+	scalar_t tymin = (aabb[ysign].y - ray.origin().y) * invdiry;
+	scalar_t tymax = (aabb[1 - ysign].y - ray.origin().y) * invdiry;
 	
 	if ((tmin > tymax) || (tymin > tmax))
-	{
 		return false;
-	}
 
 	if (tymin > tmin) tmin = tymin;
 	if (tymax < tmax) tmax = tymax;
 
-	int zsign = (int)(ray.direction.z < 0.0);
-	double invdirz = 1.0 / ray.direction.z;
-	double tzmin = (aabb[zsign].z - ray.origin.z) * invdirz;
-	double tzmax = (aabb[1 - zsign].z - ray.origin.z) * invdirz;
+	int zsign = (int)(ray.direction().z < 0.0f);
+	scalar_t invdirz = 1.0f / ray.direction().z;
+	scalar_t tzmin = (aabb[zsign].z - ray.origin().z) * invdirz;
+	scalar_t tzmax = (aabb[1 - zsign].z - ray.origin().z) * invdirz;
 
 	if ((tmin > tzmax) || (tzmin > tmax))
-	{
 		return false;
-	}
 
 	if (tzmin > tmin) tmin = tzmin;
 	if (tzmax < tmax) tmax = tzmax;
 
-	return (tmax > t0);
+	return (tmax > 0.0f);
 }
 
 #endif	/* __cplusplus */

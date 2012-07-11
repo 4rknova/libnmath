@@ -28,10 +28,9 @@
 #ifndef LIBNMATH_RAY_H_INCLUDED
 #define LIBNMATH_RAY_H_INCLUDED
 
-#include "types.h"
-#include "vector.h"
-
 #include "declspec.h"
+#include "vector.h"
+#include "matrix.h"
 
 namespace NMath {
 
@@ -39,10 +38,7 @@ namespace NMath {
 extern "C" {
 #endif	/* __cplusplus */
 
-struct ray_t
-{
-    vec3_t origin, direction;
-};
+struct ray_t { vec3_t origin, direction; };
 
 typedef struct ray_t ray_t;
 
@@ -54,10 +50,19 @@ static inline ray_t ray_pack(vec3_t origin, vec3_t direction);
 class DECLSPEC Ray
 {
     public:
-        Ray();                                          /* This relies on vector class default constructor setting all components to 0 */
-        Ray(const Vector3f &org, const Vector3f &dir);
+        Ray();
+		Ray(const Vector3f &org, const Vector3f &dir);
 
-        Vector3f origin, direction;
+		void transform(const Matrix4x4f &mat);
+		Ray transformed(const Matrix4x4f &mat) const;
+
+		const Vector3f &origin() const;
+		const Vector3f &direction() const;
+		void origin(const Vector3f &origin);
+		void direction(const Vector3f &direction);
+
+	private:
+        Vector3f m_origin, m_direction;
 };
 
 #endif	/* __cplusplus */

@@ -50,6 +50,16 @@ static inline sphere_t sphere_pack(vec3_t origin, scalar_t radius)
 }
 #endif	/* __cplusplus */
 
+inline scalar_t Sphere::radius() const
+{
+	return m_radius;
+}
+
+inline void Sphere::radius(const scalar_t radius)
+{
+	m_radius = (radius > 0.0f ? radius : 0.0f);
+}
+
 } /* namespace NMath */
 
 #endif /* LIBNMATH_SPHERE_INL_INCLUDED */
