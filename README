@@ -5,6 +5,8 @@ Copyright 2010 - 2012 (c) Papadopoulos Nikos <nikpapas@gmail.com>
 The nemesis math library implements a variety of datatypes and utilities 
 that are useful in graphics related applications.
 
+NOTE: The API is NOT backwards compatible. If you want to use it for your
+own projects use one of the following revisions. HEAD is unstable.
 
 Older versions
 --------------
