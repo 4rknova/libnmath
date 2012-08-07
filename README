@@ -5,6 +5,9 @@ Copyright 2010 - 2012 (c) Papadopoulos Nikos <nikpapas@gmail.com>
 The library implements a collection of datatypes and utilities 
 that are commonly used in graphics related applications.
 
+NOTE: The API is NOT backwards compatible. If you want to use it for your
+own projects use one of the following revisions. HEAD is unstable.
+
 Version history
 ===============
 v1.0.0.0	50b9273a52bac42686a1680b8f533c8e74772f52
