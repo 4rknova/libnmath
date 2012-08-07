@@ -57,6 +57,7 @@ namespace NMath {
 	#define nmath_asin	asinf
 	#define nmath_acos	acosf
 	#define nmath_atan	atanf
+	#define nmath_pow	pow
 
 #else
 	#define SCALAR_T_MAX DBL_MAX
@@ -72,6 +73,7 @@ namespace NMath {
 	#define nmath_asin	asin
 	#define nmath_acos	acos
 	#define nmath_atan	atan
+	#define nmath_pow 	pow
 
 #endif /* MATH_SINGLE_PRECISION */
 

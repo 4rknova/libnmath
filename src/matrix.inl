@@ -1,27 +1,27 @@
 /*
 
-	This file is part of libnmath.
+    This file is part of the nemesis math library.
 
-	matrix.inl
-	Matrix
+    matrix.inl
+    Matrix inline functions
 
-	Copyright (C) 2008, 2010 - 2012
-	Papadopoulos Nikolaos
+    Copyright (C) 2008, 2010, 2011
+    Papadopoulos Nikolaos
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 3 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU	Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General
-	Public License along with this program; if not, write to the
-	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-	Boston, MA 02110-1301 USA
+    You should have received a copy of the GNU Lesser General
+    Public License along with this library; if not, write to the
+    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+    Boston, MA 02110-1301 USA
 
 */
 
@@ -189,37 +189,37 @@ static inline void mat4x4_mul(mat4x4_t res, mat4x4_t m1, mat4x4_t m2)
 #ifdef __cplusplus
 }   /* extern "C" */
 
-inline scalar_t *Matrix3x3f::operator [](const unsigned int index)
+inline scalar_t *Matrix3x3f::operator [](int index)
 {
-    return m_data[index < 9 ? index : 8];
+    return data[index < 9 ? index : 8];
 }
 
-inline const scalar_t *Matrix3x3f::operator [](const unsigned int index) const
+inline const scalar_t *Matrix3x3f::operator [](int index) const
 {
-    return m_data[index < 9 ? index : 8];
+    return data[index < 9 ? index : 8];
 }
 
-inline void Matrix3x3f::load_identity()
+inline void Matrix3x3f::reset_identity()
 {
-    memcpy(m_data, identity[0], 9 * sizeof(scalar_t));
+    memcpy(data, identity.data, 9 * sizeof(scalar_t));
 }
 
-inline scalar_t *Matrix4x4f::operator [](const unsigned int index) 
+inline scalar_t *Matrix4x4f::operator [](int index) 
 {
-    return m_data[index < 16 ? index : 15];
+    return data[index < 16 ? index : 15];
 }
 
-inline const scalar_t *Matrix4x4f::operator [](const unsigned int index) const
+inline const scalar_t *Matrix4x4f::operator [](int index) const
 {
-    return m_data[index < 16 ? index : 15];
+    return data[index < 16 ? index : 15];
 }
 
-inline void Matrix4x4f::load_identity()
+inline void Matrix4x4f::reset_identity()
 {
-    memcpy(m_data, identity[0], 16 * sizeof(scalar_t));
+    memcpy(data, identity.data, 16 * sizeof(scalar_t));
 }
 
-#endif /* __cplusplus */
+#endif /* extern "C" */
 
 } /* namespace NMath */
 

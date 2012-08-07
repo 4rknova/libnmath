@@ -1,42 +1,41 @@
 /*
 
-	This file is part of libnmath.
+    This file is part of the nemesis math library.
 
-	vector.h
-	Vector
+    vector.h
+    Vector
 
-	Copyright (C) 2008, 2010 - 2012
-	Papadopoulos Nikolaos
+    Copyright (C) 2008, 2010, 2011
+    Papadopoulos Nikolaos
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 3 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU	Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General
-	Public License along with this program; if not, write to the
-	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-	Boston, MA 02110-1301 USA
+    You should have received a copy of the GNU Lesser General
+    Public License along with this library; if not, write to the
+    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+    Boston, MA 02110-1301 USA
 
 */
 
 #ifndef LIBNMATH_VECTOR_H_INCLUDED
 #define LIBNMATH_VECTOR_H_INCLUDED
 
+#include "types.h"
+
 #ifdef __cplusplus
+	#include <ostream>
     #include <cstdio>
 #else
     #include <stdio.h>
 #endif  /* __cplusplus */
-
-#include "declspec.h"
-#include "precision.h"
-#include "types.h"
 
 namespace NMath {
 
@@ -48,6 +47,7 @@ extern "C" {
     C 2D vector functions
 */
 static inline vec2_t vec2_pack(scalar_t x, scalar_t y);
+
 static inline vec2_t vec2_add(vec2_t v1, vec2_t v2);
 static inline vec2_t vec2_sub(vec2_t v1, vec2_t v2);
 static inline vec2_t vec2_neg(vec2_t v);
@@ -111,16 +111,14 @@ static inline vec4_t vec4_refract(vec4_t v, vec4_t n, scalar_t ior_src, scalar_t
 #ifdef __cplusplus
 }   /* extern "C" */
 
-/* Forward declarations */
-
 /*
     2D VECTOR
 */
-class DECLSPEC Vector2f
+class Vector2f
 {
     public:
         /* Constructors */
-        explicit Vector2f(scalar_t aX = 0.0f, scalar_t aY = 0.0f);
+        Vector2f(scalar_t aX = 0.0, scalar_t aY = 0.0);
         Vector2f(const Vector2f &v);
         Vector2f(const Vector3f &v);
         Vector2f(const Vector4f &v);
@@ -165,6 +163,9 @@ class DECLSPEC Vector2f
         friend inline bool operator ==(const Vector2f &v1, const Vector2f &v2);
         friend inline bool operator !=(const Vector2f &v1, const Vector2f &v2);
 
+        /* Stream operations */
+        friend std::ostream& operator <<(std::ostream& out, const Vector2f &vec);
+
         /* Vector member functions */
         /* - Length */
         inline scalar_t length() const;
@@ -178,9 +179,9 @@ class DECLSPEC Vector2f
         inline void refract(const Vector2f &normal, scalar_t ior_src, scalar_t ior_dst);
         inline Vector2f refracted(const Vector2f &normal, scalar_t ior_src, scalar_t ior_dst) const;
 
-		/* Transformations */
-		inline void transform(const Matrix3x3f &mat);
-		inline Vector2f transformed(const Matrix3x3f &mat);
+		/* Transformation */
+		inline Vector2f transform(Matrix3x3f &m);
+		inline Vector2f transformed(Matrix3x3f &m);
 
         scalar_t x, y;
 };
@@ -190,11 +191,11 @@ inline scalar_t dot(const Vector2f &v1, const Vector2f &v2);
 /*
     3D VECTOR
 */
-class DECLSPEC Vector3f
+class Vector3f
 {
     public:
         /* Constructors */
-        explicit Vector3f(scalar_t aX = 0.0f, scalar_t aY = 0.0f, scalar_t aZ = 0.0f);
+        Vector3f(scalar_t aX = 0.0, scalar_t aY = 0.0, scalar_t aZ = 0.0);
         Vector3f(const Vector3f &v);
         Vector3f(const Vector2f &v);
         Vector3f(const Vector4f &v);
@@ -239,6 +240,9 @@ class DECLSPEC Vector3f
         friend inline bool operator ==(const Vector3f &v1, const Vector3f &v2);
         friend inline bool operator !=(const Vector3f &v1, const Vector3f &v2);
 
+        /* Stream operations */
+        friend std::ostream& operator <<(std::ostream& out, const Vector3f &vec);
+
         /* Vector member functions */
         /* - Length */
         inline scalar_t length() const;
@@ -252,11 +256,11 @@ class DECLSPEC Vector3f
         inline void refract(const Vector3f &normal, scalar_t ior_src, scalar_t ior_dst);
         inline Vector3f refracted(const Vector3f &normal, scalar_t ior_src, scalar_t ior_dst) const;
 
-		/* Transformations */
-		inline void transform(const Matrix3x3f &mat);
-		inline void transform(const Matrix4x4f &mat);
-		inline Vector3f transformed(const Matrix3x3f &mat);
-		inline Vector3f transformed(const Matrix4x4f &mat);
+		/* Transformation */
+		inline Vector3f transform(Matrix3x3f &m);
+		inline Vector3f transformed(Matrix3x3f &m);
+		inline Vector3f transform(Matrix4x4f &m);
+		inline Vector3f transformed(Matrix4x4f &m);
 
         scalar_t x, y, z;
 };
@@ -267,11 +271,11 @@ inline Vector3f cross(const Vector3f &v1, const Vector3f &v2);
 /*
     4D VECTOR
 */
-class DECLSPEC Vector4f
+class Vector4f
 {
     public:
         /* Constructors */
-        explicit Vector4f(scalar_t aX = 0.0f, scalar_t aY = 0.0f, scalar_t aZ = 0.0f, scalar_t aW = 0.0f);
+        Vector4f(scalar_t aX = 0.0, scalar_t aY = 0.0, scalar_t aZ = 0.0, scalar_t aW = 0.0);
         Vector4f(const Vector4f &v);
         Vector4f(const Vector2f &v);
         Vector4f(const Vector3f &v);
@@ -318,6 +322,9 @@ class DECLSPEC Vector4f
 
 		friend inline bool operator < (const Vector3f &v1, const Vector3f &v2);
 		friend inline bool operator > (const Vector3f &v1, const Vector3f &v2);
+
+        /* Stream operations */
+        friend std::ostream& operator <<(std::ostream& out, const Vector4f &vec);
 
         /* Vector member functions */
         /* - Length */

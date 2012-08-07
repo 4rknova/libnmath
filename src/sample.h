@@ -2,10 +2,10 @@
 
 	This file is part of libnmath.
 
-	surfpoint.cc
-	Surface point
+	sample.h
+	Sampling functions
 
-	Copyright (C) 2008, 2010 - 2012
+	Copyright (C) 2012
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or
@@ -25,16 +25,26 @@
 
 */
 
-#include "surfpoint.h"
+#ifndef NMATH_SAMPLE_H_INCLUDED
+#define NMATH_SAMPLE_H_INCLUDED
+
+#include "precision.h"
+#include "vector.h"
 
 namespace NMath {
+	namespace Sample {
 
 #ifdef __cplusplus
 
-SurfacePoint::SurfacePoint()
-	: distance(INFINITY)
-{}
+inline Vector3f sphere();
+inline Vector3f hemisphere(const Vector3f &normal, const Vector3f &direction);
+inline Vector3f lobe(const Vector3f &normal, const Vector3f &direction, const scalar_t exponent);
 
 #endif /* __cplusplus */
 
+	} /* namespace Sample */
 } /* namespace NMath */
+
+#include "sample.inl"
+
+#endif /* NMATH_SAMPLE_H_INCLUDED */

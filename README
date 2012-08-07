@@ -1,14 +1,14 @@
-LIBNMATH
+LIBNMATH 2
 
 Copyright 2010 - 2012 (c) Papadopoulos Nikos <nikpapas@gmail.com>
 
-The nemesis math library implements a variety of datatypes and utilities 
-that are useful in graphics related applications.
+The library implements a collection of datatypes and utilities 
+that are commonly used in graphics related applications.
 
-
-Older versions
---------------
+Version history
+===============
 v1.0.0.0	50b9273a52bac42686a1680b8f533c8e74772f52
+---
 v1.1.0.0	4d0fc0b52842da0e3a021608da7c88906fdaec6a
 v1.2.0.0	ff4584a50e33b1335b1060b31dc38dc9a66863a4
 v1.3.x.x	HEAD

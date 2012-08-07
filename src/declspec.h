@@ -24,7 +24,8 @@
 	Boston, MA 02110-1301 USA
 
 */
-
+#ifndef NMATH_DECLSPEC_H_INCLUDED
+#define NMATH_DECLSPEC_H_INCLUDED
 
 #ifdef _MSC_VER
 	#include <windows.h>
@@ -41,3 +42,5 @@
 	#define DECLSPEC
 
 #endif
+
+#endif /* NMATH_DECLSPEC_H_INCLUDED */

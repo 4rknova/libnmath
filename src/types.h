@@ -1,27 +1,27 @@
 /*
 
-	This file is part of libnmath.
+    This file is part of the nemesis math library.
 
-	types.h
-	Basic data types
+    types.h
+    Declares global data types
 
-	Copyright (C) 2008, 2010 - 2012
-	Papadopoulos Nikolaos
+    Copyright (C) 2008, 2010, 2011
+    Papadopoulos Nikolaos
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 3 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU	Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General
-	Public License along with this program; if not, write to the
-	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-	Boston, MA 02110-1301 USA
+    You should have received a copy of the GNU Lesser General
+    Public License along with this library; if not, write to the
+    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+    Boston, MA 02110-1301 USA
 
 */
 
@@ -49,6 +49,13 @@ typedef struct vec4_t vec4_t;
 typedef scalar_t mat3x3_t[3][3];
 typedef scalar_t mat4x4_t[4][4];
 
+/* Bounding boxes */
+struct aabb2_t { vec2_t min, max; };
+struct aabb3_t { vec3_t min, max; };
+
+typedef struct aabb2_t aabb2_t;
+typedef struct aabb3_t aabb3_t;
+
 #ifdef __cplusplus
 }   /* extern "C" */
 
@@ -57,8 +64,13 @@ class Vector2f;
 class Vector3f;
 class Vector4f;
 
+class Quaternion;
+
 class Matrix3x3f;
 class Matrix4x4f;
+
+class BoundingBox2;
+class BoundingBox3;
 
 #endif	/* __cplusplus */
 

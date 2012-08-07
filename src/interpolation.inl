@@ -139,21 +139,21 @@ static inline scalar_t catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d
 
 static inline scalar_t bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t p)
 {
-    scalar_t ab, bc;
-    ab = interp_linear(a, b, p);
-    bc = interp_linear(b, c, p);
-    return interp_linear( ab, bc, p);
+	scalar_t ab, bc;
+	ab = linear(a, b, p);
+	bc = linear(b, c, p);
+	return linear( ab, bc, p);
 }
 
 static inline scalar_t bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
 {
-    scalar_t ab, bc, cd, abc, bcd;
-    ab = interp_linear(a, b, p);
-    bc = interp_linear(b, c, p);
-    cd = interp_linear(c, d, p);
-    abc = interp_linear(ab, bc, p);
-    bcd = interp_linear(bc, cd, p);
-    return interp_linear( abc, bcd, p);
+	scalar_t ab, bc, cd, abc, bcd;
+	ab  = linear(a, b, p);
+	bc  = linear(b, c, p);
+	cd  = linear(c, d, p);
+	abc = linear(ab, bc, p);
+	bcd = linear(bc, cd, p);
+	return linear( abc, bcd, p);
 }
 
 #ifdef __cplusplus

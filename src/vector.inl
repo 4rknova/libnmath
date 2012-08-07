@@ -1,27 +1,27 @@
 /*
 
-	This file is part of libnmath.
+    This file is part of the nemesis math library.
 
-	vector.inl
-	Vector
+    vector.inl
+    Vector inline functions
 
-	Copyright (C) 2008, 2010 - 2012
-	Papadopoulos Nikolaos
+    Copyright (C) 2008, 2010, 2011
+    Papadopoulos Nikolaos
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 3 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU	Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General
-	Public License along with this program; if not, write to the
-	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-	Boston, MA 02110-1301 USA
+    You should have received a copy of the GNU Lesser General
+    Public License along with this library; if not, write to the
+    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+    Boston, MA 02110-1301 USA
 
 */
 
@@ -33,7 +33,15 @@
 #endif /* LIBNMATH_VECTOR_H_INCLUDED */
 
 #include "precision.h"
+#include "types.h"
 #include "mutil.h"
+
+#ifdef __cplusplus
+    #include <cmath>
+#else
+    #include <math.h>
+#endif  /* __cplusplus */
+
 #include "matrix.h"
 
 namespace NMath {
@@ -575,19 +583,16 @@ inline Vector2f Vector2f::refracted(const Vector2f &normal, scalar_t ior_src, sc
 	return (ior * i) + (beta * n);
 }
 
-inline void Vector2f::transform(const Matrix3x3f &mat)
+inline Vector2f Vector2f::transform(Matrix3x3f &m)
 {
-	scalar_t nx = mat[0][0] * x + mat[0][1] * y + mat[0][2];
-	y = mat[1][0] * x + mat[1][1] * y + mat[1][2];
-	x = nx;
+	return *this = transformed(m);
 }
 
-inline Vector2f Vector2f::transformed(const Matrix3x3f &mat)
+inline Vector2f Vector2f::transformed(Matrix3x3f &m)
 {
-	Vector2f vec;
-	vec.x = mat[0][0] * x + mat[0][1] * y + mat[0][2];
-	vec.y = mat[1][0] * x + mat[1][1] * y + mat[1][2];
-	return vec;
+	scalar_t nx = m.data[0][0] * x + m.data[0][1]* y + m.data[0][3];
+	scalar_t ny = m.data[1][0] * x + m.data[1][1]* y + m.data[1][3];
+	return Vector2f(nx, ny);
 }
 
 inline scalar_t dot(const Vector2f& v1, const Vector2f& v2)
@@ -830,40 +835,30 @@ inline Vector3f cross(const Vector3f& v1, const Vector3f& v2)
 	return Vector3f(v1.y * v2.z - v1.z * v2.y,  v1.z * v2.x - v1.x * v2.z,  v1.x * v2.y - v1.y * v2.x);
 }
 
-inline void Vector3f::transform(const Matrix3x3f &mat)
+inline Vector3f Vector3f::transform(Matrix3x3f &m)
 {
-	scalar_t nx = mat[0][0] * x + mat[0][1] * y + mat[0][2] * z;
-	scalar_t ny = mat[1][0] * x + mat[1][1] * y + mat[1][2] * z;
-	z = mat[2][0] * x + mat[2][1] * y + mat[2][2] * z;
-	x = nx;
-	y = ny;
+	return *this = transformed(m);
 }
 
-inline void Vector3f::transform(const Matrix4x4f &mat)
+inline Vector3f Vector3f::transformed(Matrix3x3f &m)
 {
-	scalar_t nx = mat[0][0] * x + mat[0][1] * y + mat[0][2] * z + mat[0][3];
-	scalar_t ny = mat[1][0] * x + mat[1][1] * y + mat[1][2] * z + mat[1][3];
-	z = mat[2][0] * x + mat[2][1] * y + mat[2][2] * z + mat[2][3];
-	x = nx;
-	y = ny;
+	scalar_t nx = m.data[0][0] * x + m.data[0][1] * y + m.data[0][2] * z;
+	scalar_t ny = m.data[1][0] * x + m.data[1][1] * y + m.data[1][2] * z;
+	scalar_t nz = m.data[2][0] * x + m.data[2][1] * y + m.data[2][2] * z;
+	return Vector3f(nx, ny, nz);
 }
 
-inline Vector3f Vector3f::transformed(const Matrix3x3f &mat)
+inline Vector3f Vector3f::transform(Matrix4x4f &m)
 {
-	Vector3f vec;
-	vec.x = mat[0][0] * x + mat[0][1] * y + mat[0][2] * z;
-	vec.y = mat[1][0] * x + mat[1][1] * y + mat[1][2] * z;
-	vec.z = mat[2][0] * x + mat[2][1] * y + mat[2][2] * z;
-	return vec;
+	return *this = transformed(m);
 }
 
-inline Vector3f Vector3f::transformed(const Matrix4x4f &mat)
+inline Vector3f Vector3f::transformed(Matrix4x4f &m)
 {
-	Vector3f vec;
-	vec.x = mat[0][0] * x + mat[0][1] * y + mat[0][2] * z + mat[0][3];
-	vec.y = mat[1][0] * x + mat[1][1] * y + mat[1][2] * z + mat[1][3];
-	vec.z = mat[2][0] * x + mat[2][1] * y + mat[2][2] * z + mat[2][3];
-	return vec;
+	scalar_t nx = m.data[0][0] * x + m.data[0][1] * y + m.data[0][2] * z + m.data[0][3];
+	scalar_t ny = m.data[1][0] * x + m.data[1][1] * y + m.data[1][2] * z + m.data[1][3];
+	scalar_t nz = m.data[2][0] * x + m.data[2][1] * y + m.data[2][2] * z + m.data[2][3];
+	return Vector3f(nx, ny, nz);
 }
 
 /* Vector4f functions */

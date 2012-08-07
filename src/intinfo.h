@@ -2,10 +2,10 @@
 
     This file is part of the nemesis math library.
 
-    ray.cc
-    Ray
+    intinfo.h
+    Intinfo structure 
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2011
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -25,8 +25,12 @@
 
 */
 
-#include "ray.h"
+#ifndef LIBNMATH_INTINFO_H_INCLUDED
+#define LIBNMATH_INTINFO_H_INCLUDED
+
 #include "vector.h"
+#include "precision.h"
+#include "geometry.h"
 
 namespace NMath {
 
@@ -35,16 +39,22 @@ extern "C" {
 #endif	/* __cplusplus */
 
 #ifdef __cplusplus
-}
+}   /* extern "C" */
 
-Ray::Ray(const Vector3f &org, const Vector3f &dir)
-    : origin(org), direction(dir.normalized())
-{}
+class IntInfo
+{
+	public:
+		IntInfo();
 
-Ray::Ray()
-	: origin(Vector3f(0,0,0)), direction(Vector3f(0,0,1))
-{}
+		Vector3f normal;
+		Vector3f point;
+		Vector2f texcoord;
+		scalar_t t;
+		const Geometry* geometry;
+};
 
-#endif	/* __cplusplus */
+#endif /* __cplusplus */
 
 } /* namespace NMath */
+
+#endif /* LIBNMATH_INTINFO_H_INCLUDED */

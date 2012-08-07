@@ -1,34 +1,36 @@
 /*
 
-	This file is part of libnmath.
+    This file is part of the nemesis math library.
 
-	plane.cc
+    plane.cc
 	Plane
 
-	Copyright (C) 2008, 2010 - 2012
-	Papadopoulos Nikolaos
+    Copyright (C) 2008, 2010, 2011
+    Papadopoulos Nikolaos
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU Lesser General Public
-	License as published by the Free Software Foundation; either
-	version 3 of the License, or (at your option) any later version.
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3 of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU	Lesser General Public License for more details.
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
 
-	You should have received a copy of the GNU Lesser General
-	Public License along with this program; if not, write to the
-	Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-	Boston, MA 02110-1301 USA
+    You should have received a copy of the GNU Lesser General
+    Public License along with this library; if not, write to the
+    Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+    Boston, MA 02110-1301 USA
 
 */
-
-#include "defs.h"
-#include "vector.h"
-#include "surfpoint.h"
+#include <iostream>
+#include <math.h>
 #include "plane.h"
+
+#include "precision.h"
+#include "vector.h"
+#include "intinfo.h"
 
 namespace NMath {
 
@@ -40,57 +42,57 @@ extern "C" {
 }
 
 Plane::Plane()
-	: Geometry(GEOMETRY_PLANE),
-	  m_normal(Vector3f(0.0f, 1.0f, 0.0f)),
-	  m_distance(0.0f)
+	: Geometry(GEOMETRY_PLANE), 
+	  distance(NMATH_PLANE_DEFAULT_DISTANCE)
 {}
 
-Plane::Plane(const Vector3f &normal, scalar_t distance)
-	: Geometry(GEOMETRY_PLANE),
-	  m_normal(normal),
-	  m_distance(distance)
-{}
-
-bool Plane::intersection(const Ray &ray, SurfacePoint* sp) const
+bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
 {
-	// Transform ray to local coordinates.
-	Matrix4x4f inv_mat = m_matrix.inverse();
-	Ray tray = ray.transformed(inv_mat);
+	// algebraic solution
 
-	// Check if the ray is travelling parallel to the plane.
-	// If the ray is in the plane then we ignore it.
-	scalar_t n_dot_dir = dot(tray.direction(), normal());
+	// check if the ray is travelling parallel to the plane.
+	// if the ray is in the plane then we ignore it.
+	double n_dot_dir = dot(ray.direction, normal);
 
-	// The planes are treated as two-sided so the sign of n_dot_dir is ignored.
+	// we use two-sided planes so we ignore the sign of n_dot_dir
 	if (fabs(n_dot_dir) < EPSILON) 
+	{
 		return false;
+	}
 	
-	Vector3f v = normal() * distance();
-	Vector3f vorigin = v - tray.origin();
+	Vector3f v = normal * distance;
+	Vector3f vorigin = v - ray.origin;
 
-	scalar_t n_dot_vo = dot(vorigin, normal());
-	scalar_t t = n_dot_vo / n_dot_dir; 
+	double n_dot_vo = dot(vorigin, normal);
+	double t = n_dot_vo / n_dot_dir; 
 
 	if (t < EPSILON) 
-		return false;
-
-	if (sp) 
 	{
-		Matrix4x4f invtransp_mat = inv_mat.transposed();
+		return false;
+	}
 
-		sp->distance = t;
-		sp->position = tray.origin() + tray.direction() * sp->distance;
-		sp->normal   = dot(normal(), tray.direction()) < 0 ? normal() : -normal();
-		sp->tangent  = cross(Vector3f(0.0f, 1.0f, 0.0f), sp->normal);
-	/*
-		// UV coords for tecture mapping.
-		sp->texcoord =
-	*/
+	if (i_info) 
+	{
+		i_info->t = t;
+		i_info->point = ray.origin + ray.direction * t;
+		i_info->normal = dot(normal, ray.direction) < 0 ? normal : -normal;
 
-		 // Transform everything back into world coordinates.
-		 sp->position.transform(m_matrix);
-		 sp->normal.transform(invtransp_mat);
-		 sp->tangent.transform(invtransp_mat);
+		// Texture coordinates.
+		Vector3f n = normal.normalized();
+		Vector3f uvec = Vector3f(n.y, n.z, -n.x);
+		Vector3f vvec = cross(uvec, n);
+		scalar_t tu = dot(uvec, (v+i_info->point)) * uv_scale.x;
+		scalar_t tv = dot(vvec, (v+i_info->point)) * uv_scale.y;
+		if (tu > 1.f) tu -= (float)(int)tu;
+		if (tv > 1.f) tv -= (float)(int)tv;
+		if (tu < -1.f) tu -= (float)(int)tu;
+		if (tv < -1.f) tv -= (float)(int)tv;
+		if (tu < 0.f) tu = 1.f + tu;
+		if (tv < 0.f) tv = 1.f + tv;
+
+		i_info->texcoord = Vector2f(tu, tv);
+
+		i_info->geometry = this;
 	}
 
 	return true;
@@ -98,11 +100,9 @@ bool Plane::intersection(const Ray &ray, SurfacePoint* sp) const
 
 void Plane::calc_aabb()
 {
-	// The plane is infinite so the bounding box is infinity as well
-	// This violates the cases in which the plane is parallel to an
-	// axis plane but it's not practical to include those cases.
-	m_aabb.min = Vector3f(-INFINITY, -INFINITY, -INFINITY);
-	m_aabb.max = Vector3f( INFINITY,  INFINITY,  INFINITY);
+	// The plane is infoinite so the bounding box is infinity as well
+	aabb.max = Vector3f(INFINITY, INFINITY, INFINITY);
+	aabb.min = -aabb.max;
 }
 
 #endif	/* __cplusplus */

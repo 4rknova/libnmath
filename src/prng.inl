@@ -42,6 +42,7 @@
 
 #include <stdint.h>
 
+#include "precision.h"
 #include "types.h"
 
 namespace NMath {
@@ -50,7 +51,7 @@ namespace NMath {
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline scalar_t prng_c(scalar_t a, scalar_t b)
+static inline scalar_t prng_c(const scalar_t a, const scalar_t b)
 {
     /*
         This prng uses the default c algorithm.
@@ -79,10 +80,10 @@ static inline scalar_t prng_c(scalar_t a, scalar_t b)
         initialized++;
     }
 
-    return (rand() * ( (b - a) / RAND_MAX)) + a;
+    return ((scalar_t)rand() * ( (b - a) / (scalar_t)RAND_MAX)) + a;
 }
 
-static inline scalar_t prng_multiplyWithCarry(scalar_t a, scalar_t b)
+static inline scalar_t prng_multiplyWithCarry(const scalar_t a, const scalar_t b)
 {
     /*
         Marsaglia's comments:
