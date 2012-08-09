@@ -79,7 +79,7 @@ namespace NMath {
 
 /* Infinity */
 #ifndef INFINITY
-	#define INFINITY SCALAR_T_MAX;
+	#define INFINITY SCALAR_T_MAX
 #endif /* INFINITY */
 
 /* Useful scalar_t values used in comparisons */
