@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     mutil.h
     Declares some math utility functions
@@ -25,9 +25,10 @@
 
 */
 
-#ifndef LIBNMATH_MUTIL_H_INCLUDED
-#define LIBNMATH_MUTIL_H_INCLUDED
+#ifndef NMATH_MUTIL_H_INCLUDED
+#define NMATH_MUTIL_H_INCLUDED
 
+#include "defs.h"
 #include "precision.h"
 
 #ifdef __cplusplus
@@ -49,4 +50,4 @@ static inline int is_power_of_2(int v);
 
 #include "mutil.inl"
 
-#endif /* LIBNMATH_MUTIL_H_INCLUDED */
+#endif /* NMATH_MUTIL_H_INCLUDED */

@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     intinfo.h
     Intinfo structure 
@@ -25,9 +25,10 @@
 
 */
 
-#ifndef LIBNMATH_INTINFO_H_INCLUDED
-#define LIBNMATH_INTINFO_H_INCLUDED
+#ifndef NMATH_INTINFO_H_INCLUDED
+#define NMATH_INTINFO_H_INCLUDED
 
+#include "declspec.h"
 #include "vector.h"
 #include "precision.h"
 #include "geometry.h"
@@ -41,7 +42,7 @@ extern "C" {
 #ifdef __cplusplus
 }   /* extern "C" */
 
-class IntInfo
+class DECLSPEC IntInfo
 {
 	public:
 		IntInfo();
@@ -57,4 +58,4 @@ class IntInfo
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_INTINFO_H_INCLUDED */
+#endif /* NMATH_INTINFO_H_INCLUDED */

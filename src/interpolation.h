@@ -32,9 +32,10 @@
     - Uniform nonrational splines
 */
 
-#ifndef LIBNMATH_INTERPOLATION_H_INCLUDED
-#define LIBNMATH_INTERPOLATION_H_INCLUDED
+#ifndef NMATH_INTERPOLATION_H_INCLUDED
+#define NMATH_INTERPOLATION_H_INCLUDED
 
+#include "defs.h"
 #include "types.h"
 
 namespace NMath {
@@ -72,4 +73,4 @@ static inline scalar_t bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t
 
 #include "interpolation.inl"
 
-#endif /* LIBNMATH_INTERPOLATION_H_INCLUDED */
+#endif /* NMATH_INTERPOLATION_H_INCLUDED */

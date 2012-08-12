@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     dllmain.c
    	Dll entry point 
@@ -33,16 +33,20 @@
 	extern "C" {
 #endif  /* __cplusplus */
 
-#pragma warning( push ) 
-#pragma warning( disable : 4100 ) // unreferenced formal parameter
+// For visual studio:
+// Disable "<type> needs to have dll-interface to be used by clients"
+// This warning refers to STL member variables which are private and
+// therefore can be safely ignored.
+#pragma warning(push) 
+#pragma warning(disable : 4100) // unreferenced formal parameter
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpvoid)
 {
 	switch (ul_reason_for_call)
 	{
 		case DLL_PROCESS_ATTACH:
 			// For optimization.
-			DisableThreadLibraryCalls( hModule );
+			DisableThreadLibraryCalls(hModule);
 			break;
 		case DLL_THREAD_ATTACH:
 		case DLL_THREAD_DETACH:
@@ -52,6 +56,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
 
 	return TRUE;
 }
+
+#pragma warning (pop)
 
 #ifdef __cplusplus
 	}

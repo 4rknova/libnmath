@@ -79,23 +79,20 @@ namespace NMath {
 
 /* Infinity */
 #ifndef INFINITY
-	#define INFINITY SCALAR_T_MAX;
+	#define INFINITY SCALAR_T_MAX
 #endif /* INFINITY */
 
+#ifndef EPSILON
+	#define EPSILON 		1E-8
+#endif /* EPSILON */
+
 /* Useful scalar_t values used in comparisons */
+const scalar_t ERROR_MARGIN	   = EPSILON;
 const scalar_t SCALAR_MEDIUM   = 1.e-2;   /* 0.01 */
 const scalar_t SCALAR_SMALL    = 1.e-4;   /* 0.0001 */
 const scalar_t SCALAR_XSMALL   = 1.e-6;   /* 0.000001 */
 const scalar_t SCALAR_XXSMALL  = 1.e-8;   /* 0.00000001 */
 const scalar_t SCALAR_XXXSMALL = 1.e-12;  /* 0.000000000001 */
-
-const scalar_t ERROR_MARGIN	   = SCALAR_XXXSMALL;
-
-#ifndef EPSILON
-	#define EPSILON 		1E-8
-	#define FLOAT_EPSILON   EPSILON
-	#define DOUBLE_EPSILON  1E-15
-#endif /* EPSILON */
 
 /* PI */
 const scalar_t PI_DOUBLE	= 6.283185307179586232;
@@ -103,16 +100,8 @@ const scalar_t PI			= 3.14159265358979323846;
 const scalar_t PI_HALF		= 1.57079632679489661923;
 const scalar_t PI_QUARTER	= 0.78539816339744830962;
 
-#ifndef M_PI
-    #define M_PI PI
-#endif /* M_PI */
-
 /* EULER_E */
 const scalar_t EULER_E = 2.7182818284590452354;
-
-#ifndef M_E
-    #define M_E	EULER_E
-#endif /* M_E */
 
 const scalar_t LN2	= 0.69314718055994530942;
 const scalar_t LN10	= 2.30258509299404568402;
@@ -122,5 +111,14 @@ const scalar_t LN10	= 2.30258509299404568402;
 #endif
 
 } /* namespace NMath */
+
+// Check for standard definitions
+#ifndef M_PI
+    #define M_PI NMath::PI
+#endif /* M_PI */
+
+#ifndef M_E
+    #define M_E	NMath::EULER_E
+#endif /* M_E */
 
 #endif /* NMATH_PRECISION_H_INCLUDED */

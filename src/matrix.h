@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     matrix.h
     Matrix
@@ -38,8 +38,8 @@
 	- Quaternions
 */
 
-#ifndef LIBNMATH_MATRIX_H_INCLUDED
-#define LIBNMATH_MATRIX_H_INCLUDED
+#ifndef NMATH_MATRIX_H_INCLUDED
+#define NMATH_MATRIX_H_INCLUDED
 
 #ifdef __cplusplus
 	#include <ostream>
@@ -48,6 +48,8 @@
     #include <stdio.h>
 #endif  /* __cplusplus */
 
+#include "defs.h"
+#include "declspec.h"
 #include "precision.h"
 #include "types.h"
 
@@ -75,21 +77,21 @@ static inline void mat3x3_set_row(mat3x3_t m, vec3_t v, int idx);
 static inline void mat3x3_add(mat3x3_t res, mat3x3_t m1, mat3x3_t m2);
 static inline void mat3x3_mul(mat3x3_t res, mat3x3_t m1, mat3x3_t m2);
 
-void mat3x3_translate(mat3x3_t m, scalar_t x, scalar_t y);
-void mat3x3_rotate(mat3x3_t m, scalar_t angle);
-void mat3x3_scale(mat3x3_t m, scalar_t x, scalar_t y);
-void mat3x3_shear(mat3x3_t m, scalar_t s);
-void mat3x3_mirror_x(mat3x3_t m);
-void mat3x3_mirror_y(mat3x3_t m);
+DECLSPEC void mat3x3_translate(mat3x3_t m, scalar_t x, scalar_t y);
+DECLSPEC void mat3x3_rotate(mat3x3_t m, scalar_t angle);
+DECLSPEC void mat3x3_scale(mat3x3_t m, scalar_t x, scalar_t y);
+DECLSPEC void mat3x3_shear(mat3x3_t m, scalar_t s);
+DECLSPEC void mat3x3_mirror_x(mat3x3_t m);
+DECLSPEC void mat3x3_mirror_y(mat3x3_t m);
 
-void mat3x3_transpose(mat3x3_t res, mat3x3_t m);
-scalar_t mat3x3_determinant(mat3x3_t m);
-void mat3x3_adjoint(mat3x3_t res, mat3x3_t m);
-void mat3x3_inverse(mat3x3_t res, mat3x3_t m);
+DECLSPEC void mat3x3_transpose(mat3x3_t res, mat3x3_t m);
+DECLSPEC scalar_t mat3x3_determinant(mat3x3_t m);
+DECLSPEC void mat3x3_adjoint(mat3x3_t res, mat3x3_t m);
+DECLSPEC void mat3x3_inverse(mat3x3_t res, mat3x3_t m);
 
-void mat3x3_to_m4x4(mat4x4_t dest, mat3x3_t src);
+DECLSPEC void mat3x3_to_m4x4(mat4x4_t dest, mat3x3_t src);
 
-void mat3x3_print(FILE *fp, mat3x3_t m);
+DECLSPEC void mat3x3_print(FILE *fp, mat3x3_t m);
 
 /*
 	4x4 matrices
@@ -111,27 +113,27 @@ static inline void mat4x4_set_row(mat4x4_t m, vec4_t v, int idx);
 static inline void mat4x4_add(mat4x4_t res, mat4x4_t m1, mat4x4_t m2);
 static inline void mat4x4_mul(mat4x4_t res, mat4x4_t m1, mat4x4_t m2);
 
-void mat4x4_translate(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z);
-void mat4x4_rotate(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z);
-void mat4x4_rotate_x(mat4x4_t m, scalar_t angle);
-void mat4x4_rotate_y(mat4x4_t m, scalar_t angle);
-void mat4x4_rotate_z(mat4x4_t m, scalar_t angle);
-void mat4x4_rotate_axis(mat4x4_t m, scalar_t angle, scalar_t x, scalar_t y, scalar_t z);
-void mat4x4_scale(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z);
+DECLSPEC void mat4x4_translate(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z);
+DECLSPEC void mat4x4_rotate(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z);
+DECLSPEC void mat4x4_rotate_x(mat4x4_t m, scalar_t angle);
+DECLSPEC void mat4x4_rotate_y(mat4x4_t m, scalar_t angle);
+DECLSPEC void mat4x4_rotate_z(mat4x4_t m, scalar_t angle);
+DECLSPEC void mat4x4_rotate_axis(mat4x4_t m, scalar_t angle, scalar_t x, scalar_t y, scalar_t z);
+DECLSPEC void mat4x4_scale(mat4x4_t m, scalar_t x, scalar_t y, scalar_t z);
 
-void mat4x4_transpose(mat4x4_t res, mat4x4_t m);
-scalar_t mat4x4_determinant(mat4x4_t m);
-void mat4x4_adjoint(mat4x4_t res, mat4x4_t m);
-void mat4x4_inverse(mat4x4_t res, mat4x4_t m);
+DECLSPEC void mat4x4_transpose(mat4x4_t res, mat4x4_t m);
+DECLSPEC scalar_t mat4x4_determinant(mat4x4_t m);
+DECLSPEC void mat4x4_adjoint(mat4x4_t res, mat4x4_t m);
+DECLSPEC void mat4x4_inverse(mat4x4_t res, mat4x4_t m);
 
-void mat4x4_to_m3x3(mat3x3_t dest, mat4x4_t src);
+DECLSPEC void mat4x4_to_m3x3(mat3x3_t dest, mat4x4_t src);
 
-void mat4x4_print(FILE *fp, mat4x4_t m);
+DECLSPEC void mat4x4_print(FILE *fp, mat4x4_t m);
 
 #ifdef __cplusplus
 }   /* extern "C" */
 
-class Matrix3x3f
+class DECLSPEC Matrix3x3f
 {
 	friend class Matrix4x4f;
 	public:
@@ -204,7 +206,7 @@ class Matrix3x3f
 		scalar_t data[3][3];
 };
 
-class Matrix4x4f
+class DECLSPEC Matrix4x4f
 {
 	friend class Matrix3x3f;
 	public:
@@ -281,4 +283,4 @@ class Matrix4x4f
 
 #include "matrix.inl"
 
-#endif /* LIBNMATH_MATRIX_H_INCLUDED */
+#endif /* NMATH_MATRIX_H_INCLUDED */

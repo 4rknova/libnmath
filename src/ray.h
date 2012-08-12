@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     ray.h
     Ray
@@ -25,9 +25,11 @@
 
 */
 
-#ifndef LIBNMATH_RAY_H_INCLUDED
-#define LIBNMATH_RAY_H_INCLUDED
+#ifndef NMATH_RAY_H_INCLUDED
+#define NMATH_RAY_H_INCLUDED
 
+#include "defs.h"
+#include "declspec.h"
 #include "types.h"
 #include "vector.h"
 
@@ -37,17 +39,19 @@ namespace NMath {
 extern "C" {
 #endif	/* __cplusplus */
 
-typedef struct
+struct ray_t
 {
 	vec3_t origin, direction;
-} ray_t;
+};
+
+typedef struct ray_t ray_t;
 
 static inline ray_t ray_pack(vec3_t origin, vec3_t direction);
 
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-class Ray
+class DECLSPEC Ray
 {
     public:
         Ray();                                          /* This relies on vector class default constructor setting all components to 0 */
@@ -62,4 +66,4 @@ class Ray
 
 #include "ray.inl"
 
-#endif /* LIBNMATH_RAY_H_INCLUDED */
+#endif /* NMATH_RAY_H_INCLUDED */

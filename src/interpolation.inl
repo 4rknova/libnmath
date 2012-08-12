@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_INTERPOLATION_INL_INCLUDED
-#define LIBNMATH_INTERPOLATION_INL_INCLUDED
+#ifndef NMATH_INTERPOLATION_INL_INCLUDED
+#define NMATH_INTERPOLATION_INL_INCLUDED
 
-#ifndef LIBNMATH_INTERPOLATION_H_INCLUDED
+#ifndef NMATH_INTERPOLATION_H_INCLUDED
     #error "interpolation.h must be included before interpolation.inl"
-#endif /* LIBNMATH_INTERPOLATION_H_INCLUDED */
+#endif /* NMATH_INTERPOLATION_H_INCLUDED */
 
 #include "precision.h"
 #include "defs.h"
@@ -163,4 +163,4 @@ static inline scalar_t bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t
 	} /* namespace Interpolation */
 } /* namespace NMath */
 
-#endif /* LIBNMATH_INTERPOLATION_INL_INCLUDED */
+#endif /* NMATH_INTERPOLATION_INL_INCLUDED */

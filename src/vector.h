@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     vector.h
     Vector
@@ -25,9 +25,11 @@
 
 */
 
-#ifndef LIBNMATH_VECTOR_H_INCLUDED
-#define LIBNMATH_VECTOR_H_INCLUDED
+#ifndef NMATH_VECTOR_H_INCLUDED
+#define NMATH_VECTOR_H_INCLUDED
 
+#include "defs.h"
+#include "declspec.h"
 #include "types.h"
 
 #ifdef __cplusplus
@@ -114,7 +116,7 @@ static inline vec4_t vec4_refract(vec4_t v, vec4_t n, scalar_t ior_src, scalar_t
 /*
     2D VECTOR
 */
-class Vector2f
+class DECLSPEC Vector2f
 {
     public:
         /* Constructors */
@@ -186,12 +188,12 @@ class Vector2f
         scalar_t x, y;
 };
 
-inline scalar_t dot(const Vector2f &v1, const Vector2f &v2);
+DECLSPEC inline scalar_t dot(const Vector2f &v1, const Vector2f &v2);
 
 /*
     3D VECTOR
 */
-class Vector3f
+class DECLSPEC Vector3f
 {
     public:
         /* Constructors */
@@ -265,13 +267,13 @@ class Vector3f
         scalar_t x, y, z;
 };
 
-inline scalar_t dot(const Vector3f &v1, const Vector3f &v2);
-inline Vector3f cross(const Vector3f &v1, const Vector3f &v2);
+DECLSPEC inline scalar_t dot(const Vector3f &v1, const Vector3f &v2);
+DECLSPEC inline Vector3f cross(const Vector3f &v1, const Vector3f &v2);
 
 /*
     4D VECTOR
 */
-class Vector4f
+class DECLSPEC Vector4f
 {
     public:
         /* Constructors */
@@ -342,7 +344,7 @@ class Vector4f
         scalar_t x, y, z, w;
 };
 
-inline scalar_t dot(const Vector4f &v1, const Vector4f &v2);
+DECLSPEC inline scalar_t dot(const Vector4f &v1, const Vector4f &v2);
 
 #endif	/* __cplusplus */
 
@@ -350,4 +352,4 @@ inline scalar_t dot(const Vector4f &v1, const Vector4f &v2);
 
 #include "vector.inl"
 
-#endif /* LIBNMATH_VECTOR_H_INCLUDED */
+#endif /* NMATH_VECTOR_H_INCLUDED */

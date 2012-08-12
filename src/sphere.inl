@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     sphere.h
     Sphere inline functions
@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_SPHERE_INL_INCLUDED
-#define LIBNMATH_SPHERE_INL_INCLUDED
+#ifndef NMATH_SPHERE_INL_INCLUDED
+#define NMATH_SPHERE_INL_INCLUDED
 
-#ifndef LIBNMATH_SPHERE_H_INCLUDED
+#ifndef NMATH_SPHERE_H_INCLUDED
     #error "sphere.h must be included before sphere.inl"
-#endif /* LIBNMATH_SPHERE_H_INCLUDED */
+#endif /* NMATH_SPHERE_H_INCLUDED */
 
 namespace NMath {
 
@@ -52,4 +52,4 @@ static inline sphere_t sphere_pack(vec3_t origin, scalar_t radius)
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_SPHERE_INL_INCLUDED */
+#endif /* NMATH_SPHERE_INL_INCLUDED */

@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     triangle.h
     Triangle
@@ -25,9 +25,11 @@
 
 */
 
-#ifndef LIBNMATH_TRIANGLE_H_INCLUDED
-#define LIBNMATH_TRIANGLE_H_INCLUDED
+#ifndef NMATH_TRIANGLE_H_INCLUDED
+#define NMATH_TRIANGLE_H_INCLUDED
 
+#include "defs.h"
+#include "declspec.h"
 #include "precision.h"
 #include "types.h"
 #include "vector.h"
@@ -48,7 +50,7 @@ static inline triangle_t triangle_pack(vec3_t v0, vec3_t v1, vec3_t v2);
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-class Triangle: public Geometry
+class DECLSPEC Triangle: public Geometry
 {
     public:
         Triangle();
@@ -69,4 +71,4 @@ class Triangle: public Geometry
 
 #include "triangle.inl"
 
-#endif /* LIBNMATH_TRIANGLE_H_INCLUDED */
+#endif /* NMATH_TRIANGLE_H_INCLUDED */

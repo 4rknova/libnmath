@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     plane.h
     Plane
@@ -25,25 +25,29 @@
 
 */
 
-#ifndef LIBNMATH_PLANE_H_INCLUDED
-#define LIBNMATH_PLANE_H_INCLUDED
+#ifndef NMATH_PLANE_H_INCLUDED
+#define NMATH_PLANE_H_INCLUDED
 
+#include "defs.h"
+#include "declspec.h"
 #include "precision.h"
 #include "vector.h"
 #include "geometry.h"
 #include "ray.h"
 
 namespace NMath {
-
-typedef struct
-{
-    vec3_t normal;
-    scalar_t distance;
-} plane_t;
-
+	
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
+	
+struct plane_t
+{
+    vec3_t normal;
+    scalar_t distance;
+};
+
+typedef struct plane_t plane_t;
 
 static inline plane_t plane_pack(vec3_t normal, scalar_t distance);
 
@@ -52,7 +56,7 @@ static inline plane_t plane_pack(vec3_t normal, scalar_t distance);
 
 #define NMATH_PLANE_DEFAULT_DISTANCE 1.0
 
-class Plane: public Geometry
+class DECLSPEC Plane: public Geometry
 {
 	public:
 		Plane();
@@ -70,4 +74,4 @@ class Plane: public Geometry
 
 #include "plane.inl"
 
-#endif /* LIBNMATH_PLANE_H_INCLUDED */
+#endif /* NMATH_PLANE_H_INCLUDED */

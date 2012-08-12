@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     aabb.h
     Bounding box
@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_BBOX_INL_INCLUDED
-#define LIBNMATH_BBOX_INL_INCLUDED
+#ifndef NMATH_BBOX_INL_INCLUDED
+#define NMATH_BBOX_INL_INCLUDED
 
-#ifndef LIBNMATH_BBOX_H_INCLUDED
+#ifndef NMATH_BBOX_H_INCLUDED
     #error "aabb.h must be included before aabb.inl"
-#endif /* LIBNMATH_BBOX_H_INCLUDED */
+#endif /* NMATH_BBOX_H_INCLUDED */
 
 #include "types.h"
 #include "vector.h"
@@ -224,4 +224,4 @@ inline void BoundingBox3::augment(const BoundingBox3& b)
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_BBOX_INL_INCLUDED */
+#endif /* NMATH_BBOX_INL_INCLUDED */

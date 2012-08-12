@@ -25,8 +25,8 @@
 
 */
 
-#ifndef LIBNMATH_DEFS_H_INCLUDED
-#define LIBNMATH_DEFS_H_INCLUDED
+#ifndef NMATH_DEFS_H_INCLUDED
+#define NMATH_DEFS_H_INCLUDED
 
 #if (__STDC_VERSION__ < 199999)
     #if defined(__GNUC__) || defined(_MSC_VER)
@@ -37,4 +37,4 @@
 	#endif
 #endif /* __STDC_VERSION__ */
 
-#endif /* LIBNMATH_DEFS_H_INCLUDED */
+#endif /* NMATH_DEFS_H_INCLUDED */

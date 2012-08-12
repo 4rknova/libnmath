@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     mutil.inl
     Declares some math utility functions
@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_MUTIL_INL_INCLUDED
-#define LIBNMATH_MUTIL_INL_INCLUDED
+#ifndef NMATH_MUTIL_INL_INCLUDED
+#define NMATH_MUTIL_INL_INCLUDED
 
-#ifndef LIBNMATH_MUTIL_H_INCLUDED
+#ifndef NMATH_MUTIL_H_INCLUDED
     #error "mutil.h must be included before mutil.inl"
-#endif /* LIBNMATH_MUTIL_H_INCLUDED */
+#endif /* NMATH_MUTIL_H_INCLUDED */
 
 #ifdef __cplusplus
 extern "C" {
@@ -74,4 +74,4 @@ static inline int is_power_of_2(int v)
 }   /* extern "C" */
 #endif /* __cplusplus */
 
-#endif /* LIBNMATH_MUTIL_INL_INCLUDED */
+#endif /* NMATH_MUTIL_INL_INCLUDED */

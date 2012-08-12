@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     triangle.cc
     Triangle
@@ -25,12 +25,11 @@
 
 */
 
-#include "triangle.h"
-
 #include "defs.h"
 #include "precision.h"
 #include "vector.h"
 #include "intinfo.h"
+#include "triangle.h"
 
 namespace NMath {
 
@@ -99,7 +98,7 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 void Triangle::calc_aabb()
 {
 	aabb.max = Vector3f(-INFINITY, -INFINITY, -INFINITY);
-	aabb.min = Vector3f(INFINITY, INFINITY, INFINITY);
+	aabb.min = Vector3f( INFINITY,  INFINITY,  INFINITY);
 
 	for(unsigned int i=0; i<3; i++)
 	{

@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     plane.h
     Plane inline functions
@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_PLANE_INL_INCLUDED
-#define LIBNMATH_PLANE_INL_INCLUDED
+#ifndef NMATH_PLANE_INL_INCLUDED
+#define NMATH_PLANE_INL_INCLUDED
 
-#ifndef LIBNMATH_PLANE_H_INCLUDED
+#ifndef NMATH_PLANE_H_INCLUDED
     #error "plane.h must be included before plane.inl"
-#endif /* LIBNMATH_PLANE_H_INCLUDED */
+#endif /* NMATH_PLANE_H_INCLUDED */
 
 namespace NMath {
 
@@ -52,4 +52,4 @@ static inline plane_t plane_pack(vec3_t normal, scalar_t distance)
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_PLANE_INL_INCLUDED */
+#endif /* NMATH_PLANE_INL_INCLUDED */

@@ -18,6 +18,9 @@
     <ClCompile Include="..\..\src\aabb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\dllmain.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\geometry.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,12 +45,12 @@
     <ClCompile Include="..\..\src\vector.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\aabb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\declspec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\defs.h">
@@ -83,6 +86,9 @@
     <ClInclude Include="..\..\src\ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\sample.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -93,9 +99,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\declspec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -122,6 +125,9 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="..\..\src\ray.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\src\sample.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="..\..\src\sphere.inl">

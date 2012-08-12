@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     geometry.h
     Geometry
@@ -25,9 +25,10 @@
 
 */
 
-#ifndef LIBNMATH_GEOMETRY_H_INCLUDED
-#define LIBNMATH_GEOMETRY_H_INCLUDED
+#ifndef NMATH_GEOMETRY_H_INCLUDED
+#define NMATH_GEOMETRY_H_INCLUDED
 
+#include "declspec.h"
 #include "vector.h"
 #include "aabb.h"
 #include "ray.h"
@@ -53,7 +54,7 @@ enum NMATH_GEOMETRY_TYPE
 // forward declaration
 class IntInfo;
 
-class Geometry
+class DECLSPEC Geometry
 {
     public:
 		Geometry(NMATH_GEOMETRY_TYPE t);
@@ -72,4 +73,4 @@ class Geometry
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_GEOMETRY_H_INCLUDED */
+#endif /* NMATH_GEOMETRY_H_INCLUDED */

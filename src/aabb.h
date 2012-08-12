@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     aabb.h
     Bounding box
@@ -25,9 +25,11 @@
 
 */
 
-#ifndef LIBNMATH_BBOX_H_INCLUDED
-#define LIBNMATH_BBOX_H_INCLUDED
+#ifndef NMATH_BBOX_H_INCLUDED
+#define NMATH_BBOX_H_INCLUDED
 
+#include "defs.h"
+#include "declspec.h"
 #include "types.h"
 #include "vector.h"
 #include "ray.h"
@@ -56,7 +58,7 @@ static inline aabb3_t aabb3_augment_by_aabb(aabb3_t s, aabb3_t b);  // augments 
 }
 
 /* BoundingBox2 class */
-class BoundingBox2
+class DECLSPEC BoundingBox2
 {
     public:
         BoundingBox2();
@@ -72,7 +74,7 @@ class BoundingBox2
 };
 
 /* BoundingBox3 class */
-class BoundingBox3
+class DECLSPEC BoundingBox3
 {
     public:
         BoundingBox3();
@@ -96,4 +98,4 @@ class BoundingBox3
 
 #include "aabb.inl"
 
-#endif /* LIBNMATH_BBOX_H_INCLUDED */
+#endif /* NMATH_BBOX_H_INCLUDED */

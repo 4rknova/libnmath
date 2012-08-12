@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     triangle.h
     Triangle inline functions
@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_TRIANGLE_INL_INCLUDED
-#define LIBNMATH_TRIANGLE_INL_INCLUDED
+#ifndef NMATH_TRIANGLE_INL_INCLUDED
+#define NMATH_TRIANGLE_INL_INCLUDED
 
-#ifndef LIBNMATH_TRIANGLE_H_INCLUDED
+#ifndef NMATH_TRIANGLE_H_INCLUDED
     #error "triangle.h must be included before triangle.inl"
-#endif /* LIBNMATH_TRIANGLE_H_INCLUDED */
+#endif /* NMATH_TRIANGLE_H_INCLUDED */
 
 namespace NMath {
 
@@ -53,4 +53,4 @@ static inline triangle_t triangle_pack(vec3_t v0, vec3_t v1, vec3_t v2)
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_TRIANGLE_INL_INCLUDED */
+#endif /* NMATH_TRIANGLE_INL_INCLUDED */

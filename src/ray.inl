@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     ray.inl
     Ray inline functions
@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_RAY_INL_INCLUDED
-#define LIBNMATH_RAY_INL_INCLUDED
+#ifndef NMATH_RAY_INL_INCLUDED
+#define NMATH_RAY_INL_INCLUDED
 
-#ifndef LIBNMATH_RAY_H_INCLUDED
+#ifndef NMATH_RAY_H_INCLUDED
     #error "ray.h must be included before ray.inl"
-#endif /* LIBNMATH_RAY_H_INCLUDED */
+#endif /* NMATH_RAY_H_INCLUDED */
 
 namespace NMath {
 
@@ -52,4 +52,4 @@ static inline ray_t ray_pack(vec3_t origin, vec3_t direction)
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_RAY_INL_INCLUDED */
+#endif /* NMATH_RAY_INL_INCLUDED */

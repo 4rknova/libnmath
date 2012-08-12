@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     matrix.inl
     Matrix inline functions
@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_MATRIX_INL_INCLUDED
-#define LIBNMATH_MATRIX_INL_INCLUDED
+#ifndef NMATH_MATRIX_INL_INCLUDED
+#define NMATH_MATRIX_INL_INCLUDED
 
-#ifndef LIBNMATH_MATRIX_H_INCLUDED
+#ifndef NMATH_MATRIX_H_INCLUDED
     #error "matrix.h must be included before matrix.inl"
-#endif /* LIBNMATH_MATRIX_H_INCLUDED */
+#endif /* NMATH_MATRIX_H_INCLUDED */
 
 #ifdef __cplusplus
 	#include <cstring>
@@ -223,4 +223,4 @@ inline void Matrix4x4f::reset_identity()
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_MATRIX_INL_INCLUDED */
+#endif /* NMATH_MATRIX_INL_INCLUDED */

@@ -25,8 +25,10 @@
 
 */
 
-#ifndef LIBNMATH_PRIME_H_INCLUDED
-#define LIBNMATH_PRIME_H_INCLUDED
+#ifndef NMATH_PRIME_H_INCLUDED
+#define NMATH_PRIME_H_INCLUDED
+
+#include "defs.h"
 
 namespace NMath {
 
@@ -46,4 +48,4 @@ static inline unsigned long getPrevPrime(unsigned long i);
 
 #include "prime.inl"
 
-#endif /* LIBNMATH_PRIME_H_INCLUDED */
+#endif /* NMATH_PRIME_H_INCLUDED */

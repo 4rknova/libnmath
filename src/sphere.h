@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     sphere.h
     Sphere
@@ -25,9 +25,11 @@
 
 */
 
-#ifndef LIBNMATH_SPHERE_H_INCLUDED
-#define LIBNMATH_SPHERE_H_INCLUDED
+#ifndef NMATH_SPHERE_H_INCLUDED
+#define NMATH_SPHERE_H_INCLUDED
 
+#include "defs.h"
+#include "declspec.h"
 #include "precision.h"
 #include "vector.h"
 #include "geometry.h"
@@ -35,15 +37,17 @@
 
 namespace NMath {
 
-typedef struct
-{
-    vec3_t origin;
-    scalar_t radius;
-} sphere_t;
-
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
+
+struct sphere_t
+{
+    vec3_t origin;
+    scalar_t radius;
+};
+
+typedef struct sphere_t sphere_t;
 
 static inline sphere_t sphere_pack(vec3_t origin, scalar_t radius);
 
@@ -52,7 +56,7 @@ static inline sphere_t sphere_pack(vec3_t origin, scalar_t radius);
 
 #define NMATH_SPHERE_DEFAULT_RADIUS 1.0
 
-class Sphere: public Geometry
+class DECLSPEC Sphere: public Geometry
 {
     public:
         Sphere();
@@ -71,4 +75,4 @@ class Sphere: public Geometry
 
 #include "sphere.inl"
 
-#endif /* LIBNMATH_SPHERE_H_INCLUDED */
+#endif /* NMATH_SPHERE_H_INCLUDED */

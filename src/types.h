@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     types.h
     Declares global data types
@@ -25,8 +25,8 @@
 
 */
 
-#ifndef LIBNMATH_TYPES_H_INCLUDED
-#define LIBNMATH_TYPES_H_INCLUDED
+#ifndef NMATH_TYPES_H_INCLUDED
+#define NMATH_TYPES_H_INCLUDED
 
 #include "precision.h"
 
@@ -64,8 +64,6 @@ class Vector2f;
 class Vector3f;
 class Vector4f;
 
-class Quaternion;
-
 class Matrix3x3f;
 class Matrix4x4f;
 
@@ -76,4 +74,4 @@ class BoundingBox3;
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_TYPES_H_INCLUDED */
+#endif /* NMATH_TYPES_H_INCLUDED */

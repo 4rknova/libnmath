@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_PRNG_INL_INCLUDED
-#define LIBNMATH_PRNG_INL_INCLUDED
+#ifndef NMATH_PRNG_INL_INCLUDED
+#define NMATH_PRNG_INL_INCLUDED
 
-#ifndef LIBNMATH_PRNG_H_INCLUDED
+#ifndef NMATH_PRNG_H_INCLUDED
     #error "prng.h must be included before prng.inl"
-#endif /* LIBNMATH_PRNG_H_INCLUDED */
+#endif /* NMATH_PRNG_H_INCLUDED */
 
 #ifdef __cplusplus
     #include <cstdlib>
@@ -76,7 +76,7 @@ static inline scalar_t prng_c(const scalar_t a, const scalar_t b)
 
     if (!initialized)
     {
-        srand(time(NULL));
+        srand((unsigned int)time(NULL));
         initialized++;
     }
 
@@ -197,8 +197,8 @@ static inline scalar_t prng_multiplyWithCarry(const scalar_t a, const scalar_t b
 
     if (!initialized)
     {
-        m_w = (uint32_t) prng_c(1, time(NULL)); /* must not be zero */
-        m_z = (uint32_t) prng_c(1, time(NULL)); /* must not be zero */
+        m_w = (uint32_t) prng_c(1, (scalar_t)time(NULL)); /* must not be zero */
+        m_z = (uint32_t) prng_c(1, (scalar_t)time(NULL)); /* must not be zero */
         initialized++;
     }
 
@@ -214,4 +214,4 @@ static inline scalar_t prng_multiplyWithCarry(const scalar_t a, const scalar_t b
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_PRNG_INL_INCLUDED */
+#endif /* NMATH_PRNG_INL_INCLUDED */

@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_PRIME_INL_INCLUDED
-#define LIBNMATH_PRIME_INL_INCLUDED
+#ifndef NMATH_PRIME_INL_INCLUDED
+#define NMATH_PRIME_INL_INCLUDED
 
-#ifndef LIBNMATH_PRIME_H_INCLUDED
+#ifndef NMATH_PRIME_H_INCLUDED
     #error "prime.h must be included before prime.inl"
-#endif /* LIBNMATH_PRIME_H_INCLUDED */
+#endif /* NMATH_PRIME_H_INCLUDED */
 
 #include <math.h>
 #include <limits.h>
@@ -85,4 +85,4 @@ static inline unsigned long getPrevPrime(unsigned long i)
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_PRIME_INL_INCLUDED */
+#endif /* NMATH_PRIME_INL_INCLUDED */

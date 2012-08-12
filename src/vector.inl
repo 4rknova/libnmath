@@ -1,6 +1,6 @@
 /*
 
-    This file is part of the nemesis math library.
+    This file is part of the libnmath.
 
     vector.inl
     Vector inline functions
@@ -25,12 +25,12 @@
 
 */
 
-#ifndef LIBNMATH_VECTOR_INL_INCLUDED
-#define LIBNMATH_VECTOR_INL_INCLUDED
+#ifndef NMATH_VECTOR_INL_INCLUDED
+#define NMATH_VECTOR_INL_INCLUDED
 
-#ifndef LIBNMATH_VECTOR_H_INCLUDED
+#ifndef NMATH_VECTOR_H_INCLUDED
     #error "vector.h must be included before vector.inl"
-#endif /* LIBNMATH_VECTOR_H_INCLUDED */
+#endif /* NMATH_VECTOR_H_INCLUDED */
 
 #include "precision.h"
 #include "types.h"
@@ -1093,4 +1093,4 @@ inline scalar_t dot(const Vector4f& v1, const Vector4f& v2)
 
 } /* namespace NMath */
 
-#endif /* LIBNMATH_VECTOR_INL_INCLUDED */
+#endif /* NMATH_VECTOR_INL_INCLUDED */

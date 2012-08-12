@@ -25,9 +25,10 @@
 
 */
 
-#ifndef LIBNMATH_PRNG_H_INCLUDED
-#define LIBNMATH_PRNG_H_INCLUDED
+#ifndef NMATH_PRNG_H_INCLUDED
+#define NMATH_PRNG_H_INCLUDED
 
+#include "defs.h"
 #include "vector.h"
 #include "types.h"
 
@@ -48,4 +49,4 @@ static inline scalar_t prng_multiplyWithCarry(const scalar_t a, const scalar_t b
 
 #include "prng.inl"
 
-#endif /* LIBNMATH_PRNG_H_INCLUDED */
+#endif /* NMATH_PRNG_H_INCLUDED */
