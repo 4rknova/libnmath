@@ -57,6 +57,7 @@ namespace NMath {
 	#define nmath_asin	asinf
 	#define nmath_acos	acosf
 	#define nmath_atan	atanf
+	#define nmath_atan2	atan2
 	#define nmath_pow	pow
 
 #else
@@ -73,6 +74,7 @@ namespace NMath {
 	#define nmath_asin	asin
 	#define nmath_acos	acos
 	#define nmath_atan	atan
+	#define nmath_atan2	atan2
 	#define nmath_pow 	pow
 
 #endif /* MATH_SINGLE_PRECISION */
