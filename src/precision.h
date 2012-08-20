@@ -108,6 +108,9 @@ const scalar_t EULER_E = 2.7182818284590452354;
 const scalar_t LN2	= 0.69314718055994530942;
 const scalar_t LN10	= 2.30258509299404568402;
 
+/* RADIAN */
+const scalar_t RADIAN = 0.017453292519943;
+
 #ifdef __cplusplus
 	}   /* extern "C" */
 #endif
