@@ -238,7 +238,7 @@ static inline scalar_t catmullrom(const scalar_t a, const scalar_t b, const scal
 		multiplications in h. The h coefficients used below are only applicable
 		to Catmull-Rom splines.
     */
-    scalar_t P = -a + (3 * b) - (3 * c) + d;
+    scalar_t P = -a + (3 * (b - c)) + d;
     scalar_t Q = (2 * a) - (5 * b) + (4 * c) - d;
     scalar_t R = c - a;
     scalar_t S = 2 * b;
