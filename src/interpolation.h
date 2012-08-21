@@ -27,6 +27,7 @@
 
 /*
     TO DO:
+	- Smooth step
     - TCB spline (Kochanek-Bartels)
     - Beta splines
     - Uniform nonrational splines
@@ -46,23 +47,33 @@ extern "C" {
 #endif	/* __cplusplus */
 
 /* Simple */
-static inline scalar_t step(scalar_t a, scalar_t b, scalar_t p);
-static inline scalar_t linear(scalar_t a, scalar_t b, scalar_t p);
-static inline scalar_t cosine(scalar_t a, scalar_t b, scalar_t p);
+static inline scalar_t step(const scalar_t a, const scalar_t b, const scalar_t p);
+static inline scalar_t linear(const scalar_t a, const scalar_t b, const scalar_t p);
+static inline scalar_t sine(const scalar_t a, const scalar_t b, const scalar_t p);
+static inline scalar_t cosine(const scalar_t a, const scalar_t b, const scalar_t p);
 
 /* Polynomial */
-static inline scalar_t acceleration(scalar_t a, scalar_t b, scalar_t p);
-static inline scalar_t deceleration(scalar_t a, scalar_t b, scalar_t p);
-static inline scalar_t cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p);
+static inline scalar_t acceleration(const scalar_t a, const scalar_t b, const scalar_t p);
+static inline scalar_t deceleration(const scalar_t a, const scalar_t b, const scalar_t p);
+static inline scalar_t cubic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t p);
 
 /* Splines */
-static inline scalar_t hermite(scalar_t t1, scalar_t a, scalar_t b, scalar_t t2, scalar_t p);
-static inline scalar_t cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t, scalar_t p);
-static inline scalar_t catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p);
+/*
+	Notes:
+	if multiples points are given then we are interpolating between the 2 middle ones.
+	t denotes tangent.
+*/
+static inline scalar_t hermite(const scalar_t t1, const scalar_t a, const scalar_t b, const scalar_t t2, const scalar_t p);
+static inline scalar_t cardinal(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t t, const scalar_t p);
+static inline scalar_t catmullrom(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t p);
 
 /* Bezier */
-static inline scalar_t bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t p);		 /* DeCasteljau */
-static inline scalar_t bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p); /* DeCasteljau */
+/*
+	Notes:
+	We are interpolating between the first and last points.
+*/
+static inline scalar_t bezier_quadratic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t p);				/* DeCasteljau */
+static inline scalar_t bezier_cubic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t p);	/* DeCasteljau */
 
 #ifdef __cplusplus
 }   /* extern "C" */

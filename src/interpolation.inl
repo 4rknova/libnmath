@@ -35,12 +35,6 @@
 #include "precision.h"
 #include "defs.h"
 
-#ifdef __cplusplus
-    #include <cmath>
-#else
-    #include <math.h>
-#endif  /* __cplusplus */
-
 namespace NMath {
 	namespace Interpolation {
 
@@ -48,19 +42,33 @@ namespace NMath {
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline scalar_t step(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t step(const scalar_t a, const scalar_t b, const scalar_t p)
 {
-    return (p < .5f) ? a : b;
+    return (p < 0.5) ? a : b;
 }
 
-static inline scalar_t linear(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t linear(const scalar_t a, const scalar_t b, const scalar_t p)
 {
-    return  (a * (1.f - p)) + (b * p);
+    return  (a * (1 - p)) + (b * p);
 }
 
-static inline scalar_t cosine(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t sine(const scalar_t a, const scalar_t b, const scalar_t p)
 {
-    /*
+	/*
+        First we turn the p value into an angle to sample from the
+        sine wave and sample from the wave but converting the
+        scale run between 0 and 1 instead of the wave's usual -1 to 1.
+        Lastly we perform a normal linear interpolation, but using the
+        value from the sine wave instead of the value of the given p
+    */
+
+    scalar_t p2 = (1 - nmath_sin(p * PI)) / 2;
+	return (a * (1 - p2) + b * p2);
+}
+
+static inline scalar_t cosine(const scalar_t a, const scalar_t b, const scalar_t p)
+{
+	/*
         First we turn the p value into an angle to sample from the
         cosine wave and sample from the wave but converting the
         scale run between 0 and 1 instead of the wave's usual -1 to 1.
@@ -68,24 +76,24 @@ static inline scalar_t cosine(scalar_t a, scalar_t b, scalar_t p)
         value from the cosine wave instead of the value of the given p
     */
 
-    scalar_t p2 = (1.f - cos(p * PI)) / 2;
-    return(a * (1 - p2) + b * p2);
+    scalar_t p2 = (1 - nmath_cos(p * PI)) / 2;
+    return (a * (1 - p2) + b * p2);
 }
 
-static inline scalar_t acceleration(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t acceleration(const scalar_t a, const scalar_t b, const scalar_t p)
 {
     scalar_t np = p * p;
-    return  (a * (1.f - np)) + (b * np);
+    return  (a * (1 - np)) + (b * np);
 }
 
-static inline scalar_t deceleration(scalar_t a, scalar_t b, scalar_t p)
+static inline scalar_t deceleration(const scalar_t a, const scalar_t b, const scalar_t p)
 {
     scalar_t op = 1 - p;
     scalar_t np = 1 - (op * op);
-    return  (a * (1.f - np)) + (b * np);
+    return  (a * (1 - np)) + (b * np);
 }
 
-static inline scalar_t cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
+static inline scalar_t cubic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t p)
 {
     scalar_t P = (d - c) - (a - b);
 	scalar_t Q = (a - b) - P;
@@ -98,7 +106,7 @@ static inline scalar_t cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, sca
 	return (P * p3) + (Q * p2) + (R * p) + S;
 }
 
-static inline scalar_t hermite(scalar_t t1, scalar_t a, scalar_t b, scalar_t t2, scalar_t p)
+static inline scalar_t hermite(const scalar_t t1, const scalar_t a, const scalar_t b, const scalar_t t2, const scalar_t p)
 {
     float p2 = p * p;
     float p3 = p2 * p;
@@ -111,7 +119,7 @@ static inline scalar_t hermite(scalar_t t1, scalar_t a, scalar_t b, scalar_t t2,
     return (h1 * a) + (h2 * b) + (h3 * t1) + (h4 * t2); /* multiply and sum all functions together */
 }
 
-static inline scalar_t cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t, scalar_t p)
+static inline scalar_t cardinal(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t t, const scalar_t p)
 {
     scalar_t t2 = t * t;
     scalar_t p3 = p * p * p;
@@ -119,16 +127,16 @@ static inline scalar_t cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, 
     return t * ( (2 * b) + 	((c - a) * t) + (((2 * a) - (5 * b) + (4 * c) - d) * t2) +(((3 * b) - (3 * c) + d - a) * p3));
 }
 
-static inline scalar_t catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
+static inline scalar_t catmullrom(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t p)
 {
     /*
         Note
         ----
         CatmullRoms are cardinals with a tension of 0.5
     */
-    scalar_t P = - (.5f * a) + (1.5f * b) - (1.5f * c) + (0.5f * d);
+    scalar_t P = - (0.5 * a) + (1.5 * b) - (1.5 * c) + (0.5 * d);
     scalar_t Q = a - (2.5 * b) + (2 * c) - (0.5 * d);
-    scalar_t R = ( c - a ) * .5f;
+    scalar_t R = ( c - a ) * 0.5;
     scalar_t S = b;
 
    	float p2 = p * p;
@@ -137,7 +145,7 @@ static inline scalar_t catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d
     return (P * p3) + (Q * p2) + (R * p) + S;
 }
 
-static inline scalar_t bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t p)
+static inline scalar_t bezier_quadratic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t p)
 {
 	scalar_t ab, bc;
 	ab = linear(a, b, p);
@@ -145,7 +153,7 @@ static inline scalar_t bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scal
 	return linear( ab, bc, p);
 }
 
-static inline scalar_t bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p)
+static inline scalar_t bezier_cubic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t p)
 {
 	scalar_t ab, bc, cd, abc, bcd;
 	ab  = linear(a, b, p);

@@ -32,40 +32,63 @@
     #error "mutil.h must be included before mutil.inl"
 #endif /* NMATH_MUTIL_H_INCLUDED */
 
+namespace NMath {
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
 
 /* conversion between radians and degrees */
-	/*
-static inline scalar_t degree_to_radian(scalar_t r)
+static inline scalar_t degree_to_radian(const scalar_t r)
 {
     return (r * 180.0f) / PI;
 }
 
-static inline scalar_t radian_to_degree(scalar_t d)
+static inline scalar_t radian_to_degree(const scalar_t d)
 {
     return d * (PI / 180.0f);
 }
-*/
+
+/* Clamping */
+static inline scalar_t clamp_min(const scalar_t value, const scalar_t min)
+{
+	return value < min ? min : value;
+}
+
+static inline scalar_t clamp_max(const scalar_t value, const scalar_t max)
+{
+	return value > max ? max : value;
+}
+
+static inline scalar_t clamp(const scalar_t value, const scalar_t min, const scalar_t max)
+{
+	/* 
+		If you pass a min > max then this is treated as invalid input
+		the initial value is returned.
+	 */
+	if (min > max)
+		return value;
+	
+	return value < min ? min : (value > max ? max : value);	
+}
 
 /* Greater Common Divisor */
-static inline int gcd(int a, int b)
+static inline int gcd(const int a, const int b)
 {
-   if (!b)
-    return a;
+	if (!b)
+		return a;
 
-   return gcd(b,a%b);
+   return gcd(b, a % b);
 }
 
 /* Lowest Common Multiple */
-static inline int lcm(int a, int b)
+static inline int lcm(const int a, const int b)
 {
-   return b*a/lcm(a,b);
+   return b * a / lcm(a, b);
 }
 
 /* Check if an integer is a power of 2 */
-static inline int is_power_of_2(int v)
+static inline int is_power_of_2(const int v)
 {
 	return ( (v > 0) && ((v & (v - 1)) == 0) );
 }
@@ -73,5 +96,7 @@ static inline int is_power_of_2(int v)
 #ifdef __cplusplus
 }   /* extern "C" */
 #endif /* __cplusplus */
+
+} /* namespace NMath */
 
 #endif /* NMATH_MUTIL_INL_INCLUDED */
