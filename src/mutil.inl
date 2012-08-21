@@ -38,7 +38,26 @@ namespace NMath {
 extern "C" {
 #endif /* __cplusplus */
 
-/* conversion between radians and degrees */
+/* Inverse square root */
+/*
+	Notes:
+	It is widely known by the implementation provided with the Quake 3 engine source code.
+	It uses Newton-Raphson iteration with a very clever first approximation.
+	The creator is unknown but traced back as: 	John Carmack -> Michael Abrash -> 
+	Terje Matheson -> Gary Tarollii -> Greg Walsh & Cleve Moler
+*/
+static inline float inv_sqrt(const float x)
+{
+	float xcopy = x;
+	float xhalf = 0.5f * xcopy;
+	int i = *(long *)&xcopy;
+	i = 0x5f3759df - (i >> 1);
+	xcopy = *(float *)&i;
+	xcopy *= (1.5f - xhalf * xcopy * xcopy);
+	return xcopy;
+}
+
+/* Conversion between radians and degrees */
 static inline scalar_t degree_to_radian(const scalar_t r)
 {
     return (r * 180.0f) / PI;

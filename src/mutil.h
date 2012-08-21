@@ -37,6 +37,9 @@ namespace NMath {
 extern "C" {
 #endif /* __cplusplus */
 
+/* Inverse square root */
+static inline float inv_sqrt(const float x);
+
 /* Angle conversion */
 static inline scalar_t degree_to_radian(const scalar_t r);
 static inline scalar_t radian_to_degree(const scalar_t d);
