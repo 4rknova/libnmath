@@ -68,7 +68,7 @@ class DECLSPEC BoundingBox2
         inline Vector2f center() const;                          // returns the center coordinates of the box
 
         inline void augment(const Vector2f& v);                  // augments the bounding box to include the given vector
-        inline void augment(const BoundingBox2& b);             // augments the bounding box to include the given bounding box
+        inline void augment(const BoundingBox2& b);              // augments the bounding box to include the given bounding box
 
         Vector2f min, max;
 };
@@ -85,7 +85,7 @@ class DECLSPEC BoundingBox3
         inline Vector3f center() const;                          // returns the center coordinates of the box
 
         inline void augment(const Vector3f& v);                  // augments the bounding box to include the given vector
-        inline void augment(const BoundingBox3& b);             // augments the bounding box to include the given bounding box
+        inline void augment(const BoundingBox3& b);              // augments the bounding box to include the given bounding box
 
 		bool intersection(const Ray &ray) const;
 

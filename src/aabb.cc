@@ -68,9 +68,7 @@ BoundingBox3::BoundingBox3(const Vector3f& a, const Vector3f& b)
 bool BoundingBox3::intersection(const Ray &ray) const
 {
 	if (ray.origin > min && ray.origin < max)
-	{
 		return true;
-	}
 
 	Vector3f aabb[2] = {min, max};
 	static const double t0 = 0.0;
@@ -87,9 +85,7 @@ bool BoundingBox3::intersection(const Ray &ray) const
 	double tymax = (aabb[1 - ysign].y - ray.origin.y) * invdiry;
 	
 	if ((tmin > tymax) || (tymin > tmax))
-	{
 		return false;
-	}
 
 	if (tymin > tmin) tmin = tymin;
 	if (tymax < tmax) tmax = tymax;
@@ -100,9 +96,7 @@ bool BoundingBox3::intersection(const Ray &ray) const
 	double tzmax = (aabb[1 - zsign].z - ray.origin.z) * invdirz;
 
 	if ((tmin > tzmax) || (tzmin > tmax))
-	{
 		return false;
-	}
 
 	if (tzmin > tmin) tmin = tzmin;
 	if (tzmax < tmax) tmax = tzmax;

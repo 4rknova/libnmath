@@ -45,14 +45,28 @@ extern "C" {
 	It uses Newton-Raphson iteration with a very clever first approximation.
 	The creator is unknown but traced back as: 	John Carmack -> Michael Abrash -> 
 	Terje Matheson -> Gary Tarollii -> Greg Walsh & Cleve Moler
+
+	A faster alternative is to use SSE rsqrtss
 */
-static inline float inv_sqrt(const float x)
+static inline float approx_invsqrt1(const float x)
 {
 	float xcopy = x;
 	float xhalf = 0.5f * xcopy;
 	int i = *(long *)&xcopy;
 	i = 0x5f3759df - (i >> 1);
 	xcopy = *(float *)&i;
+	xcopy *= (1.5f - xhalf * xcopy * xcopy);
+	return xcopy;
+}
+
+static inline float approx_invsqrt2(const float x)
+{
+	float xcopy = x;
+	float xhalf = 0.5f * xcopy;
+	int i = *(long *)&xcopy;
+	i = 0x5f3759df - (i >> 1);
+	xcopy = *(float *)&i;
+	xcopy *= (1.5f - xhalf * xcopy * xcopy);
 	xcopy *= (1.5f - xhalf * xcopy * xcopy);
 	return xcopy;
 }
@@ -79,16 +93,12 @@ static inline scalar_t clamp_max(const scalar_t value, const scalar_t max)
 	return value > max ? max : value;
 }
 
-static inline scalar_t clamp(const scalar_t value, const scalar_t min, const scalar_t max)
+static inline scalar_t clamp(const scalar_t value, const scalar_t a, const scalar_t b)
 {
-	/* 
-		If you pass a min > max then this is treated as invalid input
-		the initial value is returned.
-	 */
-	if (min > max)
-		return value;
+	if (a > b)
+		return clamp(value, b, a);
 	
-	return value < min ? min : (value > max ? max : value);	
+	return value < a ? a : (value > b ? b : value);	
 }
 
 /* Greater Common Divisor */
