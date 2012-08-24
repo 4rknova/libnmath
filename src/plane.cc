@@ -59,9 +59,16 @@ bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
 		return false;
 	
 	Vector3f v = Vector3f(nmath_abs(normal.x), nmath_abs(normal.y), nmath_abs(normal.z)) * distance;
+
 	Vector3f vorigin = v - ray.origin;
 
+	// The plane is treated as one side.
+	// if the normal is looking away then the intersection test fails.
+	if (dot(normal, vorigin) > 0 || dot(normal, v) > 0)
+		return false;
+	
 	double n_dot_vo = dot(vorigin, normal);
+	
 	double t = n_dot_vo / n_dot_dir; 
 
 	if (t < EPSILON) 
