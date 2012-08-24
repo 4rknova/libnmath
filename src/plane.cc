@@ -56,26 +56,22 @@ bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
 
 	// we use two-sided planes so we ignore the sign of n_dot_dir
 	if (fabs(n_dot_dir) < EPSILON) 
-	{
 		return false;
-	}
 	
-	Vector3f v = normal * distance;
+	Vector3f v = Vector3f(nmath_abs(normal.x), nmath_abs(normal.y), nmath_abs(normal.z)) * distance;
 	Vector3f vorigin = v - ray.origin;
 
 	double n_dot_vo = dot(vorigin, normal);
 	double t = n_dot_vo / n_dot_dir; 
 
 	if (t < EPSILON) 
-	{
 		return false;
-	}
 
 	if (i_info) 
 	{
 		i_info->t = t;
 		i_info->point = ray.origin + ray.direction * t;
-		i_info->normal = dot(normal, ray.direction) < 0 ? normal : -normal;
+		i_info->normal = normal;
 
 		// Texture coordinates.
 		Vector3f n = normal.normalized();

@@ -74,13 +74,12 @@ static inline scalar_t prng_c(const scalar_t a, const scalar_t b)
     */
     static int initialized = 0;
 
-    if (!initialized)
-    {
+    if (!initialized) {
+        initialized = 1;
         srand((unsigned int)time(NULL));
-        initialized++;
     }
 
-    return ((scalar_t)rand() * ( (b - a) / (scalar_t)RAND_MAX)) + a;
+	return ((scalar_t)rand() * ( (b - a) / (scalar_t)RAND_MAX)) + a;
 }
 
 static inline scalar_t prng_multiplyWithCarry(const scalar_t a, const scalar_t b)

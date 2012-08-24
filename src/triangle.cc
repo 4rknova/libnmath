@@ -115,8 +115,8 @@ void Triangle::calc_aabb()
 
 Vector3f Triangle::calc_normal() const
 {
-	Vector3f v1 = v[2] - v[0];
-	Vector3f v2 = v[1] - v[0];
+	Vector3f v1 = v[1] - v[0];
+	Vector3f v2 = v[2] - v[0];
 
 	return (cross(v1, v2)).normalized();
 }

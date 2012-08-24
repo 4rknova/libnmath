@@ -83,6 +83,11 @@ static inline scalar_t radian_to_degree(const scalar_t d)
 }
 
 /* Clamping */
+static inline scalar_t saturate(const scalar_t value)
+{
+	return value < 0 ? 0 : (value > 1 ? 1 : value);
+}
+
 static inline scalar_t clamp_min(const scalar_t value, const scalar_t min)
 {
 	return value < min ? min : value;

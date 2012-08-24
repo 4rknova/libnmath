@@ -50,7 +50,7 @@ inline Vector3f sphere()
 	scalar_t u = prng_c(0.0f, 1.0f);
 	scalar_t v = prng_c(0.0f, 1.0f);
 
-	scalar_t theta = 2.0f * PI * u;
+	scalar_t theta = 2.0 * PI * u;
 	scalar_t phi = nmath_acos(2.0f * v - 1.0f);
 
 	return Vector3f(nmath_cos(theta) * nmath_sin(phi),
