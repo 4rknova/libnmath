@@ -46,15 +46,13 @@ Plane::Plane()
 	  distance(NMATH_PLANE_DEFAULT_DISTANCE)
 {}
 
+// algebraic solution
 bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
 {
-	// algebraic solution
-
 	// check if the ray is travelling parallel to the plane.
 	// if the ray is in the plane then we ignore it.
-	double n_dot_dir = dot(ray.direction, normal);
+	double n_dot_dir = dot(normal, ray.direction);
 
-	// we use two-sided planes so we ignore the sign of n_dot_dir
 	if (fabs(n_dot_dir) < EPSILON) 
 		return false;
 	
@@ -62,11 +60,6 @@ bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
 
 	Vector3f vorigin = v - ray.origin;
 
-	// The plane is treated as one side.
-	// if the normal is looking away then the intersection test fails.
-	if (dot(normal, vorigin) > 0 || dot(normal, v) > 0)
-		return false;
-	
 	double n_dot_vo = dot(vorigin, normal);
 	
 	double t = n_dot_vo / n_dot_dir; 

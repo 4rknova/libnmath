@@ -62,16 +62,33 @@ inline Vector3f hemisphere(const Vector3f &normal, const Vector3f &direction)
 {
 	scalar_t u = prng_c(0.0f, 1.0f);
 	scalar_t v = prng_c(0.0f, 1.0f);
-	scalar_t theta = 2.0f * PI * u;
-	scalar_t phi = nmath_acos(v);
 
-	if (dot(normal, direction) < 0.0f) {
-		return Vector3f(0,0,0);
-	}
+	float phi   = nmath_acos(nmath_sqrt(u));
+	float theta = 2.0 * M_PI * v;
 
-	return Vector3f(nmath_cos(theta) * nmath_sin(phi),
-					nmath_cos(phi),
-					nmath_sin(theta) * nmath_sin(phi));
+	Vector3f d;
+	d.x = nmath_cos(theta) * nmath_sin(phi);
+	d.y = nmath_cos(phi);
+	d.z = nmath_sin(theta) * nmath_sin(phi);
+
+	NMath::Matrix3x3f mat;
+
+	Vector3f norm = normal.normalized();
+
+	Vector3f xvec = cross(norm + Vector3f(EPSILON, EPSILON, EPSILON), norm).normalized();
+	Vector3f yvec = norm;
+	Vector3f zvec = cross(xvec, yvec).normalized();
+
+	mat.set_column_vector(xvec, 0);
+	mat.set_column_vector(yvec, 1);
+	mat.set_column_vector(zvec, 2);
+
+	d.transform(mat);
+
+	Vector3f dirc = direction.normalized();
+	float ndotl = dot(norm, dirc);
+	
+	return (d * (ndotl > 0 ? ndotl : 0)).normalized();
 }
 
 inline Vector3f lobe(const Vector3f &normal, const Vector3f &direction, const scalar_t exponent)
@@ -104,7 +121,7 @@ inline Vector3f lobe(const Vector3f &normal, const Vector3f &direction, const sc
 		vdotr = 0.0;
 	}
 	
-	return vc * nmath_pow(vdotr, exponent);
+	return (vc * nmath_pow(vdotr, exponent)).normalized();
 }
 
 #endif /* __cplusplus */
