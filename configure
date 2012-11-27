@@ -106,20 +106,20 @@ echo "SW_PACKAGE = $SW_PACKAGE" >> Makefile
 echo "SW_VERSION = $SW_VERSION" >> Makefile
 echo >> Makefile
 
-echo "CD     = $CD" >> Makefile
-echo "ECHO   = $ECHO" >> Makefile
-echo "CLEAR  = $CLEAR" >> Makefile
-echo "RM     = $RM" >> Makefile
-echo "RMDIR  = $RMDIR" >> Makefile
-echo "COL    = $COL" >> Makefile
-echo "TEST	 = $TEST" >> Makefile
-echo "LESS   = $LESS" >> Makefile
-echo "NROFF  = $NROFF" >> Makefile
-echo "MAKE   = $MAKE" >> Makefile
-echo "CC     = $CC" >> Makefile
-echo "CXX    = $CXX" >> Makefile
-echo "INSTALL= $INSTALL" >> Makefile
-echo "LDCONFIG= $LDCONFIG" >> Makefile
+echo "CD       = $CD" >> Makefile
+echo "ECHO     = $ECHO" >> Makefile
+echo "CLEAR    = $CLEAR" >> Makefile
+echo "RM       = $RM" >> Makefile
+echo "RMDIR    = $RMDIR" >> Makefile
+echo "COL      = $COL" >> Makefile
+echo "TEST     = $TEST" >> Makefile
+echo "LESS     = $LESS" >> Makefile
+echo "NROFF    = $NROFF" >> Makefile
+echo "MAKE     = $MAKE" >> Makefile
+echo "CC       = $CC" >> Makefile
+echo "CXX      = $CXX" >> Makefile
+echo "INSTALL  = $INSTALL" >> Makefile
+echo "LDCONFIG = $LDCONFIG" >> Makefile
 echo >> Makefile
 
 echo "PATH_PREFIX = $PATH_PREFIX" >> Makefile
@@ -160,7 +160,7 @@ echo >> Makefile
 
 cat Makefile.in >> Makefile
 
-echo 'creating pkg-config file ...'
+echo 'Creating pkg-config file ...'
 
 echo "Name: $SW_TITLE" > $SW_TITLE.pc
 echo "Description: $SW_DESCRIPTION" >> $SW_TITLE.pc

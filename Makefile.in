@@ -31,10 +31,14 @@ FLAGS_CXX = $(FLAGS_COMMON) -ansi -pedantic
 .PHONY: all
 all: $(LIB_STATIC) $(LIB_DYNAMIC)
 
-$(LIB_STATIC): $(BINOBJ)
-	$(AR) rcs $@ $^
+.PHONY: dirtree
+dirtree:
+	mkdir -p $(PATH_BIN)
 
-$(LIB_DYNAMIC): $(BINOBJ)
+$(LIB_STATIC): dirtree $(BINOBJ)
+	$(AR) rcs $@ $(BINOBJ)
+
+$(LIB_DYNAMIC): dirtree $(BINOBJ)
 	$(CXX) $(FLAGS_CC) $(FLAGS_SHARED) -o $@ $(BINOBJ) $(FLAGS_LD) $(DEP_DLIB)
 
 %.o: %.c
