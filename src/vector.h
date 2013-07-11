@@ -116,7 +116,7 @@ static inline vec4_t vec4_refract(vec4_t v, vec4_t n, scalar_t ior_src, scalar_t
 /*
     2D VECTOR
 */
-class DECLSPEC Vector2f
+class NMATH_DECLSPEC Vector2f
 {
     public:
         /* Constructors */
@@ -188,12 +188,12 @@ class DECLSPEC Vector2f
         scalar_t x, y;
 };
 
-DECLSPEC inline scalar_t dot(const Vector2f &v1, const Vector2f &v2);
+NMATH_DECLSPEC inline scalar_t dot(const Vector2f &v1, const Vector2f &v2);
 
 /*
     3D VECTOR
 */
-class DECLSPEC Vector3f
+class NMATH_DECLSPEC Vector3f
 {
     public:
         /* Constructors */
@@ -267,13 +267,13 @@ class DECLSPEC Vector3f
         scalar_t x, y, z;
 };
 
-DECLSPEC inline scalar_t dot(const Vector3f &v1, const Vector3f &v2);
-DECLSPEC inline Vector3f cross(const Vector3f &v1, const Vector3f &v2);
+NMATH_DECLSPEC inline scalar_t dot(const Vector3f &v1, const Vector3f &v2);
+NMATH_DECLSPEC inline Vector3f cross(const Vector3f &v1, const Vector3f &v2);
 
 /*
     4D VECTOR
 */
-class DECLSPEC Vector4f
+class NMATH_DECLSPEC Vector4f
 {
     public:
         /* Constructors */
@@ -344,7 +344,7 @@ class DECLSPEC Vector4f
         scalar_t x, y, z, w;
 };
 
-DECLSPEC inline scalar_t dot(const Vector4f &v1, const Vector4f &v2);
+NMATH_DECLSPEC inline scalar_t dot(const Vector4f &v1, const Vector4f &v2);
 
 #endif	/* __cplusplus */
 

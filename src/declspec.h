@@ -27,19 +27,17 @@
 #ifndef NMATH_DECLSPEC_H_INCLUDED
 #define NMATH_DECLSPEC_H_INCLUDED
 
-#ifdef _MSC_VER
-	#include <windows.h>
-
-	#ifdef _WINDLL
-		#define DECLSPEC __declspec(dllexport)
+#if defined(_MSC_VER)
+	#ifdef LIBNMATH_BUILD_DLL
+		#define NMATH_DECLSPEC __declspec(dllexport)
 
 	#else
-		#define DECLSPEC __declspec(dllimport)
+		#define NMATH_DECLSPEC __declspec(dllimport)
 
 	#endif
 
 #else
-	#define DECLSPEC
+	#define NMATH_DECLSPEC
 
 #endif
 

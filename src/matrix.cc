@@ -410,7 +410,7 @@ void mat4x4_print(FILE *fp, mat4x4_t m)
 #ifdef __cplusplus
 }   /* extern "C" */
 
-const Matrix3x3f Matrix3x3f::identity = Matrix3x3f(1, 0, 0, 0, 1, 0, 0, 0, 1);
+const Matrix3x3f Matrix3x3f::identity(1, 0, 0, 0, 1, 0, 0, 0, 1);
 
 Matrix3x3f::Matrix3x3f()
 {
@@ -744,7 +744,7 @@ std::ostream &operator <<(std::ostream &out, const Matrix3x3f &mat)
     return out;
 }
 
-const Matrix4x4f Matrix4x4f::identity = Matrix4x4f(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+const Matrix4x4f Matrix4x4f::identity(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
 Matrix4x4f::Matrix4x4f()
 {

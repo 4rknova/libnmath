@@ -56,7 +56,7 @@ static inline sphere_t sphere_pack(vec3_t origin, scalar_t radius);
 
 #define NMATH_SPHERE_DEFAULT_RADIUS 1.0
 
-class DECLSPEC Sphere: public Geometry
+class NMATH_DECLSPEC Sphere: public Geometry
 {
     public:
         Sphere();

@@ -50,7 +50,7 @@ static inline triangle_t triangle_pack(vec3_t v0, vec3_t v1, vec3_t v2);
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-class DECLSPEC Triangle: public Geometry
+class NMATH_DECLSPEC Triangle: public Geometry
 {
     public:
         Triangle();

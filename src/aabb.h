@@ -58,7 +58,7 @@ static inline aabb3_t aabb3_augment_by_aabb(aabb3_t s, aabb3_t b);  // augments 
 }
 
 /* BoundingBox2 class */
-class DECLSPEC BoundingBox2
+class NMATH_DECLSPEC BoundingBox2
 {
     public:
         BoundingBox2();
@@ -74,7 +74,7 @@ class DECLSPEC BoundingBox2
 };
 
 /* BoundingBox3 class */
-class DECLSPEC BoundingBox3
+class NMATH_DECLSPEC BoundingBox3
 {
     public:
         BoundingBox3();

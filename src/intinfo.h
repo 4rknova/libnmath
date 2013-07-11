@@ -42,7 +42,7 @@ extern "C" {
 #ifdef __cplusplus
 }   /* extern "C" */
 
-class DECLSPEC IntInfo
+class NMATH_DECLSPEC IntInfo
 {
 	public:
 		IntInfo();

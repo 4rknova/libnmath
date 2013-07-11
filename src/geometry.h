@@ -54,7 +54,7 @@ enum NMATH_GEOMETRY_TYPE
 // forward declaration
 class IntInfo;
 
-class DECLSPEC Geometry
+class NMATH_DECLSPEC Geometry
 {
     public:
 		Geometry(NMATH_GEOMETRY_TYPE t);

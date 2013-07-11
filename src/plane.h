@@ -56,7 +56,7 @@ static inline plane_t plane_pack(vec3_t normal, scalar_t distance);
 
 #define NMATH_PLANE_DEFAULT_DISTANCE 1.0
 
-class DECLSPEC Plane: public Geometry
+class NMATH_DECLSPEC Plane: public Geometry
 {
 	public:
 		Plane();

@@ -51,7 +51,7 @@ static inline ray_t ray_pack(vec3_t origin, vec3_t direction);
 #ifdef __cplusplus
 }	/* __cplusplus */
 
-class DECLSPEC Ray
+class NMATH_DECLSPEC Ray
 {
     public:
         Ray();                                          /* This relies on vector class default constructor setting all components to 0 */
