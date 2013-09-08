@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     matrix.inl
     Matrix inline functions
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -85,10 +85,8 @@ static inline void mat3x3_set_row(mat3x3_t m, vec3_t v, int idx)
 
 static inline void mat3x3_add(mat3x3_t res, mat3x3_t m1, mat3x3_t m2)
 {
-	int i, j;
-
-	for(i=0; i<3; i++) {
-		for(j=0; j<3; j++) {
+	for (int i=0; i<3; ++i) {
+		for (int j=0; j<3; ++j) {
 			res[i][j] = m1[i][j] + m2[i][j];
 		}
 	}
@@ -154,10 +152,8 @@ static inline void mat4x4_set_row(mat4x4_t m, vec4_t v, int idx)
 
 static inline void mat4x4_add(mat4x4_t res, mat4x4_t m1, mat4x4_t m2)
 {
-	int i, j;
-
-	for(i=0; i<4; i++) {
-		for(j=0; j<4; j++) {
+	for (int i=0; i<4; ++i) {
+		for (int j=0; j<4; ++j) {
 			res[i][j] = m1[i][j] + m2[i][j];
 		}
 	}
@@ -204,7 +200,7 @@ inline void Matrix3x3f::reset_identity()
     memcpy(data, identity.data, 9 * sizeof(scalar_t));
 }
 
-inline scalar_t *Matrix4x4f::operator [](int index) 
+inline scalar_t *Matrix4x4f::operator [](int index)
 {
     return data[index < 16 ? index : 15];
 }

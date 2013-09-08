@@ -5,7 +5,7 @@
 	sample.h
 	Sampling functions
 
-	Copyright (C) 2012
+	Copyright (C) 2012 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or

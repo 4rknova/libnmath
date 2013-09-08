@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     geometry.cc
     Geometry
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -37,8 +37,8 @@ extern "C" {
 }	/* __cplusplus */
 
 Geometry::Geometry(NMATH_GEOMETRY_TYPE t)
-	: type(t),
-	  uv_scale(Vector2f(1,1))
+	: type(t)
+	, uv_scale(Vector2f(1.f, 1.f))
 {}
 
 Geometry::~Geometry()

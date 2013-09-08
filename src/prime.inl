@@ -5,7 +5,7 @@
 	prime.inl
 	Prime numbers
 
-	Copyright (C) 2008, 2010 - 2012
+	Copyright (C) 2008, 2010 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or
@@ -43,18 +43,21 @@ extern "C" {
 
 static inline int isPrime(unsigned long i)
 {
-    if (i <= 1)
+    if (i <= 1) {
         return false;
-    else if (i == 2)
+	} else if (i == 2) {
         return true;
-    else if (!(i % 2))
+	} else if (!(i % 2)) {
         return false;
+	}
 
-	long j, si = sqrt(i);
+	long si = sqrt(i);
 
-	for (j = 2; j <= si; j++)
-		if (!(i % j))
+	for (long j = 2; j <= si; ++j) {
+		if (!(i % j)) {
 			return 0;
+		}
+	}
 
 	return 1;
 }
@@ -63,20 +66,24 @@ static inline unsigned long getNextPrime(unsigned long i)
 {
     static const unsigned long limit = getPrevPrime(LONG_MAX);
 
-    if (i >= limit)       // Avoid endless loop traps
+    if (i >= limit) { // Avoid endless loop traps
         return limit;
+	}
 
     while(!isPrime(++i));
-        return i;
+
+	return i;
 }
 
 static inline unsigned long getPrevPrime(unsigned long i)
 {
-    if (i <= 2)           // Avoid endless loop traps
+    if (i <= 2) { // Avoid endless loop traps
         return 2;
+	}
 
     while(!isPrime(--i));
-        return i;
+
+    return i;
 }
 
 #ifdef __cplusplus

@@ -5,7 +5,7 @@
 	precision.h
 	Precision
 
-	Copyright (C) 2008, 2010 - 2012
+	Copyright (C) 2008, 2010 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@
 #endif	/* __cplusplus */
 
 namespace NMath {
-		
+
 #ifdef __cplusplus
 	extern "C" {
 #endif	/* __cplusplus */
@@ -67,7 +67,7 @@ namespace NMath {
 
 	#define nmath_sqrt  sqrt
 	#define nmath_abs   fabs
-	
+
 	#define nmath_sin	sin
 	#define nmath_cos	cos
 	#define nmath_tan	tan
@@ -75,7 +75,7 @@ namespace NMath {
 	#define nmath_acos	acos
 	#define nmath_atan	atan
 	#define nmath_atan2	atan2
-	#define nmath_pow 	pow
+	#define nmath_pow	pow
 
 #endif /* MATH_SINGLE_PRECISION */
 
@@ -85,7 +85,7 @@ namespace NMath {
 #endif /* INFINITY */
 
 #ifndef EPSILON
-	#define EPSILON 		1E-8
+	#define EPSILON		1E-8
 #endif /* EPSILON */
 
 /* Useful scalar_t values used in comparisons */

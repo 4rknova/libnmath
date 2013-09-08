@@ -5,7 +5,7 @@
 	sample.inl
 	Sampling functions
 
-	Copyright (C) 2012
+	Copyright (C) 2012 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or
@@ -87,7 +87,7 @@ inline Vector3f hemisphere(const Vector3f &normal, const Vector3f &direction)
 
 	Vector3f dirc = direction.normalized();
 	float ndotl = dot(norm, dirc);
-	
+
 	return (d * (ndotl > 0 ? ndotl : 0)).normalized();
 }
 
@@ -95,7 +95,7 @@ inline Vector3f lobe(const Vector3f &normal, const Vector3f &direction, const sc
 {
 	 Matrix3x3f mat;
 	 Vector3f refl = direction.reflected(normal);
-	 
+
 	 if (1.0f - dot(direction, normal) > EPSILON) {
 		Vector3f ivec = cross(direction, refl).normalized();
 		Vector3f kvec = cross(refl, ivec);
@@ -103,7 +103,7 @@ inline Vector3f lobe(const Vector3f &normal, const Vector3f &direction, const sc
 		mat.set_column_vector(refl, 1);
 		mat.set_column_vector(kvec, 2);
 	}
-	
+
 	scalar_t u = prng_c(0.0f, 1.0f);
 	scalar_t v = prng_c(0.0f, 1.0f);
 	scalar_t theta = 2.0 * M_PI * u;
@@ -112,7 +112,7 @@ inline Vector3f lobe(const Vector3f &normal, const Vector3f &direction, const sc
 	Vector3f vc(nmath_cos(theta) * nmath_sin(phi),
 			    nmath_cos(phi),
 			    nmath_sin(theta) * nmath_sin(phi));
-	
+
 	vc.transform(mat);
 
 	scalar_t vdotr = dot(refl, vc);
@@ -120,7 +120,7 @@ inline Vector3f lobe(const Vector3f &normal, const Vector3f &direction, const sc
 	if (vdotr < 0.0) {
 		vdotr = 0.0;
 	}
-	
+
 	return (vc * nmath_pow(vdotr, exponent)).normalized();
 }
 

@@ -1,17 +1,18 @@
-LIBNMATH 2
+LIBNMATH
 
-Copyright 2010 - 2012 (c) Papadopoulos Nikos <nikpapas@gmail.com>
+Copyright 2010 - 2013 (c) Papadopoulos Nikos <nikpapas@gmail.com>
+Licensed under LGPL version 3 or later.
 
-The library implements a collection of datatypes and utilities 
-that are commonly used in graphics related applications.
-
-NOTE: The API is NOT backwards compatible. If you want to use it for your
-own projects use one of the following revisions. HEAD is unstable.
+This library implements a collection of datatypes and utilities that
+are commonly used in graphics applications. The API is not backwards
+compatible. If you want to use it in your project checkout one of
+the following revisions. HEAD is unstable.
 
 Version history
 ===============
-v1.0.0.0	50b9273a52bac42686a1680b8f533c8e74772f52
----
-v1.1.0.0	4d0fc0b52842da0e3a021608da7c88906fdaec6a
-v1.2.0.0	ff4584a50e33b1335b1060b31dc38dc9a66863a4
-v1.3.x.x	HEAD
+1.0.0.0  50b9273a52bac42686a1680b8f533c8e74772f52
+1.1.0.0  4d0fc0b52842da0e3a021608da7c88906fdaec6a
+1.2.0.0  ff4584a50e33b1335b1060b31dc38dc9a66863a4
+1.3.0.0  0bf76eca9d28509d9bb4d2a685c22cf9d0faa7be
+-------
+1.4.x.x  HEAD

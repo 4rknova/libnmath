@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     plane.cc
 	Plane
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -42,8 +42,8 @@ extern "C" {
 }
 
 Plane::Plane()
-	: Geometry(GEOMETRY_PLANE), 
-	  distance(NMATH_PLANE_DEFAULT_DISTANCE)
+	: Geometry(GEOMETRY_PLANE)
+	, distance(NMATH_PLANE_DEFAULT_DISTANCE)
 {}
 
 // algebraic solution
@@ -53,22 +53,22 @@ bool Plane::intersection(const Ray &ray, IntInfo* i_info) const
 	// if the ray is in the plane then we ignore it.
 	double n_dot_dir = dot(normal, ray.direction);
 
-	if (fabs(n_dot_dir) < EPSILON) 
+	if (fabs(n_dot_dir) < EPSILON) {
 		return false;
-	
+	}
+
 	Vector3f v = Vector3f(nmath_abs(normal.x), nmath_abs(normal.y), nmath_abs(normal.z)) * distance;
 
 	Vector3f vorigin = v - ray.origin;
 
 	double n_dot_vo = dot(vorigin, normal);
-	
-	double t = n_dot_vo / n_dot_dir; 
 
-	if (t < EPSILON) 
+	double t = n_dot_vo / n_dot_dir;
+
+	if (t < EPSILON)
 		return false;
 
-	if (i_info) 
-	{
+	if (i_info) {
 		i_info->t = t;
 		i_info->point = ray.origin + ray.direction * t;
 		i_info->normal = normal;

@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     intinfo.cc
-    Intinfo structure 
+    Intinfo structure
 
-    Copyright (C) 2011
+    Copyright (C) 2009 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -37,7 +37,8 @@ extern "C" {
 }   /* extern "C" */
 
 IntInfo::IntInfo()
-	: t(INFINITY), geometry(NULL)
+	: t(INFINITY)
+	, geometry(NULL)
 {}
 
 #endif /* __cplusplus */

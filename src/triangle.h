@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     triangle.h
     Triangle
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or

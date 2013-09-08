@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     mutil.inl
     Declares some math utility functions
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -43,12 +43,12 @@ extern "C" {
 	Notes:
 	It is widely known by the implementation provided with the Quake 3 engine source code.
 	It uses Newton-Raphson iteration with a very clever first approximation.
-	The creator is unknown but traced back as: 	John Carmack -> Michael Abrash -> 
+	The creator is unknown but traced back as: 	John Carmack -> Michael Abrash ->
 	Terje Matheson -> Gary Tarollii -> Greg Walsh & Cleve Moler
 
 	A faster alternative is to use SSE rsqrtss
 */
-static inline float approx_invsqrt1(const float x)
+static inline float approx_invsqrt1(float x)
 {
 	float xcopy = x;
 	float xhalf = 0.5f * xcopy;
@@ -59,7 +59,7 @@ static inline float approx_invsqrt1(const float x)
 	return xcopy;
 }
 
-static inline float approx_invsqrt2(const float x)
+static inline float approx_invsqrt2(float x)
 {
 	float xcopy = x;
 	float xhalf = 0.5f * xcopy;
@@ -72,57 +72,59 @@ static inline float approx_invsqrt2(const float x)
 }
 
 /* Conversion between radians and degrees */
-static inline scalar_t degree_to_radian(const scalar_t r)
+static inline scalar_t degree_to_radian(scalar_t r)
 {
     return (r * 180.0f) / PI;
 }
 
-static inline scalar_t radian_to_degree(const scalar_t d)
+static inline scalar_t radian_to_degree(scalar_t d)
 {
     return d * (PI / 180.0f);
 }
 
 /* Clamping */
-static inline scalar_t saturate(const scalar_t value)
+static inline scalar_t saturate(scalar_t v)
 {
-	return value < 0 ? 0 : (value > 1 ? 1 : value);
+	return v < 0 ? 0 : (v > 1 ? 1 : v);
 }
 
-static inline scalar_t clamp_min(const scalar_t value, const scalar_t min)
+static inline scalar_t clamp_min(scalar_t v, scalar_t min)
 {
-	return value < min ? min : value;
+	return v < min ? min : v;
 }
 
-static inline scalar_t clamp_max(const scalar_t value, const scalar_t max)
+static inline scalar_t clamp_max(scalar_t v, scalar_t max)
 {
-	return value > max ? max : value;
+	return v > max ? max : v;
 }
 
-static inline scalar_t clamp(const scalar_t value, const scalar_t a, const scalar_t b)
+static inline scalar_t clamp(scalar_t v, scalar_t a, scalar_t b)
 {
-	if (a > b)
-		return clamp(value, b, a);
-	
-	return value < a ? a : (value > b ? b : value);	
+	if (a > b) {
+		return clamp(v, b, a);
+	}
+
+	return v < a ? a : (v > b ? b : v);
 }
 
 /* Greater Common Divisor */
-static inline int gcd(const int a, const int b)
+static inline int gcd(int a, int b)
 {
-	if (!b)
+	if (!b) {
 		return a;
+	}
 
    return gcd(b, a % b);
 }
 
 /* Lowest Common Multiple */
-static inline int lcm(const int a, const int b)
+static inline int lcm(int a, int b)
 {
    return b * a / lcm(a, b);
 }
 
 /* Check if an integer is a power of 2 */
-static inline int is_power_of_2(const int v)
+static inline int is_power_of_2(int v)
 {
 	return ( (v > 0) && ((v & (v - 1)) == 0) );
 }

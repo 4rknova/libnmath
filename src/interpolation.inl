@@ -5,7 +5,7 @@
 	interpolation.inl
 	Interpolation methods
 
-	Copyright (C) 2008, 2010 - 2012
+	Copyright (C) 2008, 2010 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or
@@ -42,7 +42,7 @@ namespace NMath {
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline scalar_t smoothstep(const scalar_t edge0, const scalar_t edge1, const scalar_t x)
+static inline scalar_t smoothstep(scalar_t edge0, scalar_t edge1, scalar_t x)
 {
 	/*
 		This is essentially cubic Hermite interpolation.
@@ -54,13 +54,13 @@ static inline scalar_t smoothstep(const scalar_t edge0, const scalar_t edge1, co
 
 	if (y < 0) y = 0;
 	else if (y > 1) y = 1;
-	
+
 	/* Evaluate polynomial */
 	return y * y * (3 - 2 * y);
 }
 
 /* Ken Perlin's suggested alternative which has zero 1st and 2nd order derivatives at t = 0 and t = 1 */
-static inline scalar_t smoothstep_perlin(const scalar_t edge0, const scalar_t edge1, const scalar_t x)
+static inline scalar_t smoothstep_perlin(scalar_t edge0, scalar_t edge1, scalar_t x)
 {
 	/*
 		This is essentially Hermite interpolation.
@@ -77,17 +77,17 @@ static inline scalar_t smoothstep_perlin(const scalar_t edge0, const scalar_t ed
 	return y * y * y * (y * (y * 6 - 15) + 10);
 }
 
-static inline scalar_t step(const scalar_t a, const scalar_t b, const scalar_t t)
+static inline scalar_t step(scalar_t a, scalar_t b, scalar_t t)
 {
     return (t < 0.5) ? a : b;
 }
 
-static inline scalar_t linear(const scalar_t a, const scalar_t b, const scalar_t t)
+static inline scalar_t linear(scalar_t a, scalar_t b, scalar_t t)
 {
     return  a + (b - a) * t;
 }
 
-static inline scalar_t cosine(const scalar_t a, const scalar_t b, const scalar_t t)
+static inline scalar_t cosine(scalar_t a, scalar_t b, scalar_t t)
 {
 	/*
         First we turn the p value into an angle to sample from the
@@ -101,26 +101,26 @@ static inline scalar_t cosine(const scalar_t a, const scalar_t b, const scalar_t
     return (a * (1 - t2) + b * t2);
 }
 
-static inline scalar_t acceleration(const scalar_t a, const scalar_t b, const scalar_t t)
+static inline scalar_t acceleration(scalar_t a, scalar_t b, scalar_t t)
 {
     scalar_t p2 = t * t;
     return  (a * (1 - p2)) + (b * p2);
 }
 
-static inline scalar_t deceleration(const scalar_t a, const scalar_t b, const scalar_t t)
+static inline scalar_t deceleration(scalar_t a, scalar_t b, scalar_t t)
 {
     scalar_t rt = 1 - t;
     scalar_t t2 = 1 - (rt * rt);
     return  (a * (1 - t2)) + (b * t2);
 }
 
-static inline scalar_t cubic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t t)
+static inline scalar_t cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t)
 {
 	/*
-		Cubic interpolation is the simplest method that offers true continuity. 
-		It requires more than just the two endpoints of the segment but also the two points on 
-		either side of them. So the function requires 4 points in all labeled a, b, c, d, in the 
-		code below. t still behaves the same way for interpolating between the segment b to c. 
+		Cubic interpolation is the simplest method that offers true continuity.
+		It requires more than just the two endpoints of the segment but also the two points on
+		either side of them. So the function requires 4 points in all labeled a, b, c, d, in the
+		code below. t still behaves the same way for interpolating between the segment b to c.
 	*/
 
     scalar_t P = (d - c) - (a - b);
@@ -134,7 +134,7 @@ static inline scalar_t cubic(const scalar_t a, const scalar_t b, const scalar_t 
 	return (P * t3) + (Q * t2) + (R * t) + S;
 }
 
-static inline scalar_t hermite(const scalar_t tang1, const scalar_t a, const scalar_t b, const scalar_t tang2, const scalar_t t)
+static inline scalar_t hermite(scalar_t tang1, scalar_t a, scalar_t b, scalar_t tang2, scalar_t t)
 {
 	/*
 		Notes:
@@ -158,7 +158,7 @@ static inline scalar_t hermite(const scalar_t tang1, const scalar_t a, const sca
 
 		Final formula: (h1 * a) + (h2 * b) + (h3 * tang1) + (h4 * tang2)
 
-		h3 and h4 are applied to the tangents to make sure that the curve bends in the desired 
+		h3 and h4 are applied to the tangents to make sure that the curve bends in the desired
 		direction at the start and endpoint.
 
 		Matrix notation:
@@ -166,14 +166,14 @@ static inline scalar_t hermite(const scalar_t tang1, const scalar_t a, const sca
 		Vector C: The parameters of the hermite curve:
 		Matrix H: The matrix form of the 4 hermite polynomials:
 
-	   	      | t^3 |            | a     |                |  2  -2   1   1 |
+		      | t^3 |            | a     |                |  2  -2   1   1 |
 		 T =  | t^2 |       C =  | b     |           H =  | -3   3  -2  -1 |
 			  | t^1 |            | tang1 |                |  0   0   1   0 |
 			  | 1   |            | tang2 |                |  1   0   0   0 |
 
-		To calculate a point Y on the curve you build the Vector T, multiply it with the matrix H 
+		To calculate a point Y on the curve you build the Vector T, multiply it with the matrix H
 		and then multiply with C.
-		
+
 		Y = T * H * C
 	*/
 
@@ -188,18 +188,18 @@ static inline scalar_t hermite(const scalar_t tang1, const scalar_t a, const sca
     return (h1 * a) + (h2 * b) + (h3 * tang1) + (h4 * tang2); /* multiply and sum all functions together */
 }
 
-static inline scalar_t cardinal(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t p, const scalar_t t)
+static inline scalar_t cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p, scalar_t t)
 {
 	/*
 		Notes:
 		Cardinal splines are just a subset of the hermite curves.
 		They don't need the tangent points because they will be calculated from the control
-		points. We'll lose some of the flexibility of the hermite curves, but as a tradeoff 
+		points. We'll lose some of the flexibility of the hermite curves, but as a tradeoff
 		the curves will be much easier to use.
 
 		We are interpolating between b and c.
 		a and d are control points.
-		
+
 		The formula for the tangents of cardinal splines is:
 
 		Tangenti = p * ( Xi - Xj )
@@ -219,18 +219,18 @@ static inline scalar_t cardinal(const scalar_t a, const scalar_t b, const scalar
 
 	scalar_t tang1 = p * (c - a);
 	scalar_t tang2 = p * (d - b);
-	
-    return (h1 * b) + (h2 * c) + (h3 * tang1) + (h4 * tang2); /* multiply and sum all functions together */
+
+	return (h1 * b) + (h2 * c) + (h3 * tang1) + (h4 * tang2); /* multiply and sum all functions together */
 }
 
-static inline scalar_t catmullrom(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t t)
+static inline scalar_t catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t)
 {
     /*
         Notes:
         CatmullRoms are cardinals with a tension (p) of 0.5
-		
-		I have verified the correctness of this method both mathematically and 
-		by using the cardinal. Both functions yielded the same results. This 
+
+		I have verified the correctness of this method both mathematically and
+		by using the cardinal. Both functions yielded the same results. This
 		implementation is chosen due to lower computational cost.
 
 		ATTENTION: This algorithm is NOT proper for general cardinals, don't
@@ -243,13 +243,13 @@ static inline scalar_t catmullrom(const scalar_t a, const scalar_t b, const scal
     scalar_t R = c - a;
     scalar_t S = 2 * b;
 
-   	scalar_t t2 = t * t;
+	scalar_t t2 = t * t;
     scalar_t t3 = t2 * t;
 
     return 0.5 * ((P * t3) + (Q * t2) + (R * t) + S);
 }
 
-static inline scalar_t bezier_quadratic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t t)
+static inline scalar_t bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t t)
 {
 	/* DeCasteljau */
 	scalar_t ab = linear(a, b, t);
@@ -257,7 +257,7 @@ static inline scalar_t bezier_quadratic(const scalar_t a, const scalar_t b, cons
 	return linear( ab, bc, t);
 }
 
-static inline scalar_t bezier_cubic(const scalar_t a, const scalar_t b, const scalar_t c, const scalar_t d, const scalar_t t)
+static inline scalar_t bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t)
 {
 	/* DeCasteljau */
 	scalar_t ab  = linear(a, b, t);

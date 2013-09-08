@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     triangle.cc
     Triangle
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@ extern "C" {
 }
 
 Triangle::Triangle()
-	:	Geometry(GEOMETRY_TRIANGLE)
+	: Geometry(GEOMETRY_TRIANGLE)
 {}
 
 bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
@@ -50,8 +50,9 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 
 	double n_dot_dir = dot(normal, ray.direction);
 
-	if (fabs(n_dot_dir) < EPSILON) 
+	if (fabs(n_dot_dir) < EPSILON) {
 		return false; // parallel to the plane
+	}
 
 	// translation of v[0] to axis origin
 	Vector3f vo_vec = ray.origin - v[0];
@@ -59,8 +60,9 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 	// calc intersection distance
 	scalar_t t = -dot(normal, vo_vec) / n_dot_dir;
 
-	if (t < EPSILON)
+	if (t < EPSILON) {
 		return false; // plane in the opposite subspace
+	}
 
 	// intersection point ( on the plane ).
 	Vector3f pos = ray.origin + ray.direction * t;
@@ -70,13 +72,11 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 	scalar_t bc_sum = bc.x + bc.y + bc.z;
 
 	// check for triangle boundaries
-	if (bc_sum < 1.0 - EPSILON || bc_sum > 1.0 + EPSILON)
-	{
+	if (bc_sum < 1.0 - EPSILON || bc_sum > 1.0 + EPSILON) {
 		return false;
 	}
 
-	if (i_info)
-	{
+	if (i_info) {
 		i_info->t = t;
 		i_info->point = pos;
 		i_info->geometry = this;
@@ -84,7 +84,6 @@ bool Triangle::intersection(const Ray &ray, IntInfo* i_info) const
 		// Texcoords
 		Vector2f texcoord = tc[0] * bc.x + tc[1] * bc.y + tc[2] * bc.z;
 		i_info->texcoord = texcoord;
-		
 		// Normal
 		Vector3f pn = n[0] * bc.x + n[1] * bc.y + n[2] * bc.z;
 		i_info->normal = pn.length() ? pn : normal;
@@ -148,7 +147,7 @@ Vector3f Triangle::calc_barycentric(const Vector3f &p) const
 	scalar_t a0 = fabs(dot(x12, norm)) * 0.5;
 	scalar_t a1 = fabs(dot(x20, norm)) * 0.5;
 	scalar_t a2 = fabs(dot(x01, norm)) * 0.5;
-	
+
 	bc.x = a0 / area;
 	bc.y = a1 / area;
 	bc.z = a2 / area;

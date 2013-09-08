@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     aabb.h
     Bounding box
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -65,6 +65,7 @@ class NMATH_DECLSPEC BoundingBox2
         BoundingBox2(const Vector2f& a, const Vector2f& b);
 
         inline bool contains(const Vector2f& p) const;           // returns true if the given point is within the bounds of the box, else false
+
         inline Vector2f center() const;                          // returns the center coordinates of the box
 
         inline void augment(const Vector2f& v);                  // augments the bounding box to include the given vector
@@ -82,6 +83,7 @@ class NMATH_DECLSPEC BoundingBox3
 
         inline bool contains(const Vector3f& p) const;           // returns true if the given point is within the bounds of the box, else false
 		inline bool contains(const BoundingBox3 &aabb) const;
+
         inline Vector3f center() const;                          // returns the center coordinates of the box
 
         inline void augment(const Vector3f& v);                  // augments the bounding box to include the given vector

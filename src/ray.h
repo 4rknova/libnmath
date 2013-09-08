@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     ray.h
     Ray
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -54,7 +54,7 @@ static inline ray_t ray_pack(vec3_t origin, vec3_t direction);
 class NMATH_DECLSPEC Ray
 {
     public:
-        Ray();                                          /* This relies on vector class default constructor setting all components to 0 */
+        Ray();
         Ray(const Vector3f &org, const Vector3f &dir);
 
         Vector3f origin, direction;

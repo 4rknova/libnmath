@@ -5,7 +5,7 @@
 	prime.h
 	Prime numbers
 
-	Copyright (C) 2008, 2010 - 2012
+	Copyright (C) 2008, 2010 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or

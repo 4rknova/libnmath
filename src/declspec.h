@@ -5,7 +5,7 @@
 	declspec.h
 	Macros for Windows dll builds
 
-	Copyright (C) 2008, 2010 - 2012
+	Copyright (C) 2008, 2010 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@
 	Boston, MA 02110-1301 USA
 
 */
+
 #ifndef NMATH_DECLSPEC_H_INCLUDED
 #define NMATH_DECLSPEC_H_INCLUDED
 
@@ -34,11 +35,11 @@
 	#else
 		#define NMATH_DECLSPEC __declspec(dllimport)
 
-	#endif
+	#endif /* LIBNMATH_BUILD_DLL */
 
 #else
 	#define NMATH_DECLSPEC
 
-#endif
+#endif /* _MSC_VER */
 
 #endif /* NMATH_DECLSPEC_H_INCLUDED */

@@ -5,7 +5,7 @@
 	defs.h
 	C constants
 
-	Copyright (C) 2008, 2010 - 2012
+	Copyright (C) 2008, 2010 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or
@@ -32,9 +32,9 @@
     #if defined(__GNUC__) || defined(_MSC_VER)
         #define inline __inline
     #else
-        /* Inline functions not supported. Performance will suffer */
+        /* Inline functions are not supported */
         #define inline
-	#endif
+	#endif /* __GNUC__ */
 #endif /* __STDC_VERSION__ */
 
 #endif /* NMATH_DEFS_H_INCLUDED */

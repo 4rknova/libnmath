@@ -1,3 +1,8 @@
+CC  = @echo "compiling [c  ] $< .."; $(COMP_C)
+CXX = @echo "compiling [c++] $< .."; $(COMP_CXX)
+LD  = @echo "linking $@ .."; $(COMP_LD)
+AR  = @echo "linking $@ .."; $(COMP_AR)
+
 SOURCE_H   = $(wildcard $(PATH_SRC)/*.h)
 SOURCE_HPP = $(wildcard $(PATH_SRC)/*.hpp)
 SOURCE_INL = $(wildcard $(PATH_SRC)/*.inl)
@@ -22,10 +27,12 @@ MAN = $(PATH_MAN)/$(SW_TITLE).$(MAN_SECTION)
 FLAGS_WARNLV = -Wall
 FLAGS_INCLSN = -I/usr/local/include -I$(PATH_SRC)
 FLAGS_PREPRC = -D'$(SW_SYMID)_VERSION="$(SW_VERSION)"'
-FLAGS_COMMON = -fPIC $(FLAGS_OPT) $(FLAGS_DBG) $(FLAGS_WARNLV) $(FLAGS_INCLSN) $(FLAGS_PREPRC) -Wno-strict-aliasing -Wno-unknown-pragmas -ffast-math -funsafe-math-optimizations
+FLAGS_COMMON = -fPIC $(FLAGS_OPT) $(FLAGS_DBG) $(FLAGS_WARNLV) $(FLAGS_INCLSN) $(FLAGS_PREPRC) \
+               -Wno-strict-aliasing -Wno-unknown-pragmas -ffast-math -funsafe-math-optimizations \
+			   -fno-exceptions 
 FLAGS_LD =
 FLAGS_CC  = $(FLAGS_COMMON) -std=c89
-FLAGS_CXX = $(FLAGS_COMMON) -ansi -pedantic
+FLAGS_CXX = $(FLAGS_COMMON) -ansi -pedantic -fno-rtti
 
 # TARGETS
 .PHONY: all
@@ -39,7 +46,7 @@ $(LIB_STATIC): dirtree $(BINOBJ)
 	$(AR) rcs $@ $(BINOBJ)
 
 $(LIB_DYNAMIC): dirtree $(BINOBJ)
-	$(CXX) $(FLAGS_CC) $(FLAGS_SHARED) -o $@ $(BINOBJ) $(FLAGS_LD) $(DEP_DLIB)
+	$(LD) $(FLAGS_CC) $(FLAGS_SHARED) -o $@ $(BINOBJ) $(FLAGS_LD) $(DEP_DLIB)
 
 %.o: %.c
 	$(CC) -c $(FLAGS_CC) -o $@ $<  $(DEP_DLIB)

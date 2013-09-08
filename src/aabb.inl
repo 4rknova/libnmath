@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
-    aabb.h
+    aabb.inl
     Bounding box
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -179,7 +179,7 @@ inline bool BoundingBox3::contains(const BoundingBox3 &aabb) const
 	if(min.x > aabb.max.x || aabb.min.x > max.x) {
 		return false;
 	}
-	
+
 	if(min.y > aabb.max.y || aabb.min.y > max.y) {
 		return false;
 	}
@@ -187,7 +187,7 @@ inline bool BoundingBox3::contains(const BoundingBox3 &aabb) const
 	if(min.z > aabb.max.z || aabb.min.z > max.z) {
 		return false;
 	}
-	
+
 	return true;
 }
 

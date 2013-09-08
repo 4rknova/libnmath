@@ -5,7 +5,7 @@
 	prng.h
 	Pseudo Random Number Generators
 
-	Copyright (C) 2008, 2010 - 2012
+	Copyright (C) 2008, 2010 - 2013
 	Papadopoulos Nikolaos
 
 	This program is free software; you can redistribute it and/or
@@ -38,8 +38,11 @@ namespace NMath {
 extern "C" {
 #endif	/* __cplusplus */
 
-static inline scalar_t prng_c(const scalar_t a, const scalar_t b);    			   /* returns a random number between min and max using the C built-in PRNG in uniform manner */
-static inline scalar_t prng_multiplyWithCarry(const scalar_t a, const scalar_t b); /* Multiply with carry method by George Marsaglia */
+/* returns a random number between min and max using the C built-in PRNG in uniform manner */
+static inline scalar_t prng_c(scalar_t a, scalar_t b);
+
+/* Multiply with carry method by George Marsaglia */
+static inline scalar_t prng_multiplyWithCarry(scalar_t a, scalar_t b);
 
 #ifdef __cplusplus
 }   /* extern "C" */

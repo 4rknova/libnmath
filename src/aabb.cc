@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     aabb.cc
     Bounding box functions
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -58,7 +58,7 @@ BoundingBox3::BoundingBox3(const Vector3f& a, const Vector3f& b)
     max=Vector3f( (a.x>=b.x)? a.x : b.x, (a.y>=b.y)? a.y : b.y, (a.z>=b.z)? a.z : b.z );
 }
 
-/* 	
+/*
 	ray - axis aligned bounding box intersection test based on:
 	"An Efficient and Robust Ray-Box Intersection Algorithm",
 	Amy Williams, Steve Barrus, R. Keith Morley, and Peter Shirley
@@ -83,7 +83,7 @@ bool BoundingBox3::intersection(const Ray &ray) const
 	double invdiry = 1.0 / ray.direction.y;
 	double tymin = (aabb[ysign].y - ray.origin.y) * invdiry;
 	double tymax = (aabb[1 - ysign].y - ray.origin.y) * invdiry;
-	
+
 	if ((tmin > tymax) || (tymin > tmax))
 		return false;
 

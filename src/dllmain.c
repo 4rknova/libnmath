@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     dllmain.c
-   	Dll entry point 
+	Dll entry point
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -27,20 +27,14 @@
 
 #ifdef _WIN32
 
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 #ifdef __cplusplus
 	extern "C" {
 #endif  /* __cplusplus */
 
-// For visual studio:
-// Disable "<type> needs to have dll-interface to be used by clients"
-// This warning refers to STL member variables which are private and
-// therefore can be safely ignored.
-#pragma warning(push) 
-#pragma warning(disable : 4100) // unreferenced formal parameter
-
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpvoid)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
 {
 	switch (ul_reason_for_call)
 	{
@@ -56,8 +50,6 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpvoid)
 
 	return TRUE;
 }
-
-#pragma warning (pop)
 
 #ifdef __cplusplus
 	}

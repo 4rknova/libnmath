@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     geometry.h
     Geometry
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -44,8 +44,7 @@ enum NMATH_GEOMETRY_TYPE
 	GEOMETRY_PLANE,
 	GEOMETRY_TRIANGLE,
 	GEOMETRY_SPHERE,
-	
-	GEOMETRY_MESH		/* For external objects that might extend geometry */
+	GEOMETRY_UNDEFINED
 };
 
 #ifdef __cplusplus
@@ -58,14 +57,12 @@ class NMATH_DECLSPEC Geometry
 {
     public:
 		Geometry(NMATH_GEOMETRY_TYPE t);
-		virtual ~Geometry(); 
+		virtual ~Geometry();
 		virtual bool intersection(const Ray &ray, IntInfo* i_info) const = 0;
 		virtual void calc_aabb() = 0;
 
 		NMATH_GEOMETRY_TYPE type;
-
 		BoundingBox3 aabb;
-
 		Vector2f uv_scale;
 };
 

@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     sphere.cc
     Sphere
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -41,11 +41,14 @@ extern "C" {
 }
 
 Sphere::Sphere()
-    : Geometry(GEOMETRY_SPHERE), radius(NMATH_SPHERE_DEFAULT_RADIUS)
+    : Geometry(GEOMETRY_SPHERE)
+	, radius(NMATH_SPHERE_DEFAULT_RADIUS)
 {}
 
 Sphere::Sphere(const Vector3f &org, scalar_t rad)
-    : Geometry(GEOMETRY_SPHERE), origin(org), radius(rad > 0 ? rad : NMATH_SPHERE_DEFAULT_RADIUS)
+    : Geometry(GEOMETRY_SPHERE)
+	, origin(org)
+	, radius(rad > 0 ? rad : NMATH_SPHERE_DEFAULT_RADIUS)
 {}
 
 bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
@@ -59,7 +62,8 @@ bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 #endif
 
 	scalar_t b = 2 * dot(ray.origin - origin, ray.direction);
-	scalar_t c = dot(origin, origin) + dot(ray.origin, ray.origin) + 2 * dot(-origin, ray.origin) - radius * radius;
+	scalar_t c = dot(origin, origin) + dot(ray.origin, ray.origin) +
+				 2 * dot(-origin, ray.origin) - radius * radius;
 
 	scalar_t discr = (b * b - 4 * c);
 
@@ -75,7 +79,7 @@ bool Sphere::intersection(const Ray &ray, IntInfo* i_info) const
 			i_info->t = t;
 			i_info->point = ray.origin + ray.direction * t;
 			i_info->normal = (i_info->point - origin) / radius;
-			i_info->texcoord = Vector2f((asin(i_info->normal.x / (uv_scale.x != 0.0f ? uv_scale.x : 1.0f)) / PI + 0.5), 
+			i_info->texcoord = Vector2f((asin(i_info->normal.x / (uv_scale.x != 0.0f ? uv_scale.x : 1.0f)) / PI + 0.5),
 								(asin(i_info->normal.y / (uv_scale.y != 0.0f ? uv_scale.y : 1.0f)) / PI + 0.5));
 			i_info->geometry = this;
 

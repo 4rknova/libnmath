@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     ray.cc
     Ray
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -38,11 +38,13 @@ extern "C" {
 }
 
 Ray::Ray(const Vector3f &org, const Vector3f &dir)
-    : origin(org), direction(dir.normalized())
+    : origin(org)
+	, direction(dir.normalized())
 {}
 
 Ray::Ray()
-	: origin(Vector3f(0,0,0)), direction(Vector3f(0,0,1))
+	: origin(Vector3f(0,0,0))
+	, direction(Vector3f(0,0,1))
 {}
 
 #endif	/* __cplusplus */

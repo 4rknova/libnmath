@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     plane.h
     Plane
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -36,11 +36,11 @@
 #include "ray.h"
 
 namespace NMath {
-	
+
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
-	
+
 struct plane_t
 {
     vec3_t normal;
@@ -60,8 +60,8 @@ class NMATH_DECLSPEC Plane: public Geometry
 {
 	public:
 		Plane();
-		
-		bool intersection(const Ray &ray, IntInfo* i_info) const;   
+
+		bool intersection(const Ray &ray, IntInfo* i_info) const;
 		void calc_aabb();
 
 		Vector3f normal;

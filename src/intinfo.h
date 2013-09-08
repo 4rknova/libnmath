@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     intinfo.h
-    Intinfo structure 
+    Intinfo structure
 
-    Copyright (C) 2011
+    Copyright (C) 2009 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -51,6 +51,7 @@ class NMATH_DECLSPEC IntInfo
 		Vector3f point;
 		Vector2f texcoord;
 		scalar_t t;
+
 		const Geometry* geometry;
 };
 

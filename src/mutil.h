@@ -1,11 +1,11 @@
 /*
 
-    This file is part of the libnmath.
+    This file is part of libnmath.
 
     mutil.h
     Declares some math utility functions
 
-    Copyright (C) 2008, 2010, 2011
+    Copyright (C) 2008, 2010 - 2013
     Papadopoulos Nikolaos
 
     This library is free software; you can redistribute it and/or
@@ -38,27 +38,27 @@ extern "C" {
 #endif /* __cplusplus */
 
 /* Inverse square root (fast approximation) */
-static inline float approx_invsqrt1(const float x); // 1 Newton iteration.
-static inline float approx_invsqrt2(const float x); // 2 Newton iterations.
+static inline float approx_invsqrt1(float x); /* 1 Newton iteration .*/
+static inline float approx_invsqrt2(float x); /* 2 Newton iterations. */
 
 /* Angle conversion */
-static inline scalar_t degree_to_radian(const scalar_t r);
-static inline scalar_t radian_to_degree(const scalar_t d);
+static inline scalar_t degree_to_radian(scalar_t r);
+static inline scalar_t radian_to_degree(scalar_t d);
 
 /* Clamping */
-static inline scalar_t saturate(const scalar_t value);
-static inline scalar_t clamp_min(const scalar_t value, const scalar_t min);
-static inline scalar_t clamp_max(const scalar_t value, const scalar_t max);
-static inline scalar_t clamp(const scalar_t value, const scalar_t a, const scalar_t b);
+static inline scalar_t saturate(scalar_t v);
+static inline scalar_t clamp_min(scalar_t v, scalar_t min);
+static inline scalar_t clamp_max(scalar_t v, scalar_t max);
+static inline scalar_t clamp(scalar_t v, scalar_t a, scalar_t b);
 
 /* Greater Common Divisor */
-static inline int gcd(const int a, const int b); /* Euclid's method */
+static inline int gcd(int a, int b); /* Euclid's method */
 
 /* Lowest Common Multiple */
-static inline int lcm(const int a, const int b);
+static inline int lcm(int a, int b);
 
 /* Check if an integer is a power of 2 */
-static inline int is_power_of_2(const int v);
+static inline int is_power_of_2(int v);
 
 #ifdef __cplusplus
 }   /* extern "C" */
