@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\aabb.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dllmain.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\geometry.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\intinfo.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\matrix.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\plane.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ray.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sphere.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\triangle.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vector.cc">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\aabb.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\declspec.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\defs.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\geometry.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\interpolation.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\intinfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\matrix.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mutil.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\plane.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\precision.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\prime.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\prng.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ray.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sample.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sphere.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\triangle.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\types.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vector.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\aabb.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\interpolation.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\matrix.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\mutil.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\plane.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\prime.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\prng.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\ray.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\sample.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\sphere.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\triangle.inl">
+      <Filter>include</Filter>
+    </None>
+    <None Include="src\vector.inl">
+      <Filter>include</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{da49d956-d8a8-4994-b902-809d09d08f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2b94907e-487f-48a1-a457-003dcf02cf66}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

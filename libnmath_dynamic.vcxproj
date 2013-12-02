@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FEA3636A-98DE-4C30-8FEE-ADCBB49C239E}</ProjectGuid>
+    <RootNamespace>libnmath</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBNMATH_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LIBNMATH_BUILD_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\aabb.cc" />
+    <ClCompile Include="src\dllmain.c" />
+    <ClCompile Include="src\geometry.cc" />
+    <ClCompile Include="src\intinfo.cc" />
+    <ClCompile Include="src\matrix.cc" />
+    <ClCompile Include="src\plane.cc" />
+    <ClCompile Include="src\ray.cc" />
+    <ClCompile Include="src\sphere.cc" />
+    <ClCompile Include="src\triangle.cc" />
+    <ClCompile Include="src\vector.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\aabb.h" />
+    <ClInclude Include="src\declspec.h" />
+    <ClInclude Include="src\defs.h" />
+    <ClInclude Include="src\geometry.h" />
+    <ClInclude Include="src\interpolation.h" />
+    <ClInclude Include="src\intinfo.h" />
+    <ClInclude Include="src\matrix.h" />
+    <ClInclude Include="src\mutil.h" />
+    <ClInclude Include="src\plane.h" />
+    <ClInclude Include="src\precision.h" />
+    <ClInclude Include="src\prime.h" />
+    <ClInclude Include="src\prng.h" />
+    <ClInclude Include="src\ray.h" />
+    <ClInclude Include="src\sample.h" />
+    <ClInclude Include="src\sphere.h" />
+    <ClInclude Include="src\triangle.h" />
+    <ClInclude Include="src\types.h" />
+    <ClInclude Include="src\vector.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\aabb.inl" />
+    <None Include="src\interpolation.inl" />
+    <None Include="src\matrix.inl" />
+    <None Include="src\mutil.inl" />
+    <None Include="src\plane.inl" />
+    <None Include="src\prime.inl" />
+    <None Include="src\prng.inl" />
+    <None Include="src\ray.inl" />
+    <None Include="src\sample.inl" />
+    <None Include="src\sphere.inl" />
+    <None Include="src\triangle.inl" />
+    <None Include="src\vector.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
