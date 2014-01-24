@@ -48,7 +48,7 @@ namespace NMath {
 **	Unlike the rest interpolation methods, the returned value 
 **	for smoothstep is in the 0 - 1 range.
 */
-static inline scalar_t smoothstep(scalar_t edge0, scalar_t edge1, scalar_t x)
+static inline scalar_t smoothstep(scalar_t a, scalar_t b, scalar_t x)
 {
 	/*
 	**	This is essentially cubic Hermite interpolation.
@@ -56,7 +56,7 @@ static inline scalar_t smoothstep(scalar_t edge0, scalar_t edge1, scalar_t x)
 	*/
 
 	/* Scale, bias and saturate x to the [0-1] range */
-	scalar_t y = (x - edge0) / (edge1 - edge0);
+	scalar_t y = (x - a) / (b - a);
 
 	if (y < 0) y = 0;
 	else if (y > 1) y = 1;
@@ -66,7 +66,7 @@ static inline scalar_t smoothstep(scalar_t edge0, scalar_t edge1, scalar_t x)
 }
 
 /* Ken Perlin's suggested alternative which has zero 1st and 2nd order derivatives at t = 0 and t = 1 */
-static inline scalar_t smoothstep_perlin(scalar_t edge0, scalar_t edge1, scalar_t x)
+static inline scalar_t smoothstep_perlin(scalar_t a, scalar_t b, scalar_t x)
 {
 	/*
 	**	This is essentially Hermite interpolation.
@@ -74,7 +74,7 @@ static inline scalar_t smoothstep_perlin(scalar_t edge0, scalar_t edge1, scalar_
 	*/
 
 	/* Scale, and saturate x to the [0-1] range */
-	scalar_t y = (x - edge0) / (edge1 - edge0);
+	scalar_t y = (x - a) / (b - a);
 
 	if (y < 0) y = 0;
 	else if (y > 1) y = 1;
