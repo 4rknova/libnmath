@@ -30,58 +30,98 @@
 
 #include "defs.h"
 #include "types.h"
-
-namespace NMath {
-	namespace Interpolation {
+#include "vector.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif	/* __cplusplus */
 
-/*
-	Smoothstep
+namespace NMath {
+	namespace Interpolation {
 
-	Notes:
-	The inputs are values edge0, edge1, x with edge0 < x < edge1.
-	Unlike the rest interpolation methods, the returned value 
-	for smoothstep is in the 0 - 1 range.
-*/
-static inline scalar_t smoothstep(scalar_t edge0, scalar_t edge1, scalar_t x);
-static inline scalar_t smoothstep_perlin(scalar_t edge0, scalar_t edge1, scalar_t x);
+static inline scalar_t smoothstep(scalar_t a, scalar_t b, scalar_t t);
+static inline scalar_t smoothstep_perlin(scalar_t a, scalar_t b, scalar_t t);
 
-/* Simple */
 static inline scalar_t step(scalar_t a, scalar_t b, scalar_t t);
 static inline scalar_t linear(scalar_t a, scalar_t b, scalar_t t);
 static inline scalar_t cosine(scalar_t a, scalar_t b, scalar_t t);
 static inline scalar_t acceleration(scalar_t a, scalar_t b, scalar_t t);
 static inline scalar_t deceleration(scalar_t a, scalar_t b, scalar_t t);
 
-/*
-	Splines
-
-	Notes:
-	Interpolation between the 2 middle values.
-*/
 static inline scalar_t cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t);
 static inline scalar_t hermite(scalar_t tang1, scalar_t a, scalar_t b, scalar_t tang2, scalar_t t);
 static inline scalar_t cardinal(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t p, scalar_t t);
 static inline scalar_t catmullrom(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t);
 
-/*
-	Bezier
-
-	Notes:
-	Interpolation between the first and last values.
-*/
 static inline scalar_t bezier_quadratic(scalar_t a, scalar_t b, scalar_t c, scalar_t t);
 static inline scalar_t bezier_cubic(scalar_t a, scalar_t b, scalar_t c, scalar_t d, scalar_t t);
 
-#ifdef __cplusplus
-}   /* extern "C" */
-#endif
 
 	} /* namespace Interpolation */
 } /* namespace NMath */
+
+#ifdef __cplusplus
+}   /* extern "C" */
+
+namespace NMath {
+	namespace Interpolation {
+
+inline Vector2f smoothstep(Vector2f a, Vector2f b, scalar_t t);
+inline Vector3f smoothstep(Vector3f a, Vector3f b, scalar_t t);
+inline Vector4f smoothstep(Vector4f a, Vector4f b, scalar_t t);
+
+inline Vector2f smoothstep_perlin(Vector2f a, Vector2f b, scalar_t t);
+inline Vector3f smoothstep_perlin(Vector3f a, Vector3f b, scalar_t t);
+inline Vector4f smoothstep_perlin(Vector4f a, Vector4f b, scalar_t t);
+
+inline Vector2f step(Vector2f a, Vector2f b, scalar_t p);
+inline Vector3f step(Vector3f a, Vector3f b, scalar_t p);
+inline Vector4f step(Vector4f a, Vector4f b, scalar_t p);
+
+inline Vector2f linear(Vector2f a, Vector2f b, scalar_t p);
+inline Vector3f linear(Vector3f a, Vector3f b, scalar_t p);
+inline Vector4f linear(Vector4f a, Vector4f b, scalar_t p);
+
+inline Vector2f cosine(Vector2f a, Vector2f b, scalar_t p);
+inline Vector3f cosine(Vector3f a, Vector3f b, scalar_t p);
+inline Vector4f cosine(Vector4f a, Vector4f b, scalar_t p);
+
+inline Vector2f acceleration(Vector2f a, Vector2f b, scalar_t p);
+inline Vector3f acceleration(Vector3f a, Vector3f b, scalar_t p);
+inline Vector4f acceleration(Vector4f a, Vector4f b, scalar_t p);
+
+inline Vector2f deceleration(Vector2f a, Vector2f b, scalar_t p);
+inline Vector3f deceleration(Vector3f a, Vector3f b, scalar_t p);
+inline Vector4f deceleration(Vector4f a, Vector4f b, scalar_t p);
+
+inline Vector2f cubic(Vector2f a, Vector2f b, Vector2f c, Vector2f d, scalar_t p);
+inline Vector3f cubic(Vector3f a, Vector3f b, Vector3f c, Vector3f d, scalar_t p);
+inline Vector4f cubic(Vector4f a, Vector4f b, Vector4f c, Vector4f d, scalar_t p);
+
+inline Vector2f hermite(Vector2f t1, Vector2f a, Vector2f b, Vector2f t2, scalar_t p);
+inline Vector3f hermite(Vector3f t1, Vector3f a, Vector3f b, Vector3f t2, scalar_t p);
+inline Vector4f hermite(Vector4f t1, Vector4f a, Vector4f b, Vector4f t2, scalar_t p);
+
+inline Vector2f cardinal(Vector2f a, Vector2f b, Vector2f c, Vector2f d, scalar_t t, scalar_t p);
+inline Vector3f cardinal(Vector3f a, Vector3f b, Vector3f c, Vector3f d, scalar_t t, scalar_t p);
+inline Vector4f cardinal(Vector4f a, Vector4f b, Vector4f c, Vector4f d, scalar_t t, scalar_t p);
+
+inline Vector2f catmullrom(Vector2f a, Vector2f b, Vector2f c, Vector2f d, scalar_t p);
+inline Vector3f catmullrom(Vector3f a, Vector3f b, Vector3f c, Vector3f d, scalar_t p);
+inline Vector4f catmullrom(Vector4f a, Vector4f b, Vector4f c, Vector4f d, scalar_t p);
+
+inline Vector2f bezier_quadratic(Vector2f a, Vector2f b, Vector2f c, scalar_t p);
+inline Vector3f bezier_quadratic(Vector3f a, Vector3f b, Vector3f c, scalar_t p);
+inline Vector4f bezier_quadratic(Vector4f a, Vector4f b, Vector4f c, scalar_t p);
+
+inline Vector2f bezier_cubic(Vector2f a, Vector2f b, Vector2f c, Vector2f d, scalar_t p);
+inline Vector3f bezier_cubic(Vector3f a, Vector3f b, Vector3f c, Vector3f d, scalar_t p);
+inline Vector4f bezier_cubic(Vector4f a, Vector4f b, Vector4f c, Vector4f d, scalar_t p);
+
+	} /* namespace Interpolation */
+} /* namespace NMath */
+
+#endif /* __cplusplus */
 
 #include "interpolation.inl"
 
